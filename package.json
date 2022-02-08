@@ -6,7 +6,8 @@
   },
   "devDependencies": {
     "budo": "^11.6.4",
-    "indexhtmlify": "^2.0.1"
+    "indexhtmlify": "^2.0.1",
+    "standard": "^16.0.4"
   },
   "browserify": {
     "transform": [
@@ -15,6 +16,7 @@
   },
   "scripts": {
     "start": "budo app.js -l -d public -p 7777",
-    "build": "browserify app.js | indexhtmlify --title 'peercal' > public/index.html"
+    "build": "browserify app.js | indexhtmlify --title 'peercal' > public/index.html",
+    "test": "standard"
   }
 }
