@@ -1,0 +1,20 @@
+{
+  "name": "peercal",
+  "dependencies": {
+    "choo": "^7.1.0",
+    "sheetify": "^7.4.0"
+  },
+  "devDependencies": {
+    "budo": "^11.6.4",
+    "indexhtmlify": "^2.0.1"
+  },
+  "browserify": {
+    "transform": [
+      "sheetify/transform"
+    ]
+  },
+  "scripts": {
+    "start": "budo app.js -l -d public -p 7777",
+    "build": "browserify app.js | indexhtmlify --title 'peercal' > public/index.html"
+  }
+}
