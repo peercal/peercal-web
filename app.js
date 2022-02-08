@@ -7,11 +7,11 @@ const {
   calendarDay
 } = require('./css.js')
 
-app.use(function (state, emitter) {
+app.use((state, emitter) => {
   state.params = {}
 })
 
-app.route('*', function (state, emit) {
+app.route('*', (state, emit) => {
   return html`<body class=${body}>
     <div class=${calendar}>
       <div class=${calendarDays}>
