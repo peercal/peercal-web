@@ -15,8 +15,7 @@
     ]
   },
   "scripts": {
-    "start": "budo app.js -l -d public -p 7777",
-    "build": "browserify app.js | indexhtmlify --title 'peercal' > public/index.html",
+    "start": "budo app.js:public/bundle.js -l -d public -p 7777",
     "test": "standard"
   }
 }
