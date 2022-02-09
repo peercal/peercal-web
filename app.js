@@ -5,6 +5,8 @@ const { monthToString } = require('./date.js')
 const {
   body,
   calendar,
+  calendarHeader,
+  calendarHeaderButton,
   calendarHeaderTitle,
   weekdaysHeader,
   weekdayHeaderCell
@@ -40,10 +42,10 @@ app.route('*', (state, emit) => {
   const { month, year } = state.current
   return html`<body class=${body}>
     <div class=${calendar}>
-      <div>
-        <button onclick=${gotoPrevMonth}>${'<'}</button>
+      <div class=${calendarHeader}>
+        <div class=${calendarHeaderButton} onclick=${gotoPrevMonth}>${'<'}</div>
         <div class=${calendarHeaderTitle}>${monthToString(month)} ${year}</div>
-        <button onclick=${gotoNextMonth}>${'>'}</button>
+        <div class=${calendarHeaderButton} onclick=${gotoNextMonth}>${'>'}</div>
       </div>
       <div class=${weekdaysHeader}>
         <div class=${weekdayHeaderCell}>mon</div>

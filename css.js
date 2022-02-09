@@ -19,13 +19,35 @@ const calendar = css`
     left: 30px;
     right: 30px;
     color: white;
-    border: 1px solid #999;
+    border: 1px solid #999; /* TODO remove, only for debug now */
+  }
+`
+
+const calendarHeader = css`
+  :host {
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+  }
+`
+
+const calendarHeaderButton = css`
+  :host {
+    cursor: pointer;
   }
 `
 
 const calendarHeaderTitle = css`
   :host {
     text-align: center;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 `
 
@@ -37,6 +59,7 @@ const weekdaysHeader = css`
     border-top: 1px solid red;
     border-bottom: 1px solid red;
     border-left: 1px solid red;
+    text-transform: uppercase;
   }
 `
 const weekdayHeaderCell = css`
@@ -51,6 +74,8 @@ const weekdayHeaderCell = css`
 module.exports = {
   body,
   calendar,
+  calendarHeader,
+  calendarHeaderButton,
   calendarHeaderTitle,
   weekdaysHeader,
   weekdayHeaderCell
