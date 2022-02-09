@@ -1,5 +1,22 @@
 const test = require('ava')
-const { getCurrentWeeks } = require('../lib/date.js')
+const {
+  isLeapYear,
+  getCurrentWeeks
+} = require('../lib/date.js')
+
+test('isLeapYear()', t => {
+  t.is(isLeapYear(1600), true)
+  t.is(isLeapYear(1700), false)
+  t.is(isLeapYear(1800), false)
+  t.is(isLeapYear(1900), false)
+  t.is(isLeapYear(2000), true)
+  t.is(isLeapYear(2016), true)
+  t.is(isLeapYear(2020), true)
+  t.is(isLeapYear(2022), false)
+  t.is(isLeapYear(2100), false)
+  t.is(isLeapYear(2200), false)
+  t.is(isLeapYear(2300), false)
+})
 
 test('getCurrentWeeks()', t => {
   t.true(Array.isArray(getCurrentWeeks(2000, 1)))
