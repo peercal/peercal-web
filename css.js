@@ -19,7 +19,6 @@ const calendar = css`
     left: 30px;
     right: 30px;
     color: white;
-    border: 1px solid #999; /* TODO remove, only for debug now */
   }
 `
 
@@ -56,9 +55,6 @@ const weekdaysHeader = css`
     width: 100%;
     display: flex;
     justify-content: space-around;
-    border-top: 1px solid red;
-    border-bottom: 1px solid red;
-    border-left: 1px solid red;
     text-transform: uppercase;
   }
 `
@@ -67,8 +63,10 @@ const weekdayHeaderCell = css`
   :host {
     width: inherit;
     text-align: center;
-    border-right: 1px solid red;
+    border: 1px solid red;
     padding: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
   }
 `
 
@@ -77,9 +75,8 @@ const monthContainer = css`
     position: absolute;
     left: 0px;
     right: 0px;
-    top: 83px; /* TODO tweak this once borders are done */
+    top: 95px; /* TODO tweak this once borders are done */
     bottom: 0px;
-    border: 1px solid blue;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -89,7 +86,6 @@ const monthContainer = css`
 const weekContainer = css`
   :host {
     width: 100%;
-    border: 1px solid yellow;
     flex: 1;
     display: flex;
   }
@@ -98,7 +94,10 @@ const weekContainer = css`
 const dayContainer = css`
   :host {
     width: 100%;
-    border: 1px solid orange;
+    border: 1px solid red;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 10px;
   }
 `
 
