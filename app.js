@@ -1,7 +1,10 @@
 const app = require('choo')()
 const html = require('choo/html')
 
-const { monthToString } = require('./date.js')
+const {
+  monthToString,
+  getCurrentWeeks
+} = require('./date.js')
 const {
   body,
   calendar,
@@ -9,7 +12,10 @@ const {
   calendarHeaderButton,
   calendarHeaderTitle,
   weekdaysHeader,
-  weekdayHeaderCell
+  weekdayHeaderCell,
+  monthContainer,
+  weekContainer,
+  dayContainer
 } = require('./css.js')
 
 app.use((state, emitter) => {
@@ -40,6 +46,8 @@ app.use((state, emitter) => {
 
 app.route('*', (state, emit) => {
   const { month, year } = state.current
+  const weeks = getCurrentWeeks(month, year)
+
   return html`<body class=${body}>
     <div class=${calendar}>
       <div class=${calendarHeader}>
@@ -56,11 +64,26 @@ app.route('*', (state, emit) => {
         <div class=${weekdayHeaderCell}>sat</div>
         <div class=${weekdayHeaderCell}>sun</div>
       </div>
+      <div class=${monthContainer}>
+        ${weeks.map(renderWeek)}
+      </div>
     </div>
   </body>`
 
   function gotoPrevMonth () { emit('month:prev') }
   function gotoNextMonth () { emit('month:next') }
 })
+
+function renderWeek (week) {
+  return html`<div class=${weekContainer}>
+    ${week.map(renderDay)}
+  </div>`
+}
+
+function renderDay (day) {
+  return html`<div class=${dayContainer}>
+    ${day.day}
+  </div>`
+}
 
 app.mount(document.body)

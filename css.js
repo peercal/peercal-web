@@ -62,12 +62,43 @@ const weekdaysHeader = css`
     text-transform: uppercase;
   }
 `
+
 const weekdayHeaderCell = css`
   :host {
     width: inherit;
     text-align: center;
     border-right: 1px solid red;
     padding: 5px;
+  }
+`
+
+const monthContainer = css`
+  :host {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 83px; /* TODO tweak this once borders are done */
+    bottom: 0px;
+    border: 1px solid blue;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+`
+
+const weekContainer = css`
+  :host {
+    width: 100%;
+    border: 1px solid yellow;
+    flex: 1;
+    display: flex;
+  }
+`
+
+const dayContainer = css`
+  :host {
+    width: 100%;
+    border: 1px solid orange;
   }
 `
 
@@ -78,5 +109,8 @@ module.exports = {
   calendarHeaderButton,
   calendarHeaderTitle,
   weekdaysHeader,
-  weekdayHeaderCell
+  weekdayHeaderCell,
+  monthContainer,
+  weekContainer,
+  dayContainer
 }
