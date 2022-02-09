@@ -20,12 +20,13 @@ const {
 } = require('./css.js')
 
 app.use((state, emitter) => {
-  state.current = {
-    month: 1,
-    year: 2022
-  }
+  const month = 1
+  const year = 2022
+  const weeks = getCurrentWeeks(month, year)
+  state.current = { weeks, month, year }
 
   emitter.on('month:prev', () => {
+    // TODO recalculate weeks
     if (state.current.month === 0) {
       state.current.month = 11
       state.current.year--
@@ -35,6 +36,7 @@ app.use((state, emitter) => {
     emitter.emit('render')
   })
   emitter.on('month:next', () => {
+    // TODO recalculate weeks
     if (state.current.month === 11) {
       state.current.month = 0
       state.current.year++
@@ -46,8 +48,7 @@ app.use((state, emitter) => {
 })
 
 app.route('*', (state, emit) => {
-  const { month, year } = state.current
-  const weeks = getCurrentWeeks(month, year)
+  const { weeks, month, year } = state.current
 
   return html`<body class=${body}>
     <div class=${calendar}>
