@@ -5,7 +5,7 @@ const {
   WEEKDAYS,
   MONTHS,
   getCurrentWeeks
-} = require('./date.js')
+} = require('./lib/date.js')
 const {
   body,
   calendar,
@@ -17,7 +17,7 @@ const {
   monthContainer,
   weekContainer,
   dayContainer
-} = require('./css.js')
+} = require('./lib/css.js')
 
 app.use((state, emitter) => {
   const month = 1
