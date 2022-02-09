@@ -22,7 +22,7 @@ const {
 app.use((state, emitter) => {
   const month = 1
   const year = 2022
-  const weeks = getCurrentWeeks(month, year)
+  const weeks = getCurrentWeeks(year, month)
   state.current = { weeks, month, year }
 
   emitter.on('month:prev', () => {
