@@ -5,6 +5,7 @@
     "sheetify": "^7.4.0"
   },
   "devDependencies": {
+    "ava": "^4.0.1",
     "budo": "^11.6.4",
     "indexhtmlify": "^2.0.1",
     "standard": "^16.0.4"
@@ -16,6 +17,7 @@
   },
   "scripts": {
     "start": "budo app.js:public/bundle.js -l -d public -p 7777",
-    "test": "standard"
+    "test": "ava -v tests/*.test.js && standard",
+    "tdd": "ava -w -v tests/*.test.js"
   }
 }
