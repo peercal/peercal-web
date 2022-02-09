@@ -15,6 +15,25 @@ app.use((state, emitter) => {
     month: 1,
     year: 2022
   }
+
+  emitter.on('month:prev', () => {
+    if (state.current.month === 0) {
+      state.current.month = 11
+      state.current.year--
+    } else {
+      state.current.month--
+    }
+    emitter.emit('render')
+  })
+  emitter.on('month:next', () => {
+    if (state.current.month === 11) {
+      state.current.month = 0
+      state.current.year++
+    } else {
+      state.current.month++
+    }
+    emitter.emit('render')
+  })
 })
 
 app.route('*', (state, emit) => {
@@ -22,9 +41,9 @@ app.route('*', (state, emit) => {
   return html`<body class=${body}>
     <div class=${calendar}>
       <div>
-        <button>-</button>
+        <button onclick=${gotoPrevMonth}>${'<'}</button>
         <div class=${calendarHeaderTitle}>${monthToString(month)} ${year}</div>
-        <button>+</button>
+        <button onclick=${gotoNextMonth}>${'>'}</button>
       </div>
       <div class=${weekdaysHeader}>
         <div class=${weekdayHeaderCell}>mon</div>
@@ -37,6 +56,9 @@ app.route('*', (state, emit) => {
       </div>
     </div>
   </body>`
+
+  function gotoPrevMonth () { emit('month:prev') }
+  function gotoNextMonth () { emit('month:next') }
 })
 
 app.mount(document.body)
