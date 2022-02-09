@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "budo app.js:public/bundle.js -l -d public -p 7777",
-    "test": "ava -v tests/*.test.js && standard",
+    "test": "standard && ava -v tests/*.test.js",
     "tdd": "ava -w -v tests/*.test.js"
   }
 }
