@@ -1,3 +1,13 @@
+const WEEKDAYS = [
+  'mon',
+  'tue',
+  'wed',
+  'thu',
+  'fri',
+  'sat',
+  'sun'
+]
+
 const MONTHS = [
   'jan',
   'feb',
@@ -12,13 +22,6 @@ const MONTHS = [
   'nov',
   'dec'
 ]
-
-/**
- * Return month as string.
- */
-function monthToString (month) {
-  return MONTHS[month]
-}
 
 /**
  * Return five weeks from current month and year.
@@ -76,6 +79,7 @@ function getCurrentWeeks (month, year) {
 }
 
 module.exports = {
-  monthToString,
+  WEEKDAYS,
+  MONTHS,
   getCurrentWeeks
 }

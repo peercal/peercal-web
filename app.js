@@ -2,7 +2,8 @@ const app = require('choo')()
 const html = require('choo/html')
 
 const {
-  monthToString,
+  WEEKDAYS,
+  MONTHS,
   getCurrentWeeks
 } = require('./date.js')
 const {
@@ -52,27 +53,21 @@ app.route('*', (state, emit) => {
     <div class=${calendar}>
       <div class=${calendarHeader}>
         <div class=${calendarHeaderButton} onclick=${gotoPrevMonth}>${'<'}</div>
-        <div class=${calendarHeaderTitle}>${monthToString(month)} ${year}</div>
+        <div class=${calendarHeaderTitle}>${MONTHS[month]} ${year}</div>
         <div class=${calendarHeaderButton} onclick=${gotoNextMonth}>${'>'}</div>
       </div>
-      <div class=${weekdaysHeader}>
-        <div class=${weekdayHeaderCell}>mon</div>
-        <div class=${weekdayHeaderCell}>tue</div>
-        <div class=${weekdayHeaderCell}>wed</div>
-        <div class=${weekdayHeaderCell}>thu</div>
-        <div class=${weekdayHeaderCell}>fri</div>
-        <div class=${weekdayHeaderCell}>sat</div>
-        <div class=${weekdayHeaderCell}>sun</div>
-      </div>
-      <div class=${monthContainer}>
-        ${weeks.map(renderWeek)}
-      </div>
+      <div class=${weekdaysHeader}>${WEEKDAYS.map(renderWeekdayCell)}</div>
+      <div class=${monthContainer}>${weeks.map(renderWeek)}</div>
     </div>
   </body>`
 
   function gotoPrevMonth () { emit('month:prev') }
   function gotoNextMonth () { emit('month:next') }
 })
+
+function renderWeekdayCell (weekday) {
+  return html`<div class=${weekdayHeaderCell}>${weekday}</div>`
+}
 
 function renderWeek (week) {
   return html`<div class=${weekContainer}>
