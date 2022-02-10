@@ -21,6 +21,9 @@ test('weekDayIndex()', t => {
   t.is(weekDayIndex(2022, 2, 4), 4)
   t.is(weekDayIndex(2022, 2, 5), 5)
   t.is(weekDayIndex(2022, 2, 6), 6)
+
+  // Default day is the first day of the month.
+  t.is(weekDayIndex(2022, 2, 1), weekDayIndex(2022, 2))
 })
 
 test('isLeapYear()', t => {
