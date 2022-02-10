@@ -2,6 +2,7 @@ const test = require('ava')
 const {
   weekDayIndex,
   isLeapYear,
+  daysPerMonth,
   getCurrentWeeks
 } = require('../lib/date.js')
 
@@ -38,6 +39,24 @@ test('isLeapYear()', t => {
   t.is(isLeapYear(2100), false)
   t.is(isLeapYear(2200), false)
   t.is(isLeapYear(2300), false)
+})
+
+test('daysPerMonth()', t => {
+  t.is(daysPerMonth(2022, 1), 31)
+  t.is(daysPerMonth(2022, 2), 28)
+  t.is(daysPerMonth(2022, 3), 31)
+  t.is(daysPerMonth(2022, 4), 30)
+  t.is(daysPerMonth(2022, 5), 31)
+  t.is(daysPerMonth(2022, 6), 30)
+  t.is(daysPerMonth(2022, 7), 31)
+  t.is(daysPerMonth(2022, 8), 31)
+  t.is(daysPerMonth(2022, 9), 30)
+  t.is(daysPerMonth(2022, 10), 31)
+  t.is(daysPerMonth(2022, 11), 30)
+  t.is(daysPerMonth(2022, 12), 31)
+
+  t.is(daysPerMonth(2020, 2), 29)
+  t.is(daysPerMonth(1600, 2), 29)
 })
 
 test('getCurrentWeeks()', t => {
