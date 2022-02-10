@@ -4,6 +4,8 @@ const html = require('choo/html')
 const {
   WEEKDAYS,
   MONTHS,
+  previousMonth,
+  nextMonth,
   getCurrentWeeks
 } = require('./lib/date.js')
 const {
@@ -27,22 +29,16 @@ app.use((state, emitter) => {
 
   emitter.on('month:prev', () => {
     // TODO recalculate weeks
-    if (state.current.month === 1) {
-      state.current.month = 12
-      state.current.year--
-    } else {
-      state.current.month--
-    }
+    const prev = previousMonth(state.current)
+    state.current.month = prev.month
+    state.current.year = prev.year
     emitter.emit('render')
   })
   emitter.on('month:next', () => {
     // TODO recalculate weeks
-    if (state.current.month === 12) {
-      state.current.month = 1
-      state.current.year++
-    } else {
-      state.current.month++
-    }
+    const next = nextMonth(state.current)
+    state.current.month = next.month
+    state.current.year = next.year
     emitter.emit('render')
   })
 })
