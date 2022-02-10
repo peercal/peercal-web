@@ -20,15 +20,15 @@ const {
 } = require('./lib/css.js')
 
 app.use((state, emitter) => {
-  const month = 1
+  const month = 2
   const year = 2022
   const weeks = getCurrentWeeks(year, month)
   state.current = { weeks, month, year }
 
   emitter.on('month:prev', () => {
     // TODO recalculate weeks
-    if (state.current.month === 0) {
-      state.current.month = 11
+    if (state.current.month === 1) {
+      state.current.month = 12
       state.current.year--
     } else {
       state.current.month--
@@ -37,8 +37,8 @@ app.use((state, emitter) => {
   })
   emitter.on('month:next', () => {
     // TODO recalculate weeks
-    if (state.current.month === 11) {
-      state.current.month = 0
+    if (state.current.month === 12) {
+      state.current.month = 1
       state.current.year++
     } else {
       state.current.month++
@@ -54,7 +54,7 @@ app.route('*', (state, emit) => {
     <div class=${calendar}>
       <div class=${calendarHeader}>
         <div class=${calendarHeaderButton} onclick=${gotoPrevMonth}>${'<'}</div>
-        <div class=${calendarHeaderTitle}>${MONTHS[month]} ${year}</div>
+        <div class=${calendarHeaderTitle}>${MONTHS[month - 1]} ${year}</div>
         <div class=${calendarHeaderButton} onclick=${gotoNextMonth}>${'>'}</div>
       </div>
       <div class=${weekdaysHeader}>${WEEKDAYS.map(renderWeekdayCell)}</div>
