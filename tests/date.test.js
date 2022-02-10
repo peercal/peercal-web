@@ -43,6 +43,7 @@ test('isLeapYear()', t => {
 test('getCurrentWeeks()', t => {
   t.true(Array.isArray(getCurrentWeeks(2000, 1)))
 
+  /*
   const jan2022 = getCurrentWeeks(2022, 0)
   t.deepEqual(
     jan2022,
@@ -104,7 +105,6 @@ test('getCurrentWeeks()', t => {
     ]
   )
 
-  /*
   const feb2022 = getCurrentWeeks(2022, 1)
   t.deepEqual(
     feb2022,
