@@ -3,6 +3,8 @@ const {
   weekDayIndex,
   isLeapYear,
   daysPerMonth,
+  previousMonth,
+  nextMonth,
   getCurrentWeeks
 } = require('../lib/date.js')
 
@@ -57,6 +59,18 @@ test('daysPerMonth()', t => {
 
   t.is(daysPerMonth(2020, 2), 29)
   t.is(daysPerMonth(1600, 2), 29)
+})
+
+test('previousMonth()', t => {
+  t.deepEqual(previousMonth(2022, 3), { year: 2022, month: 2 })
+  t.deepEqual(previousMonth(2022, 2), { year: 2022, month: 1 })
+  t.deepEqual(previousMonth(2022, 1), { year: 2021, month: 12 })
+})
+
+test('nextMonth()', t => {
+  t.deepEqual(nextMonth(2022, 3), { year: 2022, month: 4 })
+  t.deepEqual(nextMonth(2022, 2), { year: 2022, month: 3 })
+  t.deepEqual(nextMonth(2022, 12), { year: 2023, month: 1 })
 })
 
 test('getCurrentWeeks()', t => {
