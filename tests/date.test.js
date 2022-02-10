@@ -62,15 +62,15 @@ test('daysPerMonth()', t => {
 })
 
 test('previousMonth()', t => {
-  t.deepEqual(previousMonth(2022, 3), { year: 2022, month: 2 })
-  t.deepEqual(previousMonth(2022, 2), { year: 2022, month: 1 })
-  t.deepEqual(previousMonth(2022, 1), { year: 2021, month: 12 })
+  t.deepEqual(previousMonth({ year: 2022, month: 3 }), { year: 2022, month: 2 })
+  t.deepEqual(previousMonth({ year: 2022, month: 2 }), { year: 2022, month: 1 })
+  t.deepEqual(previousMonth({ year: 2022, month: 1 }), { year: 2021, month: 12 })
 })
 
 test('nextMonth()', t => {
-  t.deepEqual(nextMonth(2022, 3), { year: 2022, month: 4 })
-  t.deepEqual(nextMonth(2022, 2), { year: 2022, month: 3 })
-  t.deepEqual(nextMonth(2022, 12), { year: 2023, month: 1 })
+  t.deepEqual(nextMonth({ year: 2022, month: 3 }), { year: 2022, month: 4 })
+  t.deepEqual(nextMonth({ year: 2022, month: 2 }), { year: 2022, month: 3 })
+  t.deepEqual(nextMonth({ year: 2022, month: 12 }), { year: 2023, month: 1 })
 })
 
 test('getCurrentWeeks()', t => {
