@@ -6,7 +6,7 @@ const {
   MONTHS,
   previousMonth,
   nextMonth,
-  getCurrentWeeks
+  getMonthDays
 } = require('./lib/date.js')
 const {
   body,
@@ -22,10 +22,10 @@ const {
 } = require('./lib/css.js')
 
 app.use((state, emitter) => {
-  const month = 2
   const year = 2022
-  const weeks = getCurrentWeeks(year, month)
-  state.current = { weeks, month, year }
+  const month = 2
+  const days = getMonthDays(year, month)
+  state.current = { year, month, days }
 
   emitter.on('month:prev', () => {
     // TODO recalculate weeks
@@ -44,7 +44,8 @@ app.use((state, emitter) => {
 })
 
 app.route('*', (state, emit) => {
-  const { weeks, month, year } = state.current
+  const { year, month, days } = state.current
+  const weeks = daysToWeeks(days)
 
   return html`<body class=${body}>
     <div class=${calendar}>
@@ -64,6 +65,34 @@ app.route('*', (state, emit) => {
 
 function renderWeekdayCell (weekday) {
   return html`<div class=${weekdayHeaderCell}>${weekday}</div>`
+}
+
+/**
+ * Split up an array of days into array of weeks.
+ * We assume that the days array always is a multiple of 7.
+ */
+function daysToWeeks (days) {
+  if (days.length % 7 !== 0) {
+    console.error('days array should be a multiple of 7')
+    return []
+  }
+
+  const result = []
+
+  let currentWeek = null
+  for (let i = 0; i < days.length; ++i) {
+    if (i % 7 === 0) {
+      // This is a monday so we start a new week.
+      currentWeek = []
+    }
+    currentWeek.push(days[i])
+    if ((i + 1) % 7 === 0) {
+      // i is a Sunday, so we're done with this week.
+      result.push(currentWeek)
+    }
+  }
+
+  return result
 }
 
 function renderWeek (week) {
