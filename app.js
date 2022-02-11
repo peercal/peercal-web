@@ -24,8 +24,20 @@ const {
 app.use((state, emitter) => {
   const year = 2022
   const month = 2
-  const days = getMonthDays(year, month)
-  state.current = { year, month, days }
+  state.current = { year, month }
+
+  // TODO put in a function to gather days from previous, current and next month
+  const prev = previousMonth(state.current)
+  const next = nextMonth(state.current)
+
+  const prevDays = getMonthDays(prev)
+  const nextDays = getMonthDays(next)
+
+  console.log('prevDays', prevDays)
+  console.log('nextDays', nextDays)
+
+  // TODO rename property to something else, like monthDays
+  state.current.days = getMonthDays(state.current)
 
   emitter.on('month:prev', () => {
     // TODO recalculate weeks
