@@ -51,29 +51,23 @@ app.route('*', (state, emit) => {
         <div class=${calendarHeaderTitle}>${MONTHS[month - 1]} ${year}</div>
         <div class=${calendarHeaderButton} onclick=${gotoNextMonth}>${'>'}</div>
       </div>
-      <div class=${weekdaysHeader}>${WEEKDAYS.map(renderWeekdayCell)}</div>
-      <div class=${monthContainer}>${monthWeeks.map(renderWeek)}</div>
+      <div class=${weekdaysHeader}>
+        ${WEEKDAYS.map(weekday => html`<div class=${weekdayHeaderCell}>${weekday}</div>`)}
+      </div>
+      <div class=${monthContainer}>
+        ${monthWeeks.map(week => (
+          html`<div class=${weekContainer}>
+            ${week.map(day => {
+              return html`<div class=${dayContainer}>${day.day}</div>`
+            })}
+          </div>`
+        ))}
+      </div>
     </div>
   </body>`
 
   function gotoPrevMonth () { emit('month:prev') }
   function gotoNextMonth () { emit('month:next') }
 })
-
-function renderWeekdayCell (weekday) {
-  return html`<div class=${weekdayHeaderCell}>${weekday}</div>`
-}
-
-function renderWeek (week) {
-  return html`<div class=${weekContainer}>
-    ${week.map(renderDay)}
-  </div>`
-}
-
-function renderDay (day) {
-  return html`<div class=${dayContainer}>
-    ${day.day}
-  </div>`
-}
 
 app.mount(document.body)
