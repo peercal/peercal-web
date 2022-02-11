@@ -7,7 +7,7 @@
 Get the code, install and run:
 
 ```
-$ git clone https://github.com/ralphtheninja/peercal.git
+$ git clone https://github.com/peercal/peercal.git
 $ cd peercal
 $ npm install
 $ npm start
