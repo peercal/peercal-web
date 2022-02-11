@@ -6,7 +6,8 @@ const {
   MONTHS,
   previousMonth,
   nextMonth,
-  monthDaysFilled
+  monthDaysFilled,
+  daysToWeeks
 } = require('./lib/date.js')
 const {
   body,
@@ -66,34 +67,6 @@ app.route('*', (state, emit) => {
 
 function renderWeekdayCell (weekday) {
   return html`<div class=${weekdayHeaderCell}>${weekday}</div>`
-}
-
-/**
- * Split up an array of days into array of weeks.
- * We assume that the days array always is a multiple of 7.
- */
-function daysToWeeks (days) {
-  if (days.length % 7 !== 0) {
-    console.error('days array should be a multiple of 7')
-    return []
-  }
-
-  const result = []
-
-  let currentWeek = null
-  for (let i = 0; i < days.length; ++i) {
-    if (i % 7 === 0) {
-      // This is a monday so we start a new week.
-      currentWeek = []
-    }
-    currentWeek.push(days[i])
-    if ((i + 1) % 7 === 0) {
-      // i is a Sunday, so we're done with this week.
-      result.push(currentWeek)
-    }
-  }
-
-  return result
 }
 
 function renderWeek (week) {
