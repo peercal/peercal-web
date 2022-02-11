@@ -23,22 +23,20 @@ const {
 } = require('./lib/css.js')
 
 app.use((state, emitter) => {
-  // TODO set current month
-  state.current = { year: 2022, month: 2 }
-  state.current.monthWeeks = daysToWeeks(monthDaysFilled(state.current))
+  function setCurrentMonth (opts) {
+    state.current = opts
+    state.current.monthWeeks = daysToWeeks(monthDaysFilled(opts))
+  }
+
+  // TODO set month based on todays month
+  setCurrentMonth({ year: 2022, month: 2 })
 
   emitter.on('month:prev', () => {
-    const prev = previousMonth(state.current)
-    state.current.month = prev.month
-    state.current.year = prev.year
-    state.current.monthWeeks = daysToWeeks(monthDaysFilled(state.current))
+    setCurrentMonth(previousMonth(state.current))
     emitter.emit('render')
   })
   emitter.on('month:next', () => {
-    const next = nextMonth(state.current)
-    state.current.month = next.month
-    state.current.year = next.year
-    state.current.monthWeeks = daysToWeeks(monthDaysFilled(state.current))
+    setCurrentMonth(nextMonth(state.current))
     emitter.emit('render')
   })
 })
