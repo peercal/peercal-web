@@ -58,7 +58,7 @@ app.route('*', (state, emit) => {
         ${monthWeeks.map(week => (
           html`<div class=${weekContainer}>
             ${week.map(day => {
-              const cstyle = `background-color: ${day.month === month ? 'black' : '#100'}`
+              const cstyle = `background-color: ${day.month === month ? 'black' : '#111'}`
               return html`<div class=${dayContainer} style=${cstyle}>${day.day}</div>`
             })}
           </div>`
