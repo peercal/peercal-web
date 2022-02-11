@@ -4,6 +4,8 @@
 
 **NOTE** Very much a work in progress. You will not be able to do much yet but to flip between months.
 
+![](./scrot.png)
+
 ## Goals
 
 * Simplicity: Clean design with only a minimum of features
