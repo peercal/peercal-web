@@ -5,7 +5,7 @@ const {
   daysPerMonth,
   previousMonth,
   nextMonth,
-  getMonthDays
+  monthDays
 } = require('../lib/date.js')
 
 test('weekDayIndex()', t => {
@@ -73,10 +73,10 @@ test('nextMonth()', t => {
   t.deepEqual(nextMonth({ year: 2022, month: 12 }), { year: 2023, month: 1 })
 })
 
-test('getMonthDays()', t => {
-  t.true(Array.isArray(getMonthDays({ year: 2000, month: 1 })))
+test('monthDays()', t => {
+  t.true(Array.isArray(monthDays({ year: 2000, month: 1 })))
 
-  t.deepEqual(getMonthDays({ year: 2022, month: 1 }), [
+  t.deepEqual(monthDays({ year: 2022, month: 1 }), [
     { year: 2022, month: 1, day: 1, weekday: 5 },
     { year: 2022, month: 1, day: 2, weekday: 6 },
     { year: 2022, month: 1, day: 3, weekday: 0 },
@@ -110,7 +110,7 @@ test('getMonthDays()', t => {
     { year: 2022, month: 1, day: 31, weekday: 0 }
   ])
 
-  t.deepEqual(getMonthDays({ year: 2022, month: 2 }), [
+  t.deepEqual(monthDays({ year: 2022, month: 2 }), [
     { year: 2022, month: 2, day: 1, weekday: 1 },
     { year: 2022, month: 2, day: 2, weekday: 2 },
     { year: 2022, month: 2, day: 3, weekday: 3 },
@@ -141,7 +141,7 @@ test('getMonthDays()', t => {
     { year: 2022, month: 2, day: 28, weekday: 0 }
   ])
 
-  t.deepEqual(getMonthDays({ year: 2020, month: 2 }), [
+  t.deepEqual(monthDays({ year: 2020, month: 2 }), [
     { year: 2020, month: 2, day: 1, weekday: 5 },
     { year: 2020, month: 2, day: 2, weekday: 6 },
     { year: 2020, month: 2, day: 3, weekday: 0 },
@@ -173,7 +173,7 @@ test('getMonthDays()', t => {
     { year: 2020, month: 2, day: 29, weekday: 5 }
   ])
 
-  t.deepEqual(getMonthDays({ year: 2022, month: 6 }), [
+  t.deepEqual(monthDays({ year: 2022, month: 6 }), [
     { year: 2022, month: 6, day: 1, weekday: 2 },
     { year: 2022, month: 6, day: 2, weekday: 3 },
     { year: 2022, month: 6, day: 3, weekday: 4 },

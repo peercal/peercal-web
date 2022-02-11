@@ -6,7 +6,7 @@ const {
   MONTHS,
   previousMonth,
   nextMonth,
-  getMonthDays
+  monthDays
 } = require('./lib/date.js')
 const {
   body,
@@ -27,17 +27,24 @@ app.use((state, emitter) => {
   state.current = { year, month }
 
   // TODO put in a function to gather days from previous, current and next month
-  const prev = previousMonth(state.current)
-  const next = nextMonth(state.current)
+  let days = monthDays(state.current)
+  if (days[0].weekday > 0) {
+    const prev = previousMonth(state.current)
+    const prevDays = monthDays(prev)
+    console.log('prevDays', prevDays)
+    const slice = prevDays.slice(-days[0].weekday)
+    days = slice.concat(days)
+  }
 
-  const prevDays = getMonthDays(prev)
-  const nextDays = getMonthDays(next)
+  if (days[days.length - 1].weekday < 6) {
+    const next = nextMonth(state.current)
+    const nextDays = monthDays(next)
+    console.log('nextDays', nextDays)
+    const slice = nextDays.slice(0, 6 - days[days.length - 1].weekday)
+    days = days.concat(slice)
+  }
 
-  console.log('prevDays', prevDays)
-  console.log('nextDays', nextDays)
-
-  // TODO rename property to something else, like monthDays
-  state.current.days = getMonthDays(state.current)
+  state.current.monthDays = days
 
   emitter.on('month:prev', () => {
     // TODO recalculate weeks
@@ -56,8 +63,8 @@ app.use((state, emitter) => {
 })
 
 app.route('*', (state, emit) => {
-  const { year, month, days } = state.current
-  const weeks = daysToWeeks(days)
+  const { year, month, monthDays } = state.current
+  const weeks = daysToWeeks(monthDays)
 
   return html`<body class=${body}>
     <div class=${calendar}>
