@@ -6,7 +6,7 @@ const {
   MONTHS,
   previousMonth,
   nextMonth,
-  monthDays
+  monthDaysFilled
 } = require('./lib/date.js')
 const {
   body,
@@ -22,35 +22,16 @@ const {
 } = require('./lib/css.js')
 
 app.use((state, emitter) => {
-  const year = 2022
-  const month = 2
-  state.current = { year, month }
-
-  // TODO put in a function to gather days from previous, current and next month
-  let days = monthDays(state.current)
-  if (days[0].weekday > 0) {
-    const prev = previousMonth(state.current)
-    const prevDays = monthDays(prev)
-    console.log('prevDays', prevDays)
-    const slice = prevDays.slice(-days[0].weekday)
-    days = slice.concat(days)
-  }
-
-  if (days[days.length - 1].weekday < 6) {
-    const next = nextMonth(state.current)
-    const nextDays = monthDays(next)
-    console.log('nextDays', nextDays)
-    const slice = nextDays.slice(0, 6 - days[days.length - 1].weekday)
-    days = days.concat(slice)
-  }
-
-  state.current.monthDays = days
+  // TODO set current month
+  state.current = { year: 2022, month: 2 }
+  state.current.monthDaysFilled = monthDaysFilled(state.current)
 
   emitter.on('month:prev', () => {
     // TODO recalculate weeks
     const prev = previousMonth(state.current)
     state.current.month = prev.month
     state.current.year = prev.year
+    state.current.monthDaysFilled = monthDaysFilled(state.current)
     emitter.emit('render')
   })
   emitter.on('month:next', () => {
@@ -58,13 +39,14 @@ app.use((state, emitter) => {
     const next = nextMonth(state.current)
     state.current.month = next.month
     state.current.year = next.year
+    state.current.monthDaysFilled = monthDaysFilled(state.current)
     emitter.emit('render')
   })
 })
 
 app.route('*', (state, emit) => {
-  const { year, month, monthDays } = state.current
-  const weeks = daysToWeeks(monthDays)
+  const { year, month, monthDaysFilled } = state.current
+  const weeks = daysToWeeks(monthDaysFilled)
 
   return html`<body class=${body}>
     <div class=${calendar}>
