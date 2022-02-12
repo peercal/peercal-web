@@ -1,4 +1,4 @@
-# peercal
+# peercal [![Test](https://github.com/peercal/peercal/actions/workflows/test.yml/badge.svg)](https://github.com/peercal/peercal/actions/workflows/test.yml)
 
 > A p2p calendar
 
