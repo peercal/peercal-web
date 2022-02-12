@@ -1,16 +1,15 @@
 const test = require('ava')
-const { parseIcs } = require('../lib/ics.js')
+const { parseEvents } = require('../lib/ics.js')
 
-test('parsing ics string to vcalendar object', t => {
-  const vcal = parseIcs(DATA)
-  t.truthy(Array.isArray(vcal.components))
-  t.is(vcal.components.length, 4)
-  vcal.components.forEach(component => {
-    t.is(component.type, 'VEVENT')
-    t.is(typeof component.DTSTART, 'string')
-    t.is(typeof component.DTEND, 'string')
-    t.is(typeof component.SUMMARY, 'string')
-    t.is(typeof component.DESCRIPTION, 'string')
+test('parsing ics string to event array', t => {
+  const events = parseEvents(DATA)
+  t.truthy(Array.isArray(events))
+  t.is(events.length, 4)
+  events.forEach(event => {
+    t.is(typeof event.DTSTART, 'string')
+    t.is(typeof event.DTEND, 'string')
+    t.is(typeof event.SUMMARY, 'string')
+    t.is(typeof event.DESCRIPTION, 'string')
   })
 })
 
