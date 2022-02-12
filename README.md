@@ -1,6 +1,8 @@
-# peercal [![Test](https://github.com/peercal/peercal/actions/workflows/test.yml/badge.svg)](https://github.com/peercal/peercal/actions/workflows/test.yml)
+# peercal
 
-> A p2p calendar
+ > A p2p calendar
+
+[![Test](https://github.com/peercal/peercal/actions/workflows/test.yml/badge.svg)](https://github.com/peercal/peercal/actions/workflows/test.yml)
 
 **NOTE** Very much a work in progress. You will not be able to do much yet but to flip between months.
 
