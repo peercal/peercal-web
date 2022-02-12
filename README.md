@@ -13,7 +13,7 @@
 * Simplicity: Clean design with only a minimum of features
 * No servers: Unless running in the browser needing signal server for `hyperswarm-web`
 * Decentralized event data via `hyperdrive` and `hyper://` links
-* Support for ICS file format
+* Support for `iCalendar` format (`.ics` files) - [`RFC5545`](https://datatracker.ietf.org/doc/html/rfc5545)
 
 ## Usage
 
