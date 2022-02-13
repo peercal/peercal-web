@@ -12,14 +12,13 @@ const {
 const {
   body,
   calendar,
-  weekdaysHeader,
-  weekdayHeaderCell,
   monthContainer,
   weekContainer,
   dayContainer
 } = require('./lib/css.js')
 
 const toolbar = require('./components/toolbar.js')
+const header = require('./components/header.js')
 
 app.use((state, emitter) => {
   function setCurrentMonth (opts) {
@@ -46,9 +45,7 @@ app.route('*', (state, emit) => {
   return html`<body class=${body}>
     <div class=${calendar}>
       ${toolbar({ year, month: MONTHS[month] }, emit)}
-      <div class=${weekdaysHeader}>
-        ${WEEKDAYS.map(weekday => html`<div class=${weekdayHeaderCell}>${weekday}</div>`)}
-      </div>
+      ${header({ weekdays: WEEKDAYS })}
       <div class=${monthContainer}>
         ${monthWeeks.map(week => (
           html`<div class=${weekContainer}>
