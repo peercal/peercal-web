@@ -1,33 +1,11 @@
 const test = require('ava')
 const {
-  weekDayIndex,
   isLeapYear,
   daysPerMonth,
   previousMonth,
   nextMonth,
   monthDays
 } = require('../lib/date.js')
-
-test('weekDayIndex()', t => {
-  t.is(weekDayIndex(2020, 10, 5), 0)
-  t.is(weekDayIndex(2020, 10, 6), 1)
-  t.is(weekDayIndex(2020, 10, 7), 2)
-  t.is(weekDayIndex(2020, 10, 8), 3)
-  t.is(weekDayIndex(2020, 10, 9), 4)
-  t.is(weekDayIndex(2020, 10, 10), 5)
-  t.is(weekDayIndex(2020, 10, 11), 6)
-
-  t.is(weekDayIndex(2022, 1, 31), 0)
-  t.is(weekDayIndex(2022, 2, 1), 1)
-  t.is(weekDayIndex(2022, 2, 2), 2)
-  t.is(weekDayIndex(2022, 2, 3), 3)
-  t.is(weekDayIndex(2022, 2, 4), 4)
-  t.is(weekDayIndex(2022, 2, 5), 5)
-  t.is(weekDayIndex(2022, 2, 6), 6)
-
-  // Default day is the first day of the month.
-  t.is(weekDayIndex(2022, 2, 1), weekDayIndex(2022, 2))
-})
 
 test('isLeapYear()', t => {
   t.is(isLeapYear(1600), true)

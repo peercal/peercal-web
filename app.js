@@ -29,7 +29,7 @@ app.use((state, emitter) => {
   }
 
   // TODO set month based on todays month
-  setCurrentMonth({ year: 2022, month: 2 })
+  setCurrentMonth({ year: 2022, month: 1 })
 
   emitter.on('month:prev', () => {
     setCurrentMonth(previousMonth(state.current))
@@ -48,7 +48,7 @@ app.route('*', (state, emit) => {
     <div class=${calendar}>
       <div class=${calendarHeader}>
         <div class=${calendarHeaderButton} onclick=${gotoPrevMonth}>${'<'}</div>
-        <div class=${calendarHeaderTitle}>${MONTHS[month - 1]} ${year}</div>
+        <div class=${calendarHeaderTitle}>${MONTHS[month]} ${year}</div>
         <div class=${calendarHeaderButton} onclick=${gotoNextMonth}>${'>'}</div>
       </div>
       <div class=${weekdaysHeader}>
@@ -59,7 +59,7 @@ app.route('*', (state, emit) => {
           html`<div class=${weekContainer}>
             ${week.map(day => {
               const { date } = day
-              const cstyle = `background-color: ${date.getMonth() + 1 === month ? 'black' : '#111'}`
+              const cstyle = `background-color: ${date.getMonth() === month ? 'black' : '#111'}`
               return html`<div class=${dayContainer} style=${cstyle}>${date.getDate()}</div>`
             })}
           </div>`
