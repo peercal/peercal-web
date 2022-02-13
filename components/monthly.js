@@ -34,8 +34,8 @@ const dayContainer = css`
 `
 
 module.exports = ({ month, monthWeeks }, emit) => {
+  const now = new Date()
   function isToday (date) {
-    const now = new Date()
     return (date.getFullYear() === now.getFullYear() &&
             date.getMonth() === now.getMonth() &&
             date.getDate() === now.getDate())
