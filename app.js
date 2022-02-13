@@ -1,5 +1,6 @@
 const app = require('choo')()
 const html = require('choo/html')
+const css = require('sheetify')
 
 const {
   WEEKDAYS,
@@ -10,8 +11,6 @@ const {
   daysToWeeks
 } = require('./lib/date.js')
 const {
-  body,
-  calendar,
   monthContainer,
   weekContainer,
   dayContainer
@@ -38,6 +37,29 @@ app.use((state, emitter) => {
     emitter.emit('render')
   })
 })
+
+const body = css`
+  :host {
+    height: 100%;
+    margin: 0px;
+    overflow: hidden;
+    font-family: monospace;
+    background: black;
+    color: white;
+    font-size: 14px;
+  }
+`
+
+const calendar = css`
+  :host {
+    position: absolute;
+    top: 30px;
+    bottom: 30px;
+    left: 30px;
+    right: 30px;
+    color: white;
+  }
+`
 
 app.route('*', (state, emit) => {
   const { year, month, monthWeeks } = state.current
