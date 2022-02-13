@@ -21,17 +21,25 @@ app.use((state, emitter) => {
     state.current.monthWeeks = daysToWeeks(monthDaysFilled(opts))
   }
 
-  // TODO set month based on todays month
-  setCurrentMonth({ year: 2022, month: 1 })
+  function setNow () {
+    const now = new Date()
+    setCurrentMonth({ year: now.getFullYear(), month: now.getMonth() })
+  }
 
   emitter.on('month:prev', () => {
     setCurrentMonth(previousMonth(state.current))
+    emitter.emit('render')
+  })
+  emitter.on('month:home', () => {
+    setNow()
     emitter.emit('render')
   })
   emitter.on('month:next', () => {
     setCurrentMonth(nextMonth(state.current))
     emitter.emit('render')
   })
+
+  setNow()
 })
 
 const body = css`

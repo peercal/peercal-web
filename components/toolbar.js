@@ -40,10 +40,12 @@ module.exports = ({ year, month }, emit) => {
     <div class=${title}>${month} ${year}</div>
     <div class=${rightButtons}>
       <div class=${button} onclick=${gotoPrevMonth}>${'<'}</div>
+      <div class=${button} onclick=${gotoHomeMonth}>${'H'}</div>
       <div class=${button} onclick=${gotoNextMonth}>${'>'}</div>
     </div>
   </div>`
 
   function gotoPrevMonth () { emit('month:prev') }
+  function gotoHomeMonth () { emit('month:home') }
   function gotoNextMonth () { emit('month:next') }
 }
