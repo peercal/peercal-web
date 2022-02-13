@@ -1,3 +1,4 @@
+const html = require('choo/html')
 const css = require('sheetify')
 
 const monthContainer = css`
@@ -33,8 +34,16 @@ const dayContainer = css`
   }
 `
 
-module.exports = {
-  monthContainer,
-  weekContainer,
-  dayContainer
+module.exports = ({ month, monthWeeks }, emit) => {
+  return html`<div class=${monthContainer}>
+    ${monthWeeks.map(week => (
+      html`<div class=${weekContainer}>
+        ${week.map(day => {
+          const { date } = day
+          const cstyle = `background-color: ${date.getMonth() === month ? 'black' : '#111'}`
+          return html`<div class=${dayContainer} style=${cstyle}>${date.getDate()}</div>`
+        })}
+      </div>`
+    ))}
+  </div>`
 }

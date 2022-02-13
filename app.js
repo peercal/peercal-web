@@ -10,14 +10,10 @@ const {
   monthDaysFilled,
   daysToWeeks
 } = require('./lib/date.js')
-const {
-  monthContainer,
-  weekContainer,
-  dayContainer
-} = require('./lib/css.js')
 
 const toolbar = require('./components/toolbar.js')
 const header = require('./components/header.js')
+const monthly = require('./components/monthly-view.js')
 
 app.use((state, emitter) => {
   function setCurrentMonth (opts) {
@@ -68,17 +64,7 @@ app.route('*', (state, emit) => {
     <div class=${calendar}>
       ${toolbar({ year, month: MONTHS[month] }, emit)}
       ${header({ weekdays: WEEKDAYS })}
-      <div class=${monthContainer}>
-        ${monthWeeks.map(week => (
-          html`<div class=${weekContainer}>
-            ${week.map(day => {
-              const { date } = day
-              const cstyle = `background-color: ${date.getMonth() === month ? 'black' : '#111'}`
-              return html`<div class=${dayContainer} style=${cstyle}>${date.getDate()}</div>`
-            })}
-          </div>`
-        ))}
-      </div>
+      ${monthly({ month, monthWeeks })}
     </div>
   </body>`
 })
