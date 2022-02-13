@@ -25,7 +25,6 @@ const weekContainer = css`
 const dayContainer = css`
   :host {
     width: 100%;
-    border: 1px solid red;
     margin-left: 5px;
     margin-right: 5px;
     margin-bottom: 10px;
@@ -35,12 +34,21 @@ const dayContainer = css`
 `
 
 module.exports = ({ month, monthWeeks }, emit) => {
+  function isToday (date) {
+    const now = new Date()
+    return (date.getFullYear() === now.getFullYear() &&
+            date.getMonth() === now.getMonth() &&
+            date.getDate() === now.getDate())
+  }
   return html`<div class=${monthContainer}>
     ${monthWeeks.map(week => (
       html`<div class=${weekContainer}>
         ${week.map(day => {
           const { date } = day
-          const cstyle = `background-color: ${date.getMonth() === month ? 'black' : '#111'}`
+          const cstyle = `
+            background-color: ${date.getMonth() === month ? 'black' : '#111'};
+            border: 1px solid ${isToday(date) ? 'yellow' : 'red'};
+          `
           return html`<div class=${dayContainer} style=${cstyle}>${date.getDate()}</div>`
         })}
       </div>`
