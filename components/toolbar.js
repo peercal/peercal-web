@@ -1,12 +1,12 @@
 const html = require('choo/html')
 const css = require('sheetify')
 
-const calendarHeader = css`
+const outer = css`
   :host {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     font-size: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     text-transform: uppercase;
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Firefox */
@@ -15,25 +15,33 @@ const calendarHeader = css`
   }
 `
 
-const calendarHeaderButton = css`
+const title = css`
   :host {
-    cursor: pointer;
+    margin-left: 5px
   }
 `
 
-const calendarHeaderTitle = css`
+const rightButtons = css`
   :host {
-    text-align: center;
-    margin-left: 20px;
-    margin-right: 20px;
+    display: flex;
+    margin-right: 5px;
+  }
+`
+
+const button = css`
+  :host {
+    cursor: pointer;
+    margin-left: 10px;
   }
 `
 
 module.exports = ({ year, month }, emit) => {
-  return html`<div class=${calendarHeader}>
-    <div class=${calendarHeaderButton} onclick=${gotoPrevMonth}>${'<'}</div>
-    <div class=${calendarHeaderTitle}>${month} ${year}</div>
-    <div class=${calendarHeaderButton} onclick=${gotoNextMonth}>${'>'}</div>
+  return html`<div class=${outer}>
+    <div class=${title}>${month} ${year}</div>
+    <div class=${rightButtons}>
+      <div class=${button} onclick=${gotoPrevMonth}>${'<'}</div>
+      <div class=${button} onclick=${gotoNextMonth}>${'>'}</div>
+    </div>
   </div>`
 
   function gotoPrevMonth () { emit('month:prev') }
