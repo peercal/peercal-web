@@ -12,15 +12,14 @@ const {
 const {
   body,
   calendar,
-  calendarHeader,
-  calendarHeaderButton,
-  calendarHeaderTitle,
   weekdaysHeader,
   weekdayHeaderCell,
   monthContainer,
   weekContainer,
   dayContainer
 } = require('./lib/css.js')
+
+const toolbar = require('./components/toolbar.js')
 
 app.use((state, emitter) => {
   function setCurrentMonth (opts) {
@@ -46,11 +45,7 @@ app.route('*', (state, emit) => {
 
   return html`<body class=${body}>
     <div class=${calendar}>
-      <div class=${calendarHeader}>
-        <div class=${calendarHeaderButton} onclick=${gotoPrevMonth}>${'<'}</div>
-        <div class=${calendarHeaderTitle}>${MONTHS[month]} ${year}</div>
-        <div class=${calendarHeaderButton} onclick=${gotoNextMonth}>${'>'}</div>
-      </div>
+      ${toolbar({ year, month: MONTHS[month] }, emit)}
       <div class=${weekdaysHeader}>
         ${WEEKDAYS.map(weekday => html`<div class=${weekdayHeaderCell}>${weekday}</div>`)}
       </div>
@@ -67,9 +62,6 @@ app.route('*', (state, emit) => {
       </div>
     </div>
   </body>`
-
-  function gotoPrevMonth () { emit('month:prev') }
-  function gotoNextMonth () { emit('month:next') }
 })
 
 app.mount(document.body)
