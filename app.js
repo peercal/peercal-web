@@ -13,7 +13,7 @@ const {
 
 const toolbar = require('./components/toolbar.js')
 const header = require('./components/header.js')
-const monthly = require('./components/monthly-view.js')
+const monthly = require('./components/monthly.js')
 
 app.use((state, emitter) => {
   function setCurrentMonth (opts) {
