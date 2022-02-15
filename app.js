@@ -18,26 +18,26 @@ const monthly = require('./components/monthly.js')
 app.use((state, emitter) => {
   let lastDate = new Date()
 
-  function setCurrentMonth (opts) {
-    state.current = opts
-    state.current.monthWeeks = daysToWeeks(monthDaysFilled(opts))
+  function setMonth (opts) {
+    state.monthly = opts
+    state.monthly.monthWeeks = daysToWeeks(monthDaysFilled(opts))
   }
 
-  function setNow () {
+  function setCurrentMonth () {
     const now = new Date()
-    setCurrentMonth({ year: now.getFullYear(), month: now.getMonth() })
+    setMonth({ year: now.getFullYear(), month: now.getMonth() })
   }
 
   emitter.on('month:prev', () => {
-    setCurrentMonth(previousMonth(state.current))
+    setMonth(previousMonth(state.monthly))
     emitter.emit('render')
   })
   emitter.on('month:home', () => {
-    setNow()
+    setCurrentMonth()
     emitter.emit('render')
   })
   emitter.on('month:next', () => {
-    setCurrentMonth(nextMonth(state.current))
+    setMonth(nextMonth(state.monthly))
     emitter.emit('render')
   })
 
@@ -50,7 +50,7 @@ app.use((state, emitter) => {
     }
   }, 60 * 1000)
 
-  setNow()
+  setCurrentMonth()
 })
 
 const body = css`
@@ -77,8 +77,7 @@ const calendar = css`
 `
 
 app.route('*', (state, emit) => {
-  const { year, month, monthWeeks } = state.current
-
+  const { year, month, monthWeeks } = state.monthly
   return html`<body class=${body}>
     <div class=${calendar}>
       ${toolbar({ year, month: MONTHS[month] }, emit)}
