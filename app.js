@@ -32,12 +32,19 @@ app.use((state, emitter) => {
     setMonth(previousMonth(state.monthly))
     emitter.emit('render')
   })
+
   emitter.on('monthly:goto-home', () => {
     setCurrentMonth()
     emitter.emit('render')
   })
+
   emitter.on('monthly:goto-next', () => {
     setMonth(nextMonth(state.monthly))
+    emitter.emit('render')
+  })
+
+  emitter.on('monthly:select-date', (date) => {
+    state.monthly.selected = date
     emitter.emit('render')
   })
 
@@ -77,12 +84,12 @@ const calendar = css`
 `
 
 app.route('*', (state, emit) => {
-  const { year, month, weeks } = state.monthly
+  const { year, month, weeks, selected } = state.monthly
   return html`<body class=${body}>
     <div class=${calendar}>
       ${toolbar({ year, month: MONTHS[month] }, emit)}
       ${header({ weekdays: WEEKDAYS })}
-      ${monthly({ month, weeks })}
+      ${monthly({ month, weeks, selected }, emit)}
     </div>
   </body>`
 })
