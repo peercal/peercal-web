@@ -1,7 +1,7 @@
 const html = require('choo/html')
 const css = require('sheetify')
 
-const weekdaysHeader = css`
+const outer = css`
   :host {
     width: 100%;
     display: flex;
@@ -10,7 +10,7 @@ const weekdaysHeader = css`
   }
 `
 
-const weekdayHeaderCell = css`
+const cell = css`
   :host {
     width: inherit;
     text-align: center;
@@ -22,7 +22,7 @@ const weekdayHeaderCell = css`
 `
 
 module.exports = ({ weekdays }) => {
-  return html`<div class=${weekdaysHeader}>
-    ${weekdays.map(weekday => html`<div class=${weekdayHeaderCell}>${weekday}</div>`)}
+  return html`<div class=${outer}>
+    ${weekdays.map(weekday => html`<div class=${cell}>${weekday}</div>`)}
   </div>`
 }
