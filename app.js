@@ -23,9 +23,20 @@ app.use((state, emitter) => {
     state.monthly.weeks = daysToWeeks(monthDaysFilled(opts))
   }
 
-  function setCurrentMonth () {
-    const now = new Date()
-    setMonth({ year: now.getFullYear(), month: now.getMonth() })
+  function setCurrentMonth (date = new Date()) {
+    setMonth({
+      year: date.getFullYear(),
+      month: date.getMonth(),
+      selected: date
+    })
+  }
+
+  function moveSelected (offset) {
+    const { selected } = state.monthly
+    const update = new Date(selected)
+    update.setDate(selected.getDate() + offset)
+    setCurrentMonth(update)
+    emitter.emit('render')
   }
 
   emitter.on('monthly:goto-previous', () => {
@@ -46,6 +57,23 @@ app.use((state, emitter) => {
   emitter.on('monthly:select-date', (date) => {
     state.monthly.selected = date
     emitter.emit('render')
+  })
+
+  window.addEventListener('keydown', (e) => {
+    switch (e.key) {
+      case 'ArrowLeft':
+        moveSelected(-1)
+        break
+      case 'ArrowRight':
+        moveSelected(+1)
+        break
+      case 'ArrowUp':
+        moveSelected(-7)
+        break
+      case 'ArrowDown':
+        moveSelected(+7)
+        break
+    }
   })
 
   // Re-render if the day has changed.
