@@ -28,15 +28,15 @@ app.use((state, emitter) => {
     setMonth({ year: now.getFullYear(), month: now.getMonth() })
   }
 
-  emitter.on('month:prev', () => {
+  emitter.on('monthly:goto-previous', () => {
     setMonth(previousMonth(state.monthly))
     emitter.emit('render')
   })
-  emitter.on('month:home', () => {
+  emitter.on('monthly:goto-home', () => {
     setCurrentMonth()
     emitter.emit('render')
   })
-  emitter.on('month:next', () => {
+  emitter.on('monthly:goto-next', () => {
     setMonth(nextMonth(state.monthly))
     emitter.emit('render')
   })
