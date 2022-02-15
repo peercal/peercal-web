@@ -42,11 +42,17 @@ module.exports = ({ month, weeks, selected }, emit) => {
             date.getDate() === now.getDate())
   }
 
+  function datesEqual (lhs, rhs) {
+    return (lhs.getFullYear() === rhs.getFullYear() &&
+            lhs.getMonth() === rhs.getMonth() &&
+            lhs.getDate() === rhs.getDate())
+  }
+
   function borderColor (date) {
-    if (isToday(date)) {
-      return 'yellow'
-    } else if (selected === date) {
+    if (selected && datesEqual(selected, date)) {
       return 'white'
+    } else if (isToday(date)) {
+      return 'yellow'
     } else {
       return 'red'
     }
