@@ -33,7 +33,7 @@ const dayContainer = css`
   }
 `
 
-module.exports = ({ month, monthWeeks }, emit) => {
+module.exports = ({ month, weeks }, emit) => {
   const now = new Date()
   function isToday (date) {
     return (date.getFullYear() === now.getFullYear() &&
@@ -41,7 +41,7 @@ module.exports = ({ month, monthWeeks }, emit) => {
             date.getDate() === now.getDate())
   }
   return html`<div class=${monthContainer}>
-    ${monthWeeks.map(week => (
+    ${weeks.map(week => (
       html`<div class=${weekContainer}>
         ${week.map(day => {
           const { date } = day

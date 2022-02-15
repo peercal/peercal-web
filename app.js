@@ -20,7 +20,7 @@ app.use((state, emitter) => {
 
   function setMonth (opts) {
     state.monthly = opts
-    state.monthly.monthWeeks = daysToWeeks(monthDaysFilled(opts))
+    state.monthly.weeks = daysToWeeks(monthDaysFilled(opts))
   }
 
   function setCurrentMonth () {
@@ -77,12 +77,12 @@ const calendar = css`
 `
 
 app.route('*', (state, emit) => {
-  const { year, month, monthWeeks } = state.monthly
+  const { year, month, weeks } = state.monthly
   return html`<body class=${body}>
     <div class=${calendar}>
       ${toolbar({ year, month: MONTHS[month] }, emit)}
       ${header({ weekdays: WEEKDAYS })}
-      ${monthly({ month, monthWeeks })}
+      ${monthly({ month, weeks })}
     </div>
   </body>`
 })
