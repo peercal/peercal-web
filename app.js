@@ -16,6 +16,8 @@ const header = require('./components/header.js')
 const monthly = require('./components/monthly.js')
 
 app.use((state, emitter) => {
+  let lastDate = new Date()
+
   function setCurrentMonth (opts) {
     state.current = opts
     state.current.monthWeeks = daysToWeeks(monthDaysFilled(opts))
@@ -38,6 +40,15 @@ app.use((state, emitter) => {
     setCurrentMonth(nextMonth(state.current))
     emitter.emit('render')
   })
+
+  // Re-render if the day has changed.
+  setInterval(() => {
+    const date = new Date()
+    if (date.getDate() !== lastDate.getDate()) {
+      lastDate = date
+      emitter.emit('render')
+    }
+  }, 60 * 1000)
 
   setNow()
 })
