@@ -49,10 +49,10 @@ module.exports = ({ month, weeks, selected }, emit) => {
   }
 
   function borderColor (date) {
-    if (selected && datesEqual(selected, date)) {
-      return 'white'
-    } else if (isToday(date)) {
+    if (isToday(date)) {
       return 'yellow'
+    } else if (selected && datesEqual(selected, date)) {
+      return 'white'
     } else {
       return 'red'
     }
