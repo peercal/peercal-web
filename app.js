@@ -18,45 +18,33 @@ const monthly = require('./components/monthly.js')
 app.use((state, emitter) => {
   let lastDate = new Date()
 
-  function setMonth (opts) {
-    state.monthly = opts
-    state.monthly.weeks = daysToWeeks(monthDaysFilled(opts))
-  }
-
-  function setCurrentMonth (date = new Date()) {
-    setMonth({
-      year: date.getFullYear(),
-      month: date.getMonth(),
-      selected: date
-    })
+  function setMonthly (date = new Date()) {
+    state.monthly = { date }
+    state.monthly.weeks = daysToWeeks(monthDaysFilled(date))
+    emitter.emit('render')
   }
 
   function moveSelected (offset) {
-    const { selected } = state.monthly
-    const update = new Date(selected)
-    update.setDate(selected.getDate() + offset)
-    setCurrentMonth(update)
-    emitter.emit('render')
+    const { date } = state.monthly
+    const update = new Date(date)
+    update.setDate(date.getDate() + offset)
+    setMonthly(update)
   }
 
   emitter.on('monthly:goto-previous', () => {
-    setMonth(previousMonth(state.monthly))
-    emitter.emit('render')
+    setMonthly(previousMonth(state.monthly.date))
   })
 
   emitter.on('monthly:goto-home', () => {
-    setCurrentMonth()
-    emitter.emit('render')
+    setMonthly()
   })
 
   emitter.on('monthly:goto-next', () => {
-    setMonth(nextMonth(state.monthly))
-    emitter.emit('render')
+    setMonthly(nextMonth(state.monthly.date))
   })
 
   emitter.on('monthly:select-date', (date) => {
-    state.monthly.selected = date
-    emitter.emit('render')
+    setMonthly(date)
   })
 
   window.addEventListener('keydown', (e) => {
@@ -85,7 +73,7 @@ app.use((state, emitter) => {
     }
   }, 60 * 1000)
 
-  setCurrentMonth()
+  setMonthly()
 })
 
 const body = css`
@@ -112,12 +100,13 @@ const calendar = css`
 `
 
 app.route('*', (state, emit) => {
-  const { year, month, weeks, selected } = state.monthly
+  const { date, weeks } = state.monthly
+  const year = date.getFullYear()
   return html`<body class=${body}>
     <div class=${calendar}>
-      ${toolbar({ year, month: MONTHS[month] }, emit)}
+      ${toolbar({ year, month: MONTHS[date.getMonth()] }, emit)}
       ${header({ weekdays: WEEKDAYS })}
-      ${monthly({ month, weeks, selected }, emit)}
+      ${monthly({ weeks, date }, emit)}
     </div>
   </body>`
 })

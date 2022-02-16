@@ -33,7 +33,7 @@ const dayContainer = css`
   }
 `
 
-module.exports = ({ month, weeks, selected }, emit) => {
+module.exports = ({ weeks, date }, emit) => {
   const now = new Date()
 
   function isToday (date) {
@@ -48,10 +48,10 @@ module.exports = ({ month, weeks, selected }, emit) => {
             lhs.getDate() === rhs.getDate())
   }
 
-  function borderColor (date) {
-    if (isToday(date)) {
+  function borderColor (day) {
+    if (isToday(day.date)) {
       return 'yellow'
-    } else if (selected && datesEqual(selected, date)) {
+    } else if (datesEqual(date, day.date)) {
       return 'white'
     } else {
       return 'red'
@@ -62,12 +62,11 @@ module.exports = ({ month, weeks, selected }, emit) => {
     ${weeks.map(week => (
       html`<div class=${weekContainer}>
         ${week.map(day => {
-          const { date } = day
           const cstyle = `
-            background-color: ${date.getMonth() === month ? 'black' : '#111'};
-            border: 1px solid ${borderColor(date)};
+            background-color: ${day.date.getMonth() === date.getMonth() ? 'black' : '#111'};
+            border: 1px solid ${borderColor(day)};
           `
-          return html`<div class=${dayContainer} onclick=${() => emit('monthly:select-date', date)} style=${cstyle}>${date.getDate()}</div>`
+          return html`<div class=${dayContainer} onclick=${() => emit('monthly:select-date', day.date)} style=${cstyle}>${day.date.getDate()}</div>`
         })}
       </div>`
     ))}

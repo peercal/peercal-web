@@ -2,8 +2,6 @@ const test = require('ava')
 const {
   isLeapYear,
   daysPerMonth,
-  previousMonth,
-  nextMonth,
   monthDays
 } = require('../lib/date.js')
 
@@ -22,37 +20,25 @@ test('isLeapYear()', t => {
 })
 
 test('daysPerMonth()', t => {
-  t.is(daysPerMonth(2022, 0), 31)
-  t.is(daysPerMonth(2022, 1), 28)
-  t.is(daysPerMonth(2022, 2), 31)
-  t.is(daysPerMonth(2022, 3), 30)
-  t.is(daysPerMonth(2022, 4), 31)
-  t.is(daysPerMonth(2022, 5), 30)
-  t.is(daysPerMonth(2022, 6), 31)
-  t.is(daysPerMonth(2022, 7), 31)
-  t.is(daysPerMonth(2022, 8), 30)
-  t.is(daysPerMonth(2022, 9), 31)
-  t.is(daysPerMonth(2022, 10), 30)
-  t.is(daysPerMonth(2022, 11), 31)
+  t.is(daysPerMonth(new Date('2022-01')), 31)
+  t.is(daysPerMonth(new Date('2022-02')), 28)
+  t.is(daysPerMonth(new Date('2022-03')), 31)
+  t.is(daysPerMonth(new Date('2022-04')), 30)
+  t.is(daysPerMonth(new Date('2022-05')), 31)
+  t.is(daysPerMonth(new Date('2022-06')), 30)
+  t.is(daysPerMonth(new Date('2022-07')), 31)
+  t.is(daysPerMonth(new Date('2022-08')), 31)
+  t.is(daysPerMonth(new Date('2022-09')), 30)
+  t.is(daysPerMonth(new Date('2022-10')), 31)
+  t.is(daysPerMonth(new Date('2022-11')), 30)
+  t.is(daysPerMonth(new Date('2022-12')), 31)
 
-  t.is(daysPerMonth(2020, 1), 29)
-  t.is(daysPerMonth(1600, 1), 29)
-})
-
-test('previousMonth()', t => {
-  t.deepEqual(previousMonth({ year: 2022, month: 2 }), { year: 2022, month: 1 })
-  t.deepEqual(previousMonth({ year: 2022, month: 1 }), { year: 2022, month: 0 })
-  t.deepEqual(previousMonth({ year: 2022, month: 0 }), { year: 2021, month: 11 })
-})
-
-test('nextMonth()', t => {
-  t.deepEqual(nextMonth({ year: 2022, month: 2 }), { year: 2022, month: 3 })
-  t.deepEqual(nextMonth({ year: 2022, month: 1 }), { year: 2022, month: 2 })
-  t.deepEqual(nextMonth({ year: 2022, month: 11 }), { year: 2023, month: 0 })
+  t.is(daysPerMonth(new Date('2020-02')), 29)
+  t.is(daysPerMonth(new Date('1600-02')), 29)
 })
 
 test('monthDays()', t => {
-  t.true(Array.isArray(monthDays({ year: 2000, month: 1 })))
+  t.true(Array.isArray(monthDays(new Date('2000-02'))))
 
   function toJson (day) {
     const { date } = day
@@ -65,7 +51,7 @@ test('monthDays()', t => {
     }
   }
 
-  t.deepEqual(monthDays({ year: 2022, month: 0 }).map(toJson), [
+  t.deepEqual(monthDays(new Date('2022-01')).map(toJson), [
     { year: 2022, month: 0, day: 1, weekday: 5 },
     { year: 2022, month: 0, day: 2, weekday: 6 },
     { year: 2022, month: 0, day: 3, weekday: 0 },
@@ -99,7 +85,7 @@ test('monthDays()', t => {
     { year: 2022, month: 0, day: 31, weekday: 0 }
   ])
 
-  t.deepEqual(monthDays({ year: 2022, month: 1 }).map(toJson), [
+  t.deepEqual(monthDays(new Date('2022-02')).map(toJson), [
     { year: 2022, month: 1, day: 1, weekday: 1 },
     { year: 2022, month: 1, day: 2, weekday: 2 },
     { year: 2022, month: 1, day: 3, weekday: 3 },
@@ -130,7 +116,7 @@ test('monthDays()', t => {
     { year: 2022, month: 1, day: 28, weekday: 0 }
   ])
 
-  t.deepEqual(monthDays({ year: 2020, month: 1 }).map(toJson), [
+  t.deepEqual(monthDays(new Date('2020-02')).map(toJson), [
     { year: 2020, month: 1, day: 1, weekday: 5 },
     { year: 2020, month: 1, day: 2, weekday: 6 },
     { year: 2020, month: 1, day: 3, weekday: 0 },
@@ -162,7 +148,7 @@ test('monthDays()', t => {
     { year: 2020, month: 1, day: 29, weekday: 5 }
   ])
 
-  t.deepEqual(monthDays({ year: 2022, month: 5 }).map(toJson), [
+  t.deepEqual(monthDays(new Date('2022-06')).map(toJson), [
     { year: 2022, month: 5, day: 1, weekday: 2 },
     { year: 2022, month: 5, day: 2, weekday: 3 },
     { year: 2022, month: 5, day: 3, weekday: 4 },
