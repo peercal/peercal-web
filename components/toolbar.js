@@ -46,6 +46,6 @@ module.exports = ({ year, month }, emit) => {
   </div>`
 
   function gotoPrevMonth () { emit('monthly:goto-previous') }
-  function gotoHomeMonth () { emit('monthly:goto-current') }
+  function gotoHomeMonth () { emit('monthly:goto-home') }
   function gotoNextMonth () { emit('monthly:goto-next') }
 }
