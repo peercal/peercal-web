@@ -94,8 +94,9 @@ module.exports = ({ month, weeks, selected, events }, emit) => {
                            style=${cstyle}>
             <div class=${dateContainer}>${day.date.getDate()}</div>
             ${filtered.map(event => {
+              const showTime = datesEqual(event.DTSTART, day.date)
               return html`<div class=${eventContainer}>
-                ${paddedTime(event.DTSTART)} ${event.SUMMARY}
+                ${showTime ? paddedTime(event.DTSTART) : ''} ${event.SUMMARY}
               </div>`
             })}
           </div>`
