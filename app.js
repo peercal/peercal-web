@@ -179,7 +179,7 @@ DTEND:20220216T120000Z
 DTSTAMP:20220205T165901Z
 UID:MlN8btK----21633566522596@example.com
 SEQUENCE:1
-SUMMARY:Watch amazing movie "Kong vs Godzilla"
+SUMMARY:Another very important event
 DESCRIPTION:The description field should be a longer text describing the event in more details.
 ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
 END:VEVENT
@@ -190,7 +190,7 @@ DTEND:20220216T130000Z
 DTSTAMP:20220205T165901Z
 UID:MlN8btK----21633566522596@example.com
 SEQUENCE:1
-SUMMARY:Watch amazing movie "Kong vs Godzilla"
+SUMMARY:A lot happening this day it seems
 DESCRIPTION:The description field should be a longer text describing the event in more details.
 ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
 END:VEVENT
@@ -201,7 +201,7 @@ DTEND:20220216T180000Z
 DTSTAMP:20220205T165901Z
 UID:MlN8btK----21633566522596@example.com
 SEQUENCE:1
-SUMMARY:Watch amazing movie "Kong vs Godzilla"
+SUMMARY:Lets end this evening with some fun
 DESCRIPTION:The description field should be a longer text describing the event in more details.
 ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
 END:VEVENT
@@ -212,7 +212,7 @@ DTEND:20220226T120000Z
 DTSTAMP:20220205T165901Z
 UID:MlN8btK----21633566522596@example.com
 SEQUENCE:1
-SUMMARY:Watch amazing movie "Kong vs Godzilla"
+SUMMARY:Trip to Hawaii?
 DESCRIPTION:The description field should be a longer text describing the event in more details.
 ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
 END:VEVENT
