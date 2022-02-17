@@ -1,6 +1,8 @@
 const html = require('choo/html')
 const css = require('sheetify')
 
+const { filterEvents } = require('../lib/ics.js')
+
 const monthContainer = css`
   :host {
     position: absolute;
@@ -29,11 +31,32 @@ const dayContainer = css`
     margin-right: 5px;
     margin-bottom: 10px;
     font-size: 16px;
-    padding: 10px;
+    padding: 4px;
   }
 `
 
-module.exports = ({ month, weeks, selected }, emit) => {
+const dateContainer = css`
+  :host {
+    margin-bottom: 2px;
+    font-size: 16px;
+  }
+`
+
+const eventContainer = css`
+  :host {
+    height: 16px;
+    padding-left: 2px;
+    padding-right: 2px;
+    font-size: 12px;
+    background: #bbb;
+    color: black;
+    margin-bottom: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`
+
+module.exports = ({ month, weeks, selected, events }, emit) => {
   const now = new Date()
   function isToday (date) {
     return (date.getFullYear() === now.getFullYear() &&
@@ -61,11 +84,21 @@ module.exports = ({ month, weeks, selected }, emit) => {
     ${weeks.map(week => (
       html`<div class=${weekContainer}>
         ${week.map(day => {
+          const filtered = filterEvents(events, day.date)
           const cstyle = `
             background-color: ${day.date.getMonth() === month ? 'black' : '#111'};
             border: 1px solid ${borderColor(day)};
           `
-          return html`<div class=${dayContainer} onclick=${() => emit('monthly:select-date', day.date)} style=${cstyle}>${day.date.getDate()}</div>`
+          return html`<div class=${dayContainer}
+                           onclick=${() => emit('monthly:select-date', day.date)}
+                           style=${cstyle}>
+            <div class=${dateContainer}>${day.date.getDate()}</div>
+            ${filtered.map(event => {
+              return html`<div class=${eventContainer}>
+                ${event.SUMMARY}
+              </div>`
+            })}
+          </div>`
         })}
       </div>`
     ))}

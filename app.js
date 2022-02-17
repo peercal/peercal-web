@@ -2,6 +2,7 @@ const app = require('choo')()
 const html = require('choo/html')
 const css = require('sheetify')
 
+const { parseEvents } = require('./lib/ics.js')
 const {
   WEEKDAYS,
   MONTHS,
@@ -17,6 +18,9 @@ const MonthlyView = require('./components/monthly.js')
 
 app.use((state, emitter) => {
   let lastDate = new Date()
+
+  // TODO hardcoded event data for now
+  state.events = parseEvents(EVENT_DATA)
 
   function setMonthly (monthly) {
     state.monthly = monthly
@@ -105,14 +109,124 @@ const calendar = css`
 `
 
 app.route('*', (state, emit) => {
-  const { year, month, selected, weeks } = state.monthly
+  const { events, monthly } = state
+  const { year, month, selected, weeks } = monthly
   return html`<body class=${body}>
     <div class=${calendar}>
       ${ToolbarView({ year, month: MONTHS[month] }, emit)}
       ${HeaderView({ weekdays: WEEKDAYS })}
-      ${MonthlyView({ month, weeks, selected }, emit)}
+      ${MonthlyView({ month, weeks, selected, events }, emit)}
     </div>
   </body>`
 })
 
 app.mount(document.body)
+
+const EVENT_DATA = `
+BEGIN:VCALENDAR
+PRODID:-//Foobar GmbH
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+
+BEGIN:VEVENT
+DTSTART:20220110T050000Z
+DTEND:20220120T080000Z
+DTSTAMP:20220205T165901Z
+UID:MlN8btK----21633566522596@example.com
+SEQUENCE:1
+SUMMARY:JANUARY, woohoo!
+DESCRIPTION:The description field should be a longer text describing the event in more details.
+ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART:20220131T050000Z
+DTEND:20220131T080000Z
+DTSTAMP:20220205T165901Z
+UID:MlN8btK----21633566522596@example.com
+SEQUENCE:1
+SUMMARY:Watch amazing movie "Kong vs Godzilla"
+DESCRIPTION:The description field should be a longer text describing the event in more details.
+ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART:20220201T050000Z
+DTEND:20220201T080000Z
+DTSTAMP:20220205T165901Z
+UID:MlN8btK----21633566522596@example.com
+SEQUENCE:1
+SUMMARY:Watch another movie...
+DESCRIPTION:The description field should be a longer text describing the event in more details.
+ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART:20220201T100000Z
+DTEND:20220201T120000Z
+DTSTAMP:20220205T165901Z
+UID:MlN8btK----21633566522596@example.com
+SEQUENCE:1
+SUMMARY:Dinner at the local pizzeria, yummy!
+DESCRIPTION:The description field should be a longer text describing the event in more details.
+ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART:20220216T100000Z
+DTEND:20220216T120000Z
+DTSTAMP:20220205T165901Z
+UID:MlN8btK----21633566522596@example.com
+SEQUENCE:1
+SUMMARY:Watch amazing movie "Kong vs Godzilla"
+DESCRIPTION:The description field should be a longer text describing the event in more details.
+ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART:20220216T110000Z
+DTEND:20220216T130000Z
+DTSTAMP:20220205T165901Z
+UID:MlN8btK----21633566522596@example.com
+SEQUENCE:1
+SUMMARY:Watch amazing movie "Kong vs Godzilla"
+DESCRIPTION:The description field should be a longer text describing the event in more details.
+ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART:20220216T170000Z
+DTEND:20220216T180000Z
+DTSTAMP:20220205T165901Z
+UID:MlN8btK----21633566522596@example.com
+SEQUENCE:1
+SUMMARY:Watch amazing movie "Kong vs Godzilla"
+DESCRIPTION:The description field should be a longer text describing the event in more details.
+ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART:20220219T120000Z
+DTEND:20220226T120000Z
+DTSTAMP:20220205T165901Z
+UID:MlN8btK----21633566522596@example.com
+SEQUENCE:1
+SUMMARY:Watch amazing movie "Kong vs Godzilla"
+DESCRIPTION:The description field should be a longer text describing the event in more details.
+ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART:20220302T050000Z
+DTEND:20220322T080000Z
+DTSTAMP:20220205T165901Z
+UID:MlN8btK----21633566522596@example.com
+SEQUENCE:1
+SUMMARY:Lets have a long event in March as well
+DESCRIPTION:The description field should be a longer text describing the event in more details.
+ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
+END:VEVENT
+
+END:VCALENDAR
+`
