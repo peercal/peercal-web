@@ -86,7 +86,7 @@ module.exports = ({ month, weeks, selected, events }, emit) => {
         ${week.map(day => {
           const filtered = filterEvents(events, day.date)
           const cstyle = `
-            background-color: ${day.date.getMonth() === month ? 'black' : '#111'};
+            background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
             border: 1px solid ${borderColor(day)};
           `
           return html`<div class=${dayContainer}
