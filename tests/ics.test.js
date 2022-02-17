@@ -7,7 +7,7 @@ const {
 test('parsing ics string to event array', t => {
   const events = parseEvents(DATA)
   t.truthy(Array.isArray(events))
-  t.is(events.length, 5)
+  t.is(events.length, 6)
   events.forEach(event => {
     t.is(typeof event.DTSTART, 'string')
     t.is(typeof event.DTEND, 'string')
@@ -18,10 +18,22 @@ test('parsing ics string to event array', t => {
 
 test('filtering events', t => {
   const events = parseEvents(DATA)
+
+  t.is(filterEvents(events, new Date('2022-02-27')).length, 0)
+
   t.is(filterEvents(events, new Date('2021-10-13')).length, 1)
   t.is(filterEvents(events, new Date('2021-10-25')).length, 1)
   t.is(filterEvents(events, new Date('2022-01-08')).length, 1)
   t.is(filterEvents(events, new Date('2022-01-29')).length, 2)
+
+  t.is(filterEvents(events, new Date('2022-02-19')).length, 1)
+  t.is(filterEvents(events, new Date('2022-02-20')).length, 1)
+  t.is(filterEvents(events, new Date('2022-02-21')).length, 1)
+  t.is(filterEvents(events, new Date('2022-02-22')).length, 1)
+  t.is(filterEvents(events, new Date('2022-02-23')).length, 1)
+  t.is(filterEvents(events, new Date('2022-02-24')).length, 1)
+  t.is(filterEvents(events, new Date('2022-02-25')).length, 1)
+  t.is(filterEvents(events, new Date('2022-02-26')).length, 1)
 })
 
 const DATA = `
@@ -83,6 +95,17 @@ UID:MlN8btK----21642798024486@example.com
 SEQUENCE:3
 SUMMARY:3D-printing workshop (cont)
 DESCRIPTION:<div dir="auto">Were going to try to 3D-print or at least model an idea that Godogg has for his car.&nbsp<br></div><div dir="auto">We're using freecad - its fine to come if you haven't been to the other workshops, but you might want to install freecad ahead of time.&nbsp<br></div><div dir="auto">Welcome!&nbsp<br></div><div dir="auto"><br></div>
+ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART:20220219T120000Z
+DTEND:20220226T120000Z
+DTSTAMP:20220205T165901Z
+UID:MlN8btK----21633566522596@example.com
+SEQUENCE:1
+SUMMARY:Watch amazing movie "Kong vs Godzilla"
+DESCRIPTION:The description field should be a longer text describing the event in more details.
 ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
 END:VEVENT
 
