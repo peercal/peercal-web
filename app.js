@@ -11,41 +11,46 @@ const {
   daysToWeeks
 } = require('./lib/date.js')
 
-const toolbar = require('./components/toolbar.js')
-const header = require('./components/header.js')
-const monthly = require('./components/monthly.js')
+const ToolbarView = require('./components/toolbar.js')
+const HeaderView = require('./components/header.js')
+const MonthlyView = require('./components/monthly.js')
 
 app.use((state, emitter) => {
   let lastDate = new Date()
 
-  function setMonthly (date = new Date()) {
-    state.monthly = { date }
-    state.monthly.weeks = daysToWeeks(monthDaysFilled(date))
+  function setMonthly (monthly) {
+    state.monthly = monthly
+    state.monthly.weeks = daysToWeeks(monthDaysFilled(monthly))
     emitter.emit('render')
   }
 
-  function moveSelected (offset) {
-    const { date } = state.monthly
-    const update = new Date(date)
-    update.setDate(date.getDate() + offset)
-    setMonthly(update)
+  function setToday () {
+    const today = new Date()
+    setMonthly({
+      year: today.getFullYear(),
+      month: today.getMonth(),
+      selected: today
+    })
   }
 
-  emitter.on('monthly:goto-previous', () => {
-    setMonthly(previousMonth(state.monthly.date))
-  })
-
-  emitter.on('monthly:goto-home', () => {
-    setMonthly()
-  })
-
-  emitter.on('monthly:goto-next', () => {
-    setMonthly(nextMonth(state.monthly.date))
-  })
-
+  emitter.on('monthly:goto-previous', () => setMonthly(previousMonth(state.monthly)))
+  emitter.on('monthly:goto-home', () => setToday())
+  emitter.on('monthly:goto-next', () => setMonthly(nextMonth(state.monthly)))
   emitter.on('monthly:select-date', (date) => {
-    setMonthly(date)
+    state.monthly.selected = date
+    emitter.emit('render')
   })
+
+  function moveSelected (offset) {
+    const { selected } = state.monthly
+    const update = new Date(selected)
+    update.setDate(selected.getDate() + offset)
+    setMonthly({
+      year: update.getFullYear(),
+      month: update.getMonth(),
+      selected: update
+    })
+  }
 
   window.addEventListener('keydown', (e) => {
     switch (e.key) {
@@ -73,7 +78,7 @@ app.use((state, emitter) => {
     }
   }, 60 * 1000)
 
-  setMonthly()
+  setToday()
 })
 
 const body = css`
@@ -100,13 +105,12 @@ const calendar = css`
 `
 
 app.route('*', (state, emit) => {
-  const { date, weeks } = state.monthly
-  const year = date.getFullYear()
+  const { year, month, selected, weeks } = state.monthly
   return html`<body class=${body}>
     <div class=${calendar}>
-      ${toolbar({ year, month: MONTHS[date.getMonth()] }, emit)}
-      ${header({ weekdays: WEEKDAYS })}
-      ${monthly({ weeks, date }, emit)}
+      ${ToolbarView({ year, month: MONTHS[month] }, emit)}
+      ${HeaderView({ weekdays: WEEKDAYS })}
+      ${MonthlyView({ month, weeks, selected }, emit)}
     </div>
   </body>`
 })
