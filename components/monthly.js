@@ -31,13 +31,12 @@ const dayContainer = css`
     margin-right: 5px;
     margin-bottom: 10px;
     font-size: 16px;
-    padding: 4px;
+    padding: 5px;
   }
 `
 
 const dateContainer = css`
   :host {
-    margin-bottom: 2px;
     font-size: 16px;
   }
 `
@@ -50,7 +49,7 @@ const eventContainer = css`
     font-size: 12px;
     background: #bbb;
     color: black;
-    margin-bottom: 3px;
+    margin-top: 3px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
