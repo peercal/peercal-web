@@ -1,6 +1,7 @@
 const html = require('choo/html')
 const css = require('sheetify')
 
+const { paddedTime } = require('../lib/date.js')
 const { filterEvents } = require('../lib/ics.js')
 
 const monthContainer = css`
@@ -94,7 +95,7 @@ module.exports = ({ month, weeks, selected, events }, emit) => {
             <div class=${dateContainer}>${day.date.getDate()}</div>
             ${filtered.map(event => {
               return html`<div class=${eventContainer}>
-                ${event.SUMMARY}
+                ${paddedTime(event.DTSTART)} ${event.SUMMARY}
               </div>`
             })}
           </div>`
