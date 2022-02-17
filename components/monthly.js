@@ -3,6 +3,7 @@ const css = require('sheetify')
 
 const { paddedTime } = require('../lib/date.js')
 const { filterEvents } = require('../lib/ics.js')
+const EVENT_CUTOFF = 5
 
 const monthContainer = css`
   :host {
@@ -85,6 +86,7 @@ module.exports = ({ month, weeks, selected, events }, emit) => {
       html`<div class=${weekContainer}>
         ${week.map(day => {
           const filtered = filterEvents(events, day.date)
+          const showEllipsis = filtered.length > EVENT_CUTOFF
           const cstyle = `
             background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
             border: 1px solid ${borderColor(day)};
@@ -93,12 +95,13 @@ module.exports = ({ month, weeks, selected, events }, emit) => {
                            onclick=${() => emit('monthly:select-date', day.date)}
                            style=${cstyle}>
             <div class=${dateContainer}>${day.date.getDate()}</div>
-            ${filtered.map(event => {
+            ${filtered.slice(0, EVENT_CUTOFF).map(event => {
               const showTime = datesEqual(event.DTSTART, day.date)
               return html`<div class=${eventContainer}>
                 ${showTime ? paddedTime(event.DTSTART) : ''} ${event.SUMMARY}
               </div>`
             })}
+            ${showEllipsis ? '...' : ''}
           </div>`
         })}
       </div>`
