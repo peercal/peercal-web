@@ -9,8 +9,9 @@ test('parsing ics string to event array', t => {
   t.truthy(Array.isArray(events))
   t.is(events.length, 6)
   events.forEach(event => {
-    t.is(typeof event.DTSTART, 'string')
-    t.is(typeof event.DTEND, 'string')
+    t.is(typeof event.DTSTART, 'object')
+    t.is(typeof event.DTEND, 'object')
+    t.is(typeof event.DTSTAMP, 'object')
     t.is(typeof event.SUMMARY, 'string')
     t.is(typeof event.DESCRIPTION, 'string')
   })
