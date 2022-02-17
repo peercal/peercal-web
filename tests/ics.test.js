@@ -1,16 +1,27 @@
 const test = require('ava')
-const { parseEvents } = require('../lib/ics.js')
+const {
+  parseEvents,
+  filterEvents
+} = require('../lib/ics.js')
 
 test('parsing ics string to event array', t => {
   const events = parseEvents(DATA)
   t.truthy(Array.isArray(events))
-  t.is(events.length, 4)
+  t.is(events.length, 5)
   events.forEach(event => {
     t.is(typeof event.DTSTART, 'string')
     t.is(typeof event.DTEND, 'string')
     t.is(typeof event.SUMMARY, 'string')
     t.is(typeof event.DESCRIPTION, 'string')
   })
+})
+
+test('filtering events', t => {
+  const events = parseEvents(DATA)
+  t.is(filterEvents(events, new Date('2021-10-13')).length, 1)
+  t.is(filterEvents(events, new Date('2021-10-25')).length, 1)
+  t.is(filterEvents(events, new Date('2022-01-08')).length, 1)
+  t.is(filterEvents(events, new Date('2022-01-29')).length, 2)
 })
 
 const DATA = `
@@ -60,6 +71,17 @@ DTSTAMP:20220205T165901Z
 UID:MlN8btK----21642798024486@example.com
 SEQUENCE:3
 SUMMARY:3D-printing workshop
+DESCRIPTION:<div dir="auto">Were going to try to 3D-print or at least model an idea that Godogg has for his car.&nbsp<br></div><div dir="auto">We're using freecad - its fine to come if you haven't been to the other workshops, but you might want to install freecad ahead of time.&nbsp<br></div><div dir="auto">Welcome!&nbsp<br></div><div dir="auto"><br></div>
+ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART:20220129T200000Z
+DTEND:20220129T210000Z
+DTSTAMP:20220205T165901Z
+UID:MlN8btK----21642798024486@example.com
+SEQUENCE:3
+SUMMARY:3D-printing workshop (cont)
 DESCRIPTION:<div dir="auto">Were going to try to 3D-print or at least model an idea that Godogg has for his car.&nbsp<br></div><div dir="auto">We're using freecad - its fine to come if you haven't been to the other workshops, but you might want to install freecad ahead of time.&nbsp<br></div><div dir="auto">Welcome!&nbsp<br></div><div dir="auto"><br></div>
 ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
 END:VEVENT
