@@ -16,6 +16,17 @@ const ToolbarView = require('./components/toolbar.js')
 const HeaderView = require('./components/header.js')
 const MonthlyView = require('./components/monthly.js')
 
+const HyperdriveWatcher = require('./hyperdrive-watcher.js')
+function eventsFileWatcher ({ url, data }) {
+  console.log('UPDATE from url', url)
+  console.log(data)
+}
+
+const url1 = 'hyper://0aa6537ae8f41113c583d725305944f00281968b0d23051804361a3436ea4e38/events.ics'
+HyperdriveWatcher(url1, eventsFileWatcher)
+const url2 = 'hyper://3fe48c75e45aae82ef90cf29027f78fa821eb35c247e7e80dae6dba5105f5909/events.ics'
+HyperdriveWatcher(url2, eventsFileWatcher)
+
 app.use((state, emitter) => {
   let lastDate = new Date()
 
