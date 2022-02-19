@@ -49,7 +49,6 @@ const eventContainer = css`
     padding-left: 2px;
     padding-right: 2px;
     font-size: 12px;
-    background: #bbb;
     color: black;
     margin-top: 3px;
     overflow: hidden;
@@ -96,8 +95,12 @@ module.exports = ({ month, weeks, selected, events }, emit) => {
                            style=${cstyle}>
             <div class=${dateContainer}>${day.date.getDate()}</div>
             ${filtered.slice(0, EVENT_CUTOFF).map(event => {
+              const cstyle = `
+                background: ${event.background || '#bbb'};
+                color: ${event.color || 'black'};
+              `
               const showTime = datesEqual(event.DTSTART, day.date)
-              return html`<div class=${eventContainer}>
+              return html`<div class=${eventContainer} style=${cstyle}>
                 ${showTime ? paddedTime(event.DTSTART) : ''} ${event.SUMMARY}
               </div>`
             })}

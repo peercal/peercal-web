@@ -23,21 +23,21 @@ app.use((state, emitter) => {
   state.feeds = new Map()
   state.allEvents = []
 
-  function addFeed (url, color) {
-    console.log('adding feed', url, color)
+  function addFeed (url, background, color) {
+    console.log('adding feed', url)
     const watcher = HyperdriveWatcher(url, eventsFileWatcher)
-    const feed = {
-      events: [],
-      watcher,
-      color
-    }
+    const feed = { events: [], watcher, background, color }
     state.feeds.set(url, feed)
   }
 
   function aggregateAllEvents () {
     let result = []
     for (const feed of state.feeds.values()) {
-      result = result.concat(feed.events)
+      const { background, color } = feed
+      const events = feed.events.map(ev => {
+        return { ...ev, background, color }
+      })
+      result = result.concat(events)
     }
     return result
   }
@@ -52,8 +52,8 @@ app.use((state, emitter) => {
 
   // TODO hardcoded events for now
   // TODO configure colors when adding feeds from the ui, with sane defaults
-  addFeed('hyper://0aa6537ae8f41113c583d725305944f00281968b0d23051804361a3436ea4e38/events.ics', 'white')
-  addFeed('hyper://3fe48c75e45aae82ef90cf29027f78fa821eb35c247e7e80dae6dba5105f5909/events.ics', 'blue')
+  addFeed('hyper://0aa6537ae8f41113c583d725305944f00281968b0d23051804361a3436ea4e38/events.ics', 'white', 'black')
+  addFeed('hyper://3fe48c75e45aae82ef90cf29027f78fa821eb35c247e7e80dae6dba5105f5909/events.ics', 'blue', 'white')
 
   function setMonthly (monthly) {
     state.monthly = monthly
