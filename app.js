@@ -20,17 +20,40 @@ const MonthlyView = require('./components/monthly.js')
 app.use((state, emitter) => {
   let lastDate = new Date()
 
-  state.events = []
+  state.feeds = new Map()
+  state.allEvents = []
+
+  function addFeed (url, color) {
+    console.log('adding feed', url, color)
+    const watcher = HyperdriveWatcher(url, eventsFileWatcher)
+    const feed = {
+      events: [],
+      watcher,
+      color
+    }
+    state.feeds.set(url, feed)
+  }
+
+  function aggregateAllEvents () {
+    let result = []
+    for (const feed of state.feeds.values()) {
+      result = result.concat(feed.events)
+    }
+    return result
+  }
 
   function eventsFileWatcher ({ url, data }) {
     console.log('events updated from url', url)
-    state.events = parseEvents(data)
+    const feed = state.feeds.get(url)
+    feed.events = parseEvents(data)
+    state.allEvents = aggregateAllEvents()
     emitter.emit('render')
   }
 
   // TODO hardcoded events for now
-  const url = 'hyper://0aa6537ae8f41113c583d725305944f00281968b0d23051804361a3436ea4e38/events.ics'
-  HyperdriveWatcher(url, eventsFileWatcher)
+  // TODO configure colors when adding feeds from the ui, with sane defaults
+  addFeed('hyper://0aa6537ae8f41113c583d725305944f00281968b0d23051804361a3436ea4e38/events.ics', 'white')
+  addFeed('hyper://3fe48c75e45aae82ef90cf29027f78fa821eb35c247e7e80dae6dba5105f5909/events.ics', 'blue')
 
   function setMonthly (monthly) {
     state.monthly = monthly
@@ -119,7 +142,7 @@ const calendar = css`
 `
 
 app.route('*', (state, emit) => {
-  const { events, monthly } = state
+  const { allEvents: events, monthly } = state
   const { year, month, selected, weeks } = monthly
   return html`<body class=${body}>
     <div class=${calendar}>
