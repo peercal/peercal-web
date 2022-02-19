@@ -11,6 +11,7 @@ const {
   monthDaysFilled,
   daysToWeeks
 } = require('./lib/date.js')
+const HyperdriveWatcher = require('./lib/hyperdrive-watcher.js')
 
 const ToolbarView = require('./components/toolbar.js')
 const HeaderView = require('./components/header.js')
@@ -19,8 +20,17 @@ const MonthlyView = require('./components/monthly.js')
 app.use((state, emitter) => {
   let lastDate = new Date()
 
-  // TODO hardcoded event data for now
-  state.events = parseEvents(EVENT_DATA)
+  state.events = []
+
+  function eventsFileWatcher ({ url, data }) {
+    console.log('events updated from url', url)
+    state.events = parseEvents(data)
+    emitter.emit('render')
+  }
+
+  // TODO hardcoded events for now
+  const url = 'hyper://0aa6537ae8f41113c583d725305944f00281968b0d23051804361a3436ea4e38/events.ics'
+  HyperdriveWatcher(url, eventsFileWatcher)
 
   function setMonthly (monthly) {
     state.monthly = monthly
@@ -121,189 +131,3 @@ app.route('*', (state, emit) => {
 })
 
 app.mount(document.body)
-
-const EVENT_DATA = `
-BEGIN:VCALENDAR
-PRODID:-//Foobar GmbH
-VERSION:2.0
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-
-BEGIN:VEVENT
-DTSTART:20220110T050000Z
-DTEND:20220120T080000Z
-DTSTAMP:20220205T165901Z
-UID:MlN8btK----21633566522596@example.com
-SEQUENCE:1
-SUMMARY:JANUARY, woohoo!
-DESCRIPTION:The description field should be a longer text describing the event in more details.
-ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
-END:VEVENT
-
-BEGIN:VEVENT
-DTSTART:20220131T050000Z
-DTEND:20220131T080000Z
-DTSTAMP:20220205T165901Z
-UID:MlN8btK----21633566522596@example.com
-SEQUENCE:1
-SUMMARY:Watch amazing movie "Kong vs Godzilla"
-DESCRIPTION:The description field should be a longer text describing the event in more details.
-ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
-END:VEVENT
-
-BEGIN:VEVENT
-DTSTART:20220201T050000Z
-DTEND:20220201T080000Z
-DTSTAMP:20220205T165901Z
-UID:MlN8btK----21633566522596@example.com
-SEQUENCE:1
-SUMMARY:Watch another movie...
-DESCRIPTION:The description field should be a longer text describing the event in more details.
-ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
-END:VEVENT
-
-BEGIN:VEVENT
-DTSTART:20220201T100000Z
-DTEND:20220201T120000Z
-DTSTAMP:20220205T165901Z
-UID:MlN8btK----21633566522596@example.com
-SEQUENCE:1
-SUMMARY:Dinner at the local pizzeria, yummy!
-DESCRIPTION:The description field should be a longer text describing the event in more details.
-ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
-END:VEVENT
-
-BEGIN:VEVENT
-DTSTART:20220216T100000Z
-DTEND:20220216T120000Z
-DTSTAMP:20220205T165901Z
-UID:MlN8btK----21633566522596@example.com
-SEQUENCE:1
-SUMMARY:Another very important event
-DESCRIPTION:The description field should be a longer text describing the event in more details.
-ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
-END:VEVENT
-
-BEGIN:VEVENT
-DTSTART:20220216T110000Z
-DTEND:20220216T130000Z
-DTSTAMP:20220205T165901Z
-UID:MlN8btK----21633566522596@example.com
-SEQUENCE:1
-SUMMARY:A lot happening this day it seems
-DESCRIPTION:The description field should be a longer text describing the event in more details.
-ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
-END:VEVENT
-
-BEGIN:VEVENT
-DTSTART:20220216T130000Z
-DTEND:20220216T140000Z
-DTSTAMP:20220205T165901Z
-UID:MlN8btK----21633566522596@example.com
-SEQUENCE:1
-SUMMARY:A lot happening this day it seems
-DESCRIPTION:The description field should be a longer text describing the event in more details.
-ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
-END:VEVENT
-
-BEGIN:VEVENT
-DTSTART:20220216T140000Z
-DTEND:20220216T150000Z
-DTSTAMP:20220205T165901Z
-UID:MlN8btK----21633566522596@example.com
-SEQUENCE:1
-SUMMARY:A lot happening this day it seems
-DESCRIPTION:The description field should be a longer text describing the event in more details.
-ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
-END:VEVENT
-
-BEGIN:VEVENT
-DTSTART:20220216T150000Z
-DTEND:20220216T160000Z
-DTSTAMP:20220205T165901Z
-UID:MlN8btK----21633566522596@example.com
-SEQUENCE:1
-SUMMARY:A lot happening this day it seems
-DESCRIPTION:The description field should be a longer text describing the event in more details.
-ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
-END:VEVENT
-
-BEGIN:VEVENT
-DTSTART:20220216T160000Z
-DTEND:20220216T170000Z
-DTSTAMP:20220205T165901Z
-UID:MlN8btK----21633566522596@example.com
-SEQUENCE:1
-SUMMARY:A lot happening this day it seems
-DESCRIPTION:The description field should be a longer text describing the event in more details.
-ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
-END:VEVENT
-
-BEGIN:VEVENT
-DTSTART:20220216T160000Z
-DTEND:20220216T170000Z
-DTSTAMP:20220205T165901Z
-UID:MlN8btK----21633566522596@example.com
-SEQUENCE:1
-SUMMARY:A lot happening this day it seems
-DESCRIPTION:The description field should be a longer text describing the event in more details.
-ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
-END:VEVENT
-
-BEGIN:VEVENT
-DTSTART:20220216T160000Z
-DTEND:20220216T170000Z
-DTSTAMP:20220205T165901Z
-UID:MlN8btK----21633566522596@example.com
-SEQUENCE:1
-SUMMARY:A lot happening this day it seems
-DESCRIPTION:The description field should be a longer text describing the event in more details.
-ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
-END:VEVENT
-
-BEGIN:VEVENT
-DTSTART:20220216T160000Z
-DTEND:20220216T170000Z
-DTSTAMP:20220205T165901Z
-UID:MlN8btK----21633566522596@example.com
-SEQUENCE:1
-SUMMARY:A lot happening this day it seems
-DESCRIPTION:The description field should be a longer text describing the event in more details.
-ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
-END:VEVENT
-
-BEGIN:VEVENT
-DTSTART:20220216T170000Z
-DTEND:20220216T180000Z
-DTSTAMP:20220205T165901Z
-UID:MlN8btK----21633566522596@example.com
-SEQUENCE:1
-SUMMARY:Lets end this evening with some fun
-DESCRIPTION:The description field should be a longer text describing the event in more details.
-ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
-END:VEVENT
-
-BEGIN:VEVENT
-DTSTART:20220219T122500Z
-DTEND:20220226T120000Z
-DTSTAMP:20220205T165901Z
-UID:MlN8btK----21633566522596@example.com
-SEQUENCE:1
-SUMMARY:Trip to Hawaii?
-DESCRIPTION:The description field should be a longer text describing the event in more details.
-ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
-END:VEVENT
-
-BEGIN:VEVENT
-DTSTART:20220302T050800Z
-DTEND:20220322T080000Z
-DTSTAMP:20220205T165901Z
-UID:MlN8btK----21633566522596@example.com
-SEQUENCE:1
-SUMMARY:Lets have a long event in March as well
-DESCRIPTION:The description field should be a longer text describing the event in more details.
-ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
-END:VEVENT
-
-END:VCALENDAR
-`
