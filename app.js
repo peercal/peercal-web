@@ -43,7 +43,6 @@ app.use((state, emitter) => {
   }
 
   function eventsFileWatcher ({ url, data }) {
-    console.log('events updated from url', url)
     const feed = state.feeds.get(url)
     feed.events = parseEvents(data)
     state.allEvents = aggregateAllEvents()
