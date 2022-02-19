@@ -3,7 +3,7 @@ const css = require('sheetify')
 
 const { paddedTime } = require('../lib/date.js')
 const { filterEvents } = require('../lib/ics.js')
-const HeaderView = require('./header.js')
+const WeekdaysHeaderView = require('./weekdays-header.js')
 
 const EVENT_CUTOFF = 5
 
@@ -83,7 +83,7 @@ module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
   }
 
   return html`<div>
-    ${HeaderView({ weekdays })}
+    ${WeekdaysHeaderView({ weekdays })}
     <div class=${monthContainer}>
       ${weeks.map(week => (
         html`<div class=${weekContainer}>
