@@ -3,6 +3,8 @@ const css = require('sheetify')
 
 const { paddedTime } = require('../lib/date.js')
 const { filterEvents } = require('../lib/ics.js')
+const HeaderView = require('./header.js')
+
 const EVENT_CUTOFF = 5
 
 const monthContainer = css`
@@ -56,7 +58,7 @@ const eventContainer = css`
   }
 `
 
-module.exports = ({ month, weeks, selected, events }, emit) => {
+module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
   const now = new Date()
   function isToday (date) {
     return (date.getFullYear() === now.getFullYear() &&
@@ -80,34 +82,37 @@ module.exports = ({ month, weeks, selected, events }, emit) => {
     }
   }
 
-  return html`<div class=${monthContainer}>
-    ${weeks.map(week => (
-      html`<div class=${weekContainer}>
-        ${week.map(day => {
-          const filtered = filterEvents(events, day.date)
-          const showEllipsis = filtered.length > EVENT_CUTOFF
-          const cstyle = `
-            background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
-            border: 1px solid ${borderColor(day)};
-          `
-          return html`<div class=${dayContainer}
-                           onclick=${() => emit('monthly:select-date', day.date)}
-                           style=${cstyle}>
-            <div class=${dateContainer}>${day.date.getDate()}</div>
-            ${filtered.slice(0, EVENT_CUTOFF).map(event => {
-              const cstyle = `
-                background: ${event.background || '#bbb'};
-                color: ${event.color || 'black'};
-              `
-              const showTime = datesEqual(event.DTSTART, day.date)
-              return html`<div class=${eventContainer} style=${cstyle}>
-                ${showTime ? paddedTime(event.DTSTART) : ''} ${event.SUMMARY}
-              </div>`
-            })}
-            ${showEllipsis ? '...' : ''}
-          </div>`
-        })}
-      </div>`
-    ))}
+  return html`<div>
+    ${HeaderView({ weekdays })}
+    <div class=${monthContainer}>
+      ${weeks.map(week => (
+        html`<div class=${weekContainer}>
+          ${week.map(day => {
+            const filtered = filterEvents(events, day.date)
+            const showEllipsis = filtered.length > EVENT_CUTOFF
+            const cstyle = `
+              background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
+              border: 1px solid ${borderColor(day)};
+            `
+            return html`<div class=${dayContainer}
+                             onclick=${() => emit('monthly:select-date', day.date)}
+                             style=${cstyle}>
+              <div class=${dateContainer}>${day.date.getDate()}</div>
+              ${filtered.slice(0, EVENT_CUTOFF).map(event => {
+                const cstyle = `
+                  background: ${event.background || '#bbb'};
+                  color: ${event.color || 'black'};
+                `
+                const showTime = datesEqual(event.DTSTART, day.date)
+                return html`<div class=${eventContainer} style=${cstyle}>
+                  ${showTime ? paddedTime(event.DTSTART) : ''} ${event.SUMMARY}
+                </div>`
+              })}
+              ${showEllipsis ? '...' : ''}
+            </div>`
+          })}
+        </div>`
+      ))}
+    </div>
   </div>`
 }

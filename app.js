@@ -14,7 +14,6 @@ const {
 const HyperdriveWatcher = require('./lib/hyperdrive-watcher.js')
 
 const ToolbarView = require('./components/toolbar.js')
-const HeaderView = require('./components/header.js')
 const MonthlyView = require('./components/monthly.js')
 
 app.use((state, emitter) => {
@@ -147,8 +146,7 @@ app.route('*', (state, emit) => {
   return html`<body class=${body}>
     <div class=${calendar}>
       ${ToolbarView({ year, month: MONTHS[month] }, emit)}
-      ${HeaderView({ weekdays: WEEKDAYS })}
-      ${MonthlyView({ month, weeks, selected, events }, emit)}
+      ${MonthlyView({ month, weeks, selected, weekdays: WEEKDAYS, events }, emit)}
     </div>
   </body>`
 })
