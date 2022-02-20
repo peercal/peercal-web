@@ -1,0 +1,4 @@
+module.exports = {
+  MODE_MONTHLY: 'MODE_MONTHLY',
+  MODE_WEEKLY: 'MODE_WEEKLY'
+}

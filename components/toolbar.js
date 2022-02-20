@@ -1,5 +1,9 @@
 const html = require('choo/html')
 const css = require('sheetify')
+const {
+  MODE_MONTHLY,
+  MODE_WEEKLY
+} = require('../modes.js')
 
 const outer = css`
   :host {
@@ -18,6 +22,13 @@ const outer = css`
 const titleContainer = css`
   :host {
     margin-left: 5px
+  }
+`
+
+const modeButtons = css`
+  :host {
+    display: flex;
+    margin-right: 5px;
   }
 `
 
@@ -42,12 +53,19 @@ const button = css`
 module.exports = ({ title }, emit) => {
   return html`<div class=${outer}>
     <div class=${titleContainer}>${title}</div>
+    <div class=${modeButtons}>
+      <div class=${button} onclick=${setMonthlyMode}>${'M'}</div>
+      <div class=${button} onclick=${setWeeklyMode}>${'W'}</div>
+    </div>
     <div class=${rightButtons}>
       <div class=${button} onclick=${previous}>${'<'}</div>
       <div class=${button} onclick=${home}>${'H'}</div>
       <div class=${button} onclick=${next}>${'>'}</div>
     </div>
   </div>`
+
+  function setMonthlyMode () { emit('toolbar:set-mode', MODE_MONTHLY) }
+  function setWeeklyMode () { emit('toolbar:set-mode', MODE_WEEKLY) }
 
   function previous () { emit('toolbar:goto-previous') }
   function home () { emit('toolbar:goto-home') }
