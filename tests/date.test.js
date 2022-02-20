@@ -2,8 +2,7 @@ const test = require('ava')
 const {
   isLeapYear,
   daysPerMonth,
-  monthDays,
-  paddedTime
+  monthDays
 } = require('../lib/date.js')
 
 test('isLeapYear()', t => {
@@ -181,9 +180,4 @@ test('monthDays()', t => {
     { year: 2022, month: 5, day: 29, weekday: 2 },
     { year: 2022, month: 5, day: 30, weekday: 3 }
   ])
-})
-
-test('paddedTime()', t => {
-  t.is(paddedTime(new Date('2022-02-01T06:08:00')), '06:08')
-  t.is(paddedTime(new Date('2022-02-01T11:12:00')), '11:12')
 })

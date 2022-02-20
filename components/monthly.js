@@ -1,7 +1,6 @@
 const html = require('choo/html')
 const css = require('sheetify')
 
-const { paddedTime } = require('../lib/date.js')
 const { filterEvents } = require('../lib/ics.js')
 const WeekdaysHeaderView = require('./weekdays-header.js')
 
@@ -121,7 +120,7 @@ module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
                 `
                 const showTime = datesEqual(event.DTSTART, day.date)
                 return html`<div class=${eventContainer} style=${cstyle}>
-                  ${showTime ? paddedTime(event.DTSTART) : ''} ${event.SUMMARY}
+                  ${showTime ? padTime(event.DTSTART) : ''} ${event.SUMMARY}
                 </div>`
               })}
               ${showEllipsis ? '...' : ''}
@@ -132,4 +131,10 @@ module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
       ))}
     </div>
   </div>`
+}
+
+function padTime (date) {
+  const hours = date.getHours()
+  const minutes = date.getMinutes()
+  return `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}`
 }
