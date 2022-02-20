@@ -13,14 +13,14 @@ const {
 } = require('./lib/date.js')
 const HyperdriveWatcher = require('./lib/hyperdrive-watcher.js')
 
+const HandleDateChange = require('./controllers/date-changed.js')
+
 const ToolbarView = require('./components/toolbar.js')
 const MonthlyView = require('./components/monthly.js')
 
 const MONTLY = 'montly'
 
 app.use((state, emitter) => {
-  let lastDate = new Date()
-
   state.mode = MONTLY
   state.feeds = new Map()
   state.allEvents = []
@@ -121,17 +121,10 @@ app.use((state, emitter) => {
     }
   })
 
-  // Re-render if the day has changed.
-  setInterval(() => {
-    const date = new Date()
-    if (date.getDate() !== lastDate.getDate()) {
-      lastDate = date
-      emitter.emit('render')
-    }
-  }, 60 * 1000)
-
   setToday()
 })
+
+app.use(HandleDateChange)
 
 const body = css`
   :host {
