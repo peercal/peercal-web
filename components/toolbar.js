@@ -15,7 +15,7 @@ const outer = css`
   }
 `
 
-const title = css`
+const titleContainer = css`
   :host {
     margin-left: 5px
   }
@@ -39,9 +39,9 @@ const button = css`
   }
 `
 
-module.exports = ({ year, month }, emit) => {
+module.exports = ({ title }, emit) => {
   return html`<div class=${outer}>
-    <div class=${title}>${month} ${year}</div>
+    <div class=${titleContainer}>${title}</div>
     <div class=${rightButtons}>
       <div class=${button} onclick=${gotoPrevMonth}>${'<'}</div>
       <div class=${button} onclick=${gotoHomeMonth}>${'H'}</div>

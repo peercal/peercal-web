@@ -16,9 +16,12 @@ const HyperdriveWatcher = require('./lib/hyperdrive-watcher.js')
 const ToolbarView = require('./components/toolbar.js')
 const MonthlyView = require('./components/monthly.js')
 
+const MONTLY = 'montly'
+
 app.use((state, emitter) => {
   let lastDate = new Date()
 
+  state.mode = MONTLY
   state.feeds = new Map()
   state.allEvents = []
 
@@ -141,14 +144,21 @@ const calendar = css`
 `
 
 app.route('*', (state, emit) => {
-  const { allEvents: events, monthly } = state
-  const { year, month, selected, weeks } = monthly
-  return html`<body class=${body}>
-    <div class=${calendar}>
-      ${ToolbarView({ year, month: MONTHS[month] }, emit)}
-      ${MonthlyView({ month, weeks, selected, weekdays: WEEKDAYS, events }, emit)}
-    </div>
-  </body>`
+  const { allEvents: events, monthly, mode } = state
+  if (mode === MONTLY) {
+    const { year, month, selected, weeks } = monthly
+    const title = `${year} ${MONTHS[month]}`
+    return html`<body class=${body}>
+      <div class=${calendar}>
+        ${ToolbarView({ title }, emit)}
+        ${MonthlyView({ month, weeks, selected, weekdays: WEEKDAYS, events }, emit)}
+      </div>
+    </body>`
+  } else {
+    return html`<body class=${body}>
+      <div class=${calendar}>Unknown view mode</div>
+    </body>`
+  }
 })
 
 app.mount(document.body)
