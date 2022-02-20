@@ -15,13 +15,14 @@ const DateChangeController = require('./controllers/date-changed.js')
 
 const ToolbarView = require('./components/toolbar.js')
 const MonthlyView = require('./components/monthly.js')
+const WeeklyView = require('./components/weekly.js')
 
 app.use((state, emitter) => {
   state.allEvents = []
   state.mode = MODE_MONTHLY
+  // state.mode = MODE_WEEKLY
 
   emitter.on('toolbar:set-mode', (mode) => {
-    console.log('set mode', mode)
     state.mode = mode
     emitter.emit('render')
   })
@@ -70,6 +71,7 @@ app.route('*', (state, emit) => {
     return html`<body class=${body}>
       <div class=${calendar}>
         ${ToolbarView({ title, mode }, emit)}
+        ${WeeklyView({ weekdays: WEEKDAYS, events }, emit)}
       </div>
     </body>`
   } else if (mode === MODE_DAILY) {

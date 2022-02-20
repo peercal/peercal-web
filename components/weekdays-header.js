@@ -21,9 +21,9 @@ const cell = css`
   }
 `
 
-module.exports = ({ weekdays }) => {
+module.exports = ({ weekdays, showWeek = true }) => {
   return html`<div class=${outer}>
     ${weekdays.map(weekday => html`<div class=${cell} style='flex: 5;'>${weekday}</div>`)}
-    <div class=${cell} style='flex: 1;'>week</div>
+    ${showWeek ? html`<div class=${cell} style='flex: 1;'>week</div>` : ''}
   </div>`
 }
