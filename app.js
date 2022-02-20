@@ -24,7 +24,7 @@ app.use((state, emitter) => {
   state.allEvents = []
 })
 
-app.use(FeedsController)
+// app.use(FeedsController)
 
 app.use((state, emitter) => {
   function setMonthly (monthly) {
