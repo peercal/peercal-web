@@ -11,10 +11,8 @@ const DateChangeController = require('./controllers/date-changed.js')
 const ToolbarView = require('./components/toolbar.js')
 const MonthlyView = require('./components/monthly.js')
 
-const MONTLY = 'montly'
-
 app.use((state, emitter) => {
-  state.mode = MONTLY
+  state.mode = 'MONTLY'
   state.allEvents = []
 })
 
@@ -47,7 +45,7 @@ const calendar = css`
 
 app.route('*', (state, emit) => {
   const { allEvents: events, monthly, mode } = state
-  if (mode === MONTLY) {
+  if (mode === 'MONTLY') {
     const { year, month, selected, weeks } = monthly
     const title = `${year} ${MONTHS[month]}`
     return html`<body class=${body}>
