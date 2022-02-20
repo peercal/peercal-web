@@ -2,7 +2,8 @@ const test = require('ava')
 const {
   isLeapYear,
   daysPerMonth,
-  monthDays
+  monthDays,
+  weekNumber
 } = require('../lib/date.js')
 
 test('isLeapYear()', t => {
@@ -180,4 +181,28 @@ test('monthDays()', t => {
     { year: 2022, month: 5, day: 29, weekday: 2 },
     { year: 2022, month: 5, day: 30, weekday: 3 }
   ])
+})
+
+test.only('weekNumber()', t => {
+  t.is(weekNumber(new Date('2018-01-01')), 1)
+  t.is(weekNumber(new Date('2018-01-08')), 2)
+  t.is(weekNumber(new Date('2018-12-30')), 52)
+  t.is(weekNumber(new Date('2018-12-31')), 1)
+  t.is(weekNumber(new Date('2019-01-01')), 1)
+  t.is(weekNumber(new Date('2019-10-29')), 44)
+  t.is(weekNumber(new Date('2021-01-04')), 1)
+  t.is(weekNumber(new Date('2021-01-09')), 1)
+  t.is(weekNumber(new Date('2021-12-27')), 52)
+  t.is(weekNumber(new Date('2021-12-28')), 52)
+  t.is(weekNumber(new Date('2021-12-29')), 52)
+  t.is(weekNumber(new Date('2021-12-30')), 52)
+  t.is(weekNumber(new Date('2021-12-31')), 52)
+  t.is(weekNumber(new Date('2022-01-01')), 52)
+  t.is(weekNumber(new Date('2022-01-02')), 52)
+  t.is(weekNumber(new Date('2022-01-03')), 1)
+  t.is(weekNumber(new Date('2022-02-17')), 7)
+  t.is(weekNumber(new Date('2022-02-28')), 9)
+  t.is(weekNumber(new Date('2022-04-01')), 13)
+  t.is(weekNumber(new Date('2022-12-31')), 52)
+  t.is(weekNumber(new Date('2023-01-01')), 52)
 })

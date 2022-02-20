@@ -1,6 +1,7 @@
 const html = require('choo/html')
 const css = require('sheetify')
 
+const { weekNumber } = require('../lib/date.js')
 const { filterEvents } = require('../lib/ics.js')
 const WeekdaysHeaderView = require('./weekdays-header.js')
 
@@ -97,10 +98,13 @@ module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
     }
   }
 
+  const firstDay = weeks[0][0]
+  const baseWeek = weekNumber(firstDay.date)
+
   return html`<div>
     ${WeekdaysHeaderView({ weekdays })}
     <div class=${monthContainer}>
-      ${weeks.map(week => (
+      ${weeks.map((week, weekIndex) => (
         html`<div class=${weekContainer}>
           ${week.map(day => {
             const filtered = filterEvents(events, day.date)
@@ -126,7 +130,9 @@ module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
               ${showEllipsis ? '...' : ''}
             </div>`
           })}
-          <div class=${weekNumberContainer}><div style='align-self: center;'>09</div></div>
+          <div class=${weekNumberContainer}>
+            <div style='align-self: center;'>${padWeek(baseWeek + weekIndex)}</div>
+          </div>
         </div>`
       ))}
     </div>
@@ -134,7 +140,13 @@ module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
 }
 
 function padTime (date) {
-  const hours = date.getHours()
-  const minutes = date.getMinutes()
-  return `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}`
+  return `${pad(date.getHours())}:${pad(date.getMinutes())}`
+}
+
+function padWeek (week) {
+  return pad(week <= 52 ? week : week % 52)
+}
+
+function pad (nr) {
+  return nr < 10 ? `0${nr}` : nr
 }
