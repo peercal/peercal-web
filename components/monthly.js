@@ -42,7 +42,7 @@ const dayContainer = css`
 
 const weekNumberContainer = css`
   :host {
-    width: 100%;
+    min-width: 35px;
     margin-left: 5px;
     margin-right: 5px;
     margin-bottom: 10px;
