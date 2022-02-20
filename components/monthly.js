@@ -36,6 +36,22 @@ const dayContainer = css`
     margin-bottom: 10px;
     font-size: 16px;
     padding: 5px;
+    flex: 5;
+  }
+`
+
+const weekNumberContainer = css`
+  :host {
+    width: 100%;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    font-size: 32px;
+    padding: 5px;
+    border: 1px solid red;
+    flex: 1;
+    display: flex;
+    justify-content: center;
   }
 `
 
@@ -111,6 +127,7 @@ module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
               ${showEllipsis ? '...' : ''}
             </div>`
           })}
+          <div class=${weekNumberContainer}><div style='align-self: center;'>09</div></div>
         </div>`
       ))}
     </div>
