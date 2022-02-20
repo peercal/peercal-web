@@ -57,7 +57,7 @@ app.route('*', (state, emit) => {
     const title = `${year} ${MONTHS[month]}`
     return html`<body class=${body}>
       <div class=${calendar}>
-        ${ToolbarView({ title }, emit)}
+        ${ToolbarView({ title, mode }, emit)}
         ${MonthlyView({ month, weeks, selected, weekdays: WEEKDAYS, events }, emit)}
       </div>
     </body>`
@@ -65,7 +65,7 @@ app.route('*', (state, emit) => {
     const title = 'TODO'
     return html`<body class=${body}>
       <div class=${calendar}>
-        ${ToolbarView({ title }, emit)}
+        ${ToolbarView({ title, mode }, emit)}
       </div>
     </body>`
   } else {

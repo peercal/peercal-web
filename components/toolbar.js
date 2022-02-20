@@ -43,19 +43,16 @@ const button = css`
   :host {
     cursor: pointer;
     margin-left: 10px;
-    color: #888;
-  }
-  :hover {
     color: white;
   }
 `
 
-module.exports = ({ title }, emit) => {
+module.exports = ({ title, mode }, emit) => {
   return html`<div class=${outer}>
     <div class=${titleContainer}>${title}</div>
     <div class=${modeButtons}>
-      <div class=${button} onclick=${setMonthlyMode}>${'M'}</div>
-      <div class=${button} onclick=${setWeeklyMode}>${'W'}</div>
+      <div class=${button} onclick=${setMonthlyMode} style='color: ${mode === MODE_MONTHLY ? 'white' : '#888'}'>${'M'}</div>
+      <div class=${button} onclick=${setWeeklyMode} style='color: ${mode === MODE_WEEKLY ? 'white' : '#888'}'>${'W'}</div>
     </div>
     <div class=${rightButtons}>
       <div class=${button} onclick=${previous}>${'<'}</div>
