@@ -46,7 +46,7 @@ const weekNumberContainer = css`
     margin-left: 5px;
     margin-right: 5px;
     margin-bottom: 10px;
-    font-size: 32px;
+    font-size: 20px;
     padding: 5px;
     border: 1px solid red;
     flex: 1;
