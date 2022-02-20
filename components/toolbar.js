@@ -32,6 +32,10 @@ const button = css`
   :host {
     cursor: pointer;
     margin-left: 10px;
+    color: #888;
+  }
+  :hover {
+    color: white;
   }
 `
 
