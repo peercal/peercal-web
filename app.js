@@ -72,9 +72,22 @@ app.use((state, emitter) => {
     })
   }
 
-  emitter.on('monthly:goto-previous', () => setMonthly(previousMonth(state.monthly)))
-  emitter.on('monthly:goto-home', () => setToday())
-  emitter.on('monthly:goto-next', () => setMonthly(nextMonth(state.monthly)))
+  emitter.on('toolbar:goto-previous', () => {
+    if (state.mode === MONTLY) {
+      setMonthly(previousMonth(state.monthly))
+    }
+  })
+  emitter.on('toolbar:goto-home', () => {
+    if (state.mode === MONTLY) {
+      setToday()
+    }
+  })
+  emitter.on('toolbar:goto-next', () => {
+    if (state.mode === MONTLY) {
+      setMonthly(nextMonth(state.monthly))
+    }
+  })
+
   emitter.on('monthly:select-date', (date) => {
     state.monthly.selected = date
     emitter.emit('render')

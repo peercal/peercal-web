@@ -43,13 +43,13 @@ module.exports = ({ title }, emit) => {
   return html`<div class=${outer}>
     <div class=${titleContainer}>${title}</div>
     <div class=${rightButtons}>
-      <div class=${button} onclick=${gotoPrevMonth}>${'<'}</div>
-      <div class=${button} onclick=${gotoHomeMonth}>${'H'}</div>
-      <div class=${button} onclick=${gotoNextMonth}>${'>'}</div>
+      <div class=${button} onclick=${previous}>${'<'}</div>
+      <div class=${button} onclick=${home}>${'H'}</div>
+      <div class=${button} onclick=${next}>${'>'}</div>
     </div>
   </div>`
 
-  function gotoPrevMonth () { emit('monthly:goto-previous') }
-  function gotoHomeMonth () { emit('monthly:goto-home') }
-  function gotoNextMonth () { emit('monthly:goto-next') }
+  function previous () { emit('toolbar:goto-previous') }
+  function home () { emit('toolbar:goto-home') }
+  function next () { emit('toolbar:goto-next') }
 }
