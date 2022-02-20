@@ -2,7 +2,11 @@ const app = require('choo')()
 const html = require('choo/html')
 const css = require('sheetify')
 
-const { MODE_MONTHLY, MODE_WEEKLY } = require('./modes.js')
+const {
+  MODE_MONTHLY,
+  MODE_WEEKLY,
+  MODE_DAILY
+} = require('./modes.js')
 const { WEEKDAYS, MONTHS } = require('./lib/date.js')
 
 const MontlyController = require('./controllers/montly.js')
@@ -62,7 +66,14 @@ app.route('*', (state, emit) => {
       </div>
     </body>`
   } else if (mode === MODE_WEEKLY) {
-    const title = 'TODO'
+    const title = 'TODO weekly'
+    return html`<body class=${body}>
+      <div class=${calendar}>
+        ${ToolbarView({ title, mode }, emit)}
+      </div>
+    </body>`
+  } else if (mode === MODE_DAILY) {
+    const title = 'TODO daily'
     return html`<body class=${body}>
       <div class=${calendar}>
         ${ToolbarView({ title, mode }, emit)}

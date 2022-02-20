@@ -2,7 +2,8 @@ const html = require('choo/html')
 const css = require('sheetify')
 const {
   MODE_MONTHLY,
-  MODE_WEEKLY
+  MODE_WEEKLY,
+  MODE_DAILY
 } = require('../modes.js')
 
 const outer = css`
@@ -53,6 +54,7 @@ module.exports = ({ title, mode }, emit) => {
     <div class=${modeButtons}>
       <div class=${button} onclick=${setMonthlyMode} style='color: ${mode === MODE_MONTHLY ? 'white' : '#888'}'>${'M'}</div>
       <div class=${button} onclick=${setWeeklyMode} style='color: ${mode === MODE_WEEKLY ? 'white' : '#888'}'>${'W'}</div>
+      <div class=${button} onclick=${setDailyMode} style='color: ${mode === MODE_DAILY ? 'white' : '#888'}'>${'D'}</div>
     </div>
     <div class=${rightButtons}>
       <div class=${button} onclick=${previous}>${'<'}</div>
@@ -63,6 +65,7 @@ module.exports = ({ title, mode }, emit) => {
 
   function setMonthlyMode () { emit('toolbar:set-mode', MODE_MONTHLY) }
   function setWeeklyMode () { emit('toolbar:set-mode', MODE_WEEKLY) }
+  function setDailyMode () { emit('toolbar:set-mode', MODE_DAILY) }
 
   function previous () { emit('toolbar:goto-previous') }
   function home () { emit('toolbar:goto-home') }
