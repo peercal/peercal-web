@@ -2,7 +2,7 @@ const HyperdriveWatcher = require('../lib/hyperdrive-watcher.js')
 const { parseEvents } = require('../lib/ics.js')
 
 /**
- *
+ * Handle hyperdrive feeds.
  */
 module.exports = (state, emitter) => {
   state.feeds = new Map()
