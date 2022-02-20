@@ -29,7 +29,7 @@ const titleContainer = css`
 const modeButtons = css`
   :host {
     display: flex;
-    margin-right: 5px;
+    margin-right: 20px;
   }
 `
 
@@ -51,12 +51,12 @@ const button = css`
 module.exports = ({ title, mode }, emit) => {
   return html`<div class=${outer}>
     <div class=${titleContainer}>${title}</div>
-    <div class=${modeButtons}>
-      <div class=${button} onclick=${setMonthlyMode} style='color: ${mode === MODE_MONTHLY ? 'white' : '#888'}'>${'M'}</div>
-      <div class=${button} onclick=${setWeeklyMode} style='color: ${mode === MODE_WEEKLY ? 'white' : '#888'}'>${'W'}</div>
-      <div class=${button} onclick=${setDailyMode} style='color: ${mode === MODE_DAILY ? 'white' : '#888'}'>${'D'}</div>
-    </div>
     <div class=${rightButtons}>
+      <div class=${modeButtons}>
+        <div class=${button} onclick=${setMonthlyMode} style='color: ${mode === MODE_MONTHLY ? 'white' : '#888'}'>${'M'}</div>
+        <div class=${button} onclick=${setWeeklyMode} style='color: ${mode === MODE_WEEKLY ? 'white' : '#888'}'>${'W'}</div>
+        <div class=${button} onclick=${setDailyMode} style='color: ${mode === MODE_DAILY ? 'white' : '#888'}'>${'D'}</div>
+      </div>
       <div class=${button} onclick=${previous}>${'<'}</div>
       <div class=${button} onclick=${home}>${'H'}</div>
       <div class=${button} onclick=${next}>${'>'}</div>
