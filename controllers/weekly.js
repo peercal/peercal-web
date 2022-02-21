@@ -1,9 +1,10 @@
-// const {
-//   previousMonth,
-//   nextMonth,
-//   monthDaysFilled,
-//   daysToWeeks
-// } = require('../lib/date.js')
+const {
+  //   previousMonth,
+  //   nextMonth,
+  //   monthDaysFilled,
+  //   daysToWeeks
+  calculateWeekNumber
+} = require('../lib/date.js')
 const { MODE_WEEKLY } = require('../modes.js')
 
 /**
@@ -12,20 +13,22 @@ const { MODE_WEEKLY } = require('../modes.js')
 module.exports = (state, emitter) => {
   state.weekly = {}
 
-  function setWeekly (weekly) {
-    // state.monthly = monthly
+  function setWeekly (date = new Date()) {
+    state.weekly = { date }
+    console.log('setWeekly', date)
     // state.monthly.weeks = daysToWeeks(monthDaysFilled(monthly))
-    // emitter.emit('render')
+    console.log('TODO calculate days for this week')
+    state.weekly.days = []
+    emitter.emit('render')
   }
 
-  function setToday () {
-    const today = new Date()
-    // setMonthly({
-    //   year: today.getFullYear(),
-    //   month: today.getMonth(),
-    //   selected: today
-    // })
-  }
+  //function setToday () {
+    //const today = new Date()
+    //setWeekly({
+      //date: today,
+      //selected: today
+    //})
+  //}
 
   emitter.on('toolbar:goto-previous', () => {
     if (state.mode === MODE_WEEKLY) {
@@ -35,7 +38,8 @@ module.exports = (state, emitter) => {
   })
   emitter.on('toolbar:goto-home', () => {
     if (state.mode === MODE_WEEKLY) {
-      setToday()
+      //setToday()
+      setWeekly()
     }
   })
   emitter.on('toolbar:goto-next', () => {
@@ -77,5 +81,5 @@ module.exports = (state, emitter) => {
     }
   })
 
-  setToday()
+  setWeekly()
 }
