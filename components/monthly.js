@@ -1,7 +1,7 @@
 const html = require('choo/html')
 const css = require('sheetify')
 
-const { weekNumber } = require('../lib/date.js')
+const { calculateWeekNumber } = require('../lib/date.js')
 const { filterEvents } = require('../lib/ics.js')
 
 const EVENT_CUTOFF = 5
@@ -96,7 +96,7 @@ module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
   }
 
   const firstDay = weeks[0][0]
-  const baseWeek = weekNumber(firstDay.date)
+  const baseWeek = calculateWeekNumber(firstDay.date)
 
   return html`<div>
     ${WeekdaysHeader(weekdays)}
