@@ -10,6 +10,8 @@ const { MODE_MONTHLY } = require('../modes.js')
  * Handle montly
  */
 module.exports = (state, emitter) => {
+  state.monthly = {}
+
   function setMonthly (monthly) {
     state.monthly = monthly
     state.monthly.weeks = daysToWeeks(monthDaysFilled(monthly))
