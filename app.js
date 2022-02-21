@@ -10,8 +10,9 @@ const {
 const { WEEKDAYS, MONTHS } = require('./lib/date.js')
 
 const MontlyController = require('./controllers/montly.js')
-const FeedsController = require('./controllers/feeds.js')
+const WeeklyController = require('./controllers/weekly.js')
 const DateChangeController = require('./controllers/date-changed.js')
+const FeedsController = require('./controllers/feeds.js')
 
 const ToolbarView = require('./components/toolbar.js')
 const MonthlyView = require('./components/monthly.js')
@@ -29,31 +30,7 @@ app.use((state, emitter) => {
 })
 
 app.use(MontlyController)
-
-// TODO move to weekly controller
-app.use((state, emitter) => {
-  state.weekly = {}
-
-  emitter.on('toolbar:goto-previous', () => {
-    if (state.mode === MODE_WEEKLY) {
-      console.log('TODO move to previous week')
-      // setMonthly(previousMonth(state.monthly))
-    }
-  })
-  emitter.on('toolbar:goto-home', () => {
-    if (state.mode === MODE_WEEKLY) {
-      console.log('TODO move to current week')
-      // setToday()
-    }
-  })
-  emitter.on('toolbar:goto-next', () => {
-    if (state.mode === MODE_WEEKLY) {
-      console.log('TODO move to next week')
-      // setMonthly(nextMonth(state.monthly))
-    }
-  })
-})
-
+app.use(WeeklyController)
 app.use(DateChangeController)
 // app.use(FeedsController)
 
