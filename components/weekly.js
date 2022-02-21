@@ -3,7 +3,6 @@ const css = require('sheetify')
 
 // const { weekNumber } = require('../lib/date.js')
 // const { filterEvents } = require('../lib/ics.js')
-const WeekdaysHeaderView = require('./weekdays-header.js')
 
 const weekContainer = css`
   :host {
@@ -20,7 +19,6 @@ const weekContainer = css`
 
 module.exports = ({ weekdays, events }, emit) => {
   return html`<div>
-    ${WeekdaysHeaderView({ weekdays, showWeek: false })}
     <div class=${weekContainer}>
     </div>
   </div>`

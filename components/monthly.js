@@ -11,7 +11,7 @@ const monthContainer = css`
     position: absolute;
     left: 0px;
     right: 0px;
-    top: 95px; /* TODO tweak this once borders are done */
+    top: 74px; /* TODO tweak this once borders are done */
     bottom: 0px;
     display: flex;
     flex-direction: column;
@@ -30,10 +30,9 @@ const weekContainer = css`
 const dayContainer = css`
   :host {
     width: 100%;
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-bottom: 10px;
-    font-size: 16px;
+    margin-left: -1px;
+    margin-bottom: -1px;
+    font-size: 14px;
     padding: 5px;
     flex: 5;
   }
@@ -41,11 +40,10 @@ const dayContainer = css`
 
 const weekNumberContainer = css`
   :host {
-    min-width: 35px;
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-bottom: 10px;
-    font-size: 20px;
+    min-width: 34px;
+    margin-left: -1px;
+    margin-bottom: -1px;
+    font-size: 18px;
     padding: 5px;
     border: 1px solid red;
     flex: 1;
@@ -108,9 +106,12 @@ module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
           ${week.map(day => {
             const filtered = filterEvents(events, day.date)
             const showEllipsis = filtered.length > EVENT_CUTOFF
+            const color = borderColor(day)
+            const zIndex = color === 'red' ? 0 : 1
             const cstyle = `
               background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
-              border: 1px solid ${borderColor(day)};
+              border: 1px solid ${color};
+              z-index: ${zIndex};
             `
             return html`<div class=${dayContainer}
                              onclick=${() => emit('monthly:select-date', day.date)}
@@ -153,8 +154,7 @@ const weekdaysCell = css`
     text-align: center;
     border: 1px solid red;
     padding: 5px;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-left: -1px;
   }
 `
 
