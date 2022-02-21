@@ -20,8 +20,8 @@ const WeeklyView = require('./components/weekly.js')
 
 app.use((state, emitter) => {
   state.allEvents = []
-  //state.mode = MODE_MONTHLY
-  state.mode = MODE_WEEKLY
+  state.mode = MODE_MONTHLY
+  // state.mode = MODE_WEEKLY
 
   emitter.on('toolbar:set-mode', (mode) => {
     state.mode = mode
@@ -32,7 +32,7 @@ app.use((state, emitter) => {
 app.use(MontlyController)
 app.use(WeeklyController)
 app.use(DateChangeController)
-// app.use(FeedsController)
+app.use(FeedsController)
 
 const body = css`
   :host {
@@ -58,14 +58,16 @@ const calendar = css`
 `
 
 app.route('*', (state, emit) => {
-  const { allEvents: events, monthly, weekly, mode } = state
+  // TODO allEvents should be re-filtered on each monthly and weekly state since we shouldn't
+  // need to filter all events each time we render (optimization)
+  const { allEvents, monthly, weekly, mode } = state
   if (mode === MODE_MONTHLY) {
     const { year, month, selected, weeks } = monthly
     const title = `${year} ${MONTHS[month]}`
     return html`<body class=${body}>
       <div class=${calendar}>
         ${ToolbarView({ title, mode }, emit)}
-        ${MonthlyView({ month, weeks, selected, weekdays: WEEKDAYS, events }, emit)}
+        ${MonthlyView({ month, weeks, selected, weekdays: WEEKDAYS, events: allEvents }, emit)}
       </div>
     </body>`
   } else if (mode === MODE_WEEKLY) {
@@ -74,7 +76,7 @@ app.route('*', (state, emit) => {
     return html`<body class=${body}>
       <div class=${calendar}>
         ${ToolbarView({ title, mode }, emit)}
-        ${WeeklyView({ days, weekNumber, events }, emit)}
+        ${WeeklyView({ days, weekNumber, events: allEvents }, emit)}
       </div>
     </body>`
   } else if (mode === MODE_DAILY) {

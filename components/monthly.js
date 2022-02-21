@@ -2,7 +2,7 @@ const html = require('choo/html')
 const css = require('sheetify')
 
 const { calculateWeekNumber } = require('../lib/date.js')
-const { filterEvents } = require('../lib/ics.js')
+const { filterEventsFromDate } = require('../lib/ics.js')
 
 const EVENT_CUTOFF = 5
 
@@ -104,7 +104,7 @@ module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
       ${weeks.map((week, weekIndex) => (
         html`<div class=${weekContainer}>
           ${week.map(day => {
-            const filtered = filterEvents(events, day.date)
+            const filtered = filterEventsFromDate(events, day.date)
             const showEllipsis = filtered.length > EVENT_CUTOFF
             const color = borderColor(day)
             const zIndex = color === 'red' ? 0 : 1
