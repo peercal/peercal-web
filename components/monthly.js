@@ -3,7 +3,6 @@ const css = require('sheetify')
 
 const { weekNumber } = require('../lib/date.js')
 const { filterEvents } = require('../lib/ics.js')
-const WeekdaysHeaderView = require('./weekdays-header.js')
 
 const EVENT_CUTOFF = 5
 
@@ -102,7 +101,7 @@ module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
   const baseWeek = weekNumber(firstDay.date)
 
   return html`<div>
-    ${WeekdaysHeaderView({ weekdays })}
+    ${WeekdaysHeader(weekdays)}
     <div class=${monthContainer}>
       ${weeks.map((week, weekIndex) => (
         html`<div class=${weekContainer}>
@@ -136,6 +135,33 @@ module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
         </div>`
       ))}
     </div>
+  </div>`
+}
+
+const weekdaysOuter = css`
+  :host {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    text-transform: uppercase;
+  }
+`
+
+const weekdaysCell = css`
+  :host {
+    width: inherit;
+    text-align: center;
+    border: 1px solid red;
+    padding: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+`
+
+function WeekdaysHeader (weekdays) {
+  return html`<div class=${weekdaysOuter}>
+    ${weekdays.map(weekday => html`<div class=${weekdaysCell} style='flex: 5;'>${weekday}</div>`)}
+    <div class=${weekdaysCell} style='flex: 1;'>week</div>
   </div>`
 }
 
