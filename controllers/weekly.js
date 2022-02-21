@@ -17,8 +17,6 @@ module.exports = (state, emitter) => {
       weekNumber: calculateWeekNumber(date),
       days: getWeekDays(date)
     }
-    console.log('setWeekly', state.weekly)
-    // state.monthly.weeks = daysToWeeks(monthDaysFilled(monthly))
     emitter.emit('render')
   }
 
@@ -38,7 +36,6 @@ module.exports = (state, emitter) => {
   })
   emitter.on('toolbar:goto-home', () => {
     if (state.mode === MODE_WEEKLY) {
-      //setToday()
       setWeekly()
     }
   })

@@ -1,10 +1,8 @@
 const html = require('choo/html')
 const css = require('sheetify')
 
-// const { weekNumber } = require('../lib/date.js')
 // const { filterEvents } = require('../lib/ics.js')
 
-// TODO make sure top of weekContainer matches montly container
 const weekContainer = css`
   :host {
     position: absolute;
@@ -65,34 +63,13 @@ const timeCell = css`
 module.exports = ({ days, weekNumber, events }, emit) => {
   console.log('week data', days, weekNumber)
   return html`<div class=${weekContainer}>
-    <div class=${dayColumn}>
-      <div class=${headerCell}>mon</div>
-      <div class=${dayCell}>content</div>
-    </div>
-    <div class=${dayColumn}>
-      <div class=${headerCell}>mon</div>
-      <div class=${dayCell}>content</div>
-    </div>
-    <div class=${dayColumn}>
-      <div class=${headerCell}>mon</div>
-      <div class=${dayCell}>content</div>
-    </div>
-    <div class=${dayColumn}>
-      <div class=${headerCell}>mon</div>
-      <div class=${dayCell}>content</div>
-    </div>
-    <div class=${dayColumn}>
-      <div class=${headerCell}>mon</div>
-      <div class=${dayCell}>content</div>
-    </div>
-    <div class=${dayColumn}>
-      <div class=${headerCell}>mon</div>
-      <div class=${dayCell}>content</div>
-    </div>
-    <div class=${dayColumn}>
-      <div class=${headerCell}>mon</div>
-      <div class=${dayCell}>content</div>
-    </div>
+    ${days.map(day => {
+      const header = day.date.toDateString().split(' ').slice(0, 3).join(' ')
+      return html`<div class=${dayColumn}>
+        <div class=${headerCell}>${header}</div>
+        <div class=${dayCell}>content</div>
+      </div>`
+    })}
     <div class=${timeColumn}>
       <div class=${headerCell} style='border-right: 1px solid red;'>time</div>
       <div class=${timeCell}>content</div>
