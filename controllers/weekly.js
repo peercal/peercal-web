@@ -11,7 +11,7 @@ module.exports = (state, emitter) => {
   state.weekly = {}
 
   function setWeekly (date = new Date()) {
-    date = new Date('2022-02-14')
+    // date = new Date('2022-02-14')
     state.weekly = {
       date,
       year: date.getFullYear(),

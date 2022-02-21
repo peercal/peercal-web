@@ -1,7 +1,8 @@
 const html = require('choo/html')
 const css = require('sheetify')
 
-// const { filterEvents } = require('../lib/ics.js')
+const { hasEvent } = require('../lib/ics.js')
+const { weekDayIndex } = require('../lib/date.js')
 
 const mainContainer = css`
   :host {
@@ -109,7 +110,8 @@ const eventCell = css`
     padding: 5px;
     padding-top: 8px;
     background: #666;
-    border-radius: 3px;
+    border: 1px solid white;
+    border-radius: 4px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -119,49 +121,54 @@ const percentPerHour = 100 / 24
 const percentPerDay = 100 / 7
 const hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23].map(h => `${pad(h)}:00`)
 
-/*
 module.exports = ({ days, weekNumber, events }, emit) => {
-  // TODO events
-  // 1. top is the amount of hours from beginning of day times percentPerHour (note that it can be negative if the event
-  // starts days before the current day, in which case the distance is 0% from the top)
-  // 2. bottom is the mount of hours from the end of the event to the end of the day times percentPerHour (note that it can be
-  // negative if the event ends on a day after the current day, in which case the distance is also 0% from the bottom)
-  // 3. left is the day index times percentPerDay
-  // 4. right is 6 minus the day index times percentPerDay
-  return html`<div class=${mainContainer}>
-    <div class=${headerContainer}>
-      ${days.map((day, index) => {
-        const date = day.date.toDateString().split(' ').slice(0, 3).join(' ')
-        const cstyle = `border-right: ${index < days.length - 1 ? 1 : 0}px solid red`
-        return html`<div class=${dateCell} style=${cstyle}>${date}</div>`
-      })}
-    </div>
-    <div class=${gridContainer}>
-      <div class=${columnContainer}>
-        ${days.map((day, index) => {
-          const cstyle = `border-right: ${index < days.length - 1 ? 1 : 0}px dashed #555; flex: 1;`
-          return html`<div style=${cstyle}></div>`
-        })}
-      </div>
-      <div class=${rowContainer}>
-        ${hours.map((hour, index) => {
-          const cstyle = `border-bottom: ${index < hours.length - 1 ? 1 : 0}px dashed #555;`
-          return html`<div class=${hourCells} style=${cstyle}>
-            ${days.map((day, index) => html`<div class=${hourCell}>${hour}</div>`)}
-          </div>`
-        })}
-      </div>
-      <div class=${eventContainer}>
-        <div class=${eventCell} style='top: ${0}%; bottom: ${(24 - 1) * percentPerHour}%; left: 0%; right: ${(6 - 0) * percentPerDay}%;'>0am, 1h long</div>
-        <div class=${eventCell} style='top: ${1 * percentPerHour}%; bottom: ${(24 - 2) * percentPerHour}%; left: ${1 * percentPerDay}%; right: ${(6 - 1) * percentPerDay}%'>1am event</div>
-        <div class=${eventCell} style='top: ${5 * percentPerHour}%; bottom: ${(24 - 8) * percentPerHour}%; left: ${3 * percentPerDay}%; right: ${(6 - 3) * percentPerDay}%'>5am - 8am event - lets have a long text here bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla hej hej hej hej hej <br> hejhej hej hej hej hejhej hej hej hej hejhej hej hej hej hejhej hej hej hej hejhej hej hej hej hejhej hej hej hej hej hej hej</div>
-      </div>
-    </div>
-  </div>`
-}
-*/
+  // TODO this should be re-calculated in the model, to avoid having to do this at each render
+  const dayEvents = []
+  events.forEach(event => {
+    for (let i = 0; i < days.length; ++i) {
+      const day = days[i]
+      if (hasEvent(day.date, event)) {
+        dayEvents.push({ day, event })
+      }
+    }
+  })
 
-module.exports = ({ days, weekNumber, events }, emit) => {
+  // TODO once we render the events properly, go through the dates and times and make sure they
+  // are correct with respect to UTC and time zone etc
+
+  // TODO some intervals are less than one hour, make them mininum one hour, they just look odd and not showing
+  // any text
+
+  // TODO how can we tweak the ui so events look okish when overlapping? each event should probably have
+  // a unique color for a particular week, the border can be different depending on which dataset (or we can note
+  // which dataset is being used in other ways)
+
+  // TODO sort all events with longest duration first and set increasing z-index -> this should avoid or at least
+  // mitgate having events overwriting each other, the longer events will be drawn first at a lower layer
+
+  function renderDayEvent ({ day, event }) {
+    const date = day.date
+    console.log(date, event.DTSTART, event.DTEND, event.SUMMARY)
+    // TODO refactor into helper functions
+    const dayStart = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0))
+    const startDiff = Math.max((event.DTSTART.getTime() - dayStart.getTime()) / 1000 / 3600, 0)
+    // NOTE the 'another very important event' seems to get 10 hours, but should be 11?
+    // console.log(startDiff, 'hours')
+    const top = startDiff * percentPerHour
+
+    const dayEnd = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59))
+    const endDiff = Math.max((dayEnd.getTime() - event.DTEND.getTime()) / 1000 / 3600, 0)
+    console.log('endDiff', endDiff, 'hours')
+    const bottom = endDiff * percentPerHour
+
+    const dayIndex = weekDayIndex(date)
+    const left = dayIndex * percentPerDay
+    const right = (6 - dayIndex) * percentPerDay
+
+    const cstyle = `top: ${top}%; bottom: ${bottom}%; left: ${left}%; right: ${right}%;`
+    return html`<div class=${eventCell} style=${cstyle}>${event.SUMMARY}</div>`
+  }
+
   return html`<div class=${mainContainer}>
     <div class=${headerContainer}>
       ${days.map((day, index) => {
@@ -186,9 +193,7 @@ module.exports = ({ days, weekNumber, events }, emit) => {
         })}
       </div>
       <div class=${eventContainer}>
-        <div class=${eventCell} style='top: ${0}%; bottom: ${(24 - 1) * percentPerHour}%; left: 0%; right: ${(6 - 0) * percentPerDay}%;'>0am, 1h long</div>
-        <div class=${eventCell} style='top: ${1 * percentPerHour}%; bottom: ${(24 - 2) * percentPerHour}%; left: ${1 * percentPerDay}%; right: ${(6 - 1) * percentPerDay}%'>1am event</div>
-        <div class=${eventCell} style='top: ${5 * percentPerHour}%; bottom: ${(24 - 8) * percentPerHour}%; left: ${3 * percentPerDay}%; right: ${(6 - 3) * percentPerDay}%'>5am - 8am event - lets have a long text here bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla hej hej hej hej hej <br> hejhej hej hej hej hejhej hej hej hej hejhej hej hej hej hejhej hej hej hej hejhej hej hej hej hejhej hej hej hej hej hej hej</div>
+        ${dayEvents.map(renderDayEvent)}
       </div>
     </div>
   </div>`

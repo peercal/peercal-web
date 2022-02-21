@@ -20,8 +20,8 @@ const WeeklyView = require('./components/weekly.js')
 
 app.use((state, emitter) => {
   state.allEvents = []
-  state.mode = MODE_MONTHLY
-  // state.mode = MODE_WEEKLY
+  // state.mode = MODE_MONTHLY
+  state.mode = MODE_WEEKLY
 
   emitter.on('toolbar:set-mode', (mode) => {
     state.mode = mode
