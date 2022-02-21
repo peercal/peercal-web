@@ -13,6 +13,7 @@ module.exports = (state, emitter) => {
   function setWeekly (date = new Date()) {
     console.log('TODO calculate days for this week')
     state.weekly = {
+      year: date.getFullYear(),
       weekNumber: calculateWeekNumber(date),
       days: getWeekDays(date)
     }
