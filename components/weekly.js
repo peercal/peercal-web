@@ -139,13 +139,7 @@ module.exports = ({ days, weekNumber, events }, emit) => {
         ${hours.map((hour, index) => {
           const cstyle = `border-bottom: ${index < hours.length - 1 ? 1 : 0}px dashed #555;`
           return html`<div class=${hourCells} style=${cstyle}>
-            <div class=${hourCell}>${hour}</div>
-            <div class=${hourCell}>${hour}</div>
-            <div class=${hourCell}>${hour}</div>
-            <div class=${hourCell}>${hour}</div>
-            <div class=${hourCell}>${hour}</div>
-            <div class=${hourCell}>${hour}</div>
-            <div class=${hourCell}>${hour}</div>
+            ${days.map((day, index) => html`<div class=${hourCell}>${hour}</div>`)}
           </div>`
         })}
       </div>
