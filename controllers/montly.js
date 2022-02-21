@@ -4,7 +4,7 @@ const {
   monthDaysFilled,
   daysToWeeks
 } = require('../lib/date.js')
-const { MODE_MONTLY } = require('../modes.js')
+const { MODE_MONTHLY } = require('../modes.js')
 
 /**
  * Handle montly
@@ -26,17 +26,17 @@ module.exports = (state, emitter) => {
   }
 
   emitter.on('toolbar:goto-previous', () => {
-    if (state.mode === MODE_MONTLY) {
+    if (state.mode === MODE_MONTHLY) {
       setMonthly(previousMonth(state.monthly))
     }
   })
   emitter.on('toolbar:goto-home', () => {
-    if (state.mode === MODE_MONTLY) {
+    if (state.mode === MODE_MONTHLY) {
       setToday()
     }
   })
   emitter.on('toolbar:goto-next', () => {
-    if (state.mode === MODE_MONTLY) {
+    if (state.mode === MODE_MONTHLY) {
       setMonthly(nextMonth(state.monthly))
     }
   })
@@ -58,7 +58,7 @@ module.exports = (state, emitter) => {
   }
 
   window.addEventListener('keydown', (e) => {
-    if (state.mode === MODE_MONTLY) {
+    if (state.mode === MODE_MONTHLY) {
       switch (e.key) {
         case 'ArrowLeft':
           moveSelectedDay(-1)
