@@ -69,12 +69,12 @@ app.route('*', (state, emit) => {
       </div>
     </body>`
   } else if (mode === MODE_WEEKLY) {
-    const title = 'TODO weekly'
-    const { days } = weekly
+    const { days, weekNumber } = weekly
+    const title = `WEEK ${weekNumber}`
     return html`<body class=${body}>
       <div class=${calendar}>
         ${ToolbarView({ title, mode }, emit)}
-        ${WeeklyView({ days, events }, emit)}
+        ${WeeklyView({ days, weekNumber, events }, emit)}
       </div>
     </body>`
   } else if (mode === MODE_DAILY) {

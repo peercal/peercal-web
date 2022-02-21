@@ -62,8 +62,8 @@ const timeCell = css`
 `
 
 // TODO set dates at top of day columns
-module.exports = ({ days, events }, emit) => {
-  console.log('week data', days)
+module.exports = ({ days, weekNumber, events }, emit) => {
+  console.log('week data', days, weekNumber)
   return html`<div class=${weekContainer}>
     <div class=${dayColumn}>
       <div class=${headerCell}>mon</div>

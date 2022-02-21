@@ -1,9 +1,6 @@
 const {
-  //   previousMonth,
-  //   nextMonth,
-  //   monthDaysFilled,
-  //   daysToWeeks
-  calculateWeekNumber
+  calculateWeekNumber,
+  getWeekDays
 } = require('../lib/date.js')
 const { MODE_WEEKLY } = require('../modes.js')
 
@@ -14,11 +11,13 @@ module.exports = (state, emitter) => {
   state.weekly = {}
 
   function setWeekly (date = new Date()) {
-    state.weekly = { date }
-    console.log('setWeekly', date)
-    // state.monthly.weeks = daysToWeeks(monthDaysFilled(monthly))
     console.log('TODO calculate days for this week')
-    state.weekly.days = []
+    state.weekly = {
+      weekNumber: calculateWeekNumber(date),
+      days: getWeekDays(date)
+    }
+    console.log('setWeekly', state.weekly)
+    // state.monthly.weeks = daysToWeeks(monthDaysFilled(monthly))
     emitter.emit('render')
   }
 
