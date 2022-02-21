@@ -59,20 +59,18 @@ const timeCell = css`
   }
 `
 
-// TODO set dates at top of day columns
 module.exports = ({ days, weekNumber, events }, emit) => {
-  console.log('week data', days, weekNumber)
   return html`<div class=${weekContainer}>
     ${days.map(day => {
       const header = day.date.toDateString().split(' ').slice(0, 3).join(' ')
       return html`<div class=${dayColumn}>
         <div class=${headerCell}>${header}</div>
-        <div class=${dayCell}>content</div>
+        <div class=${dayCell}>TODO</div>
       </div>`
     })}
     <div class=${timeColumn}>
       <div class=${headerCell} style='border-right: 1px solid red;'>time</div>
-      <div class=${timeCell}>content</div>
+      <div class=${timeCell}>TODO</div>
     </div>
   </div>`
 }

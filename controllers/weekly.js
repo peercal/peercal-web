@@ -11,8 +11,8 @@ module.exports = (state, emitter) => {
   state.weekly = {}
 
   function setWeekly (date = new Date()) {
-    console.log('TODO calculate days for this week')
     state.weekly = {
+      date,
       year: date.getFullYear(),
       weekNumber: calculateWeekNumber(date),
       days: getWeekDays(date)
@@ -20,18 +20,12 @@ module.exports = (state, emitter) => {
     emitter.emit('render')
   }
 
-  //function setToday () {
-    //const today = new Date()
-    //setWeekly({
-      //date: today,
-      //selected: today
-    //})
-  //}
-
   emitter.on('toolbar:goto-previous', () => {
     if (state.mode === MODE_WEEKLY) {
-      console.log('TODO move to previous week')
-      // setMonthly(previousMonth(state.monthly))
+      const date = state.weekly.date
+      const update = new Date(date)
+      update.setDate(date.getDate() - 7)
+      setWeekly(update)
     }
   })
   emitter.on('toolbar:goto-home', () => {
@@ -41,8 +35,10 @@ module.exports = (state, emitter) => {
   })
   emitter.on('toolbar:goto-next', () => {
     if (state.mode === MODE_WEEKLY) {
-      console.log('TODO move to next week')
-      // setMonthly(nextMonth(state.monthly))
+      const date = state.weekly.date
+      const update = new Date(date)
+      update.setDate(date.getDate() + 7)
+      setWeekly(update)
     }
   })
 
