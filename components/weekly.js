@@ -120,7 +120,6 @@ const eventCell = css`
     margin-right: 10px;
     padding: 10px;
     padding-top: 8px;
-    background: #666;
     border: 3px solid black;
     border-radius: 10px;
     overflow: hidden;
@@ -156,7 +155,14 @@ module.exports = ({ days, weekNumber, events }, emit) => {
     const left = dayIndex * percentPerDay
     const right = (6 - dayIndex) * percentPerDay
 
-    const cstyle = `top: ${top}%; bottom: ${bottom}%; left: ${left}%; right: ${right}%;`
+    const cstyle = `
+      background: ${event.background};
+      color: ${event.color};
+      top: ${top}%;
+      bottom: ${bottom}%;
+      left: ${left}%;
+      right: ${right}%;
+    `
     return html`<div class=${eventCell} style=${cstyle}>${event.SUMMARY}</div>`
   }
 
