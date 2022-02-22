@@ -144,9 +144,6 @@ module.exports = ({ days, weekNumber, events }, emit) => {
     }
   })
 
-  // TODO once we render the events properly, go through the dates and times and make sure they
-  // are correct with respect to UTC and time zone etc
-
   // TODO how can we tweak the ui so events look okish when overlapping? each event should probably have
   // a unique color for a particular week, the border can be different depending on which dataset (or we can note
   // which dataset is being used in other ways)
@@ -160,12 +157,11 @@ module.exports = ({ days, weekNumber, events }, emit) => {
 
     const date = day.date
     const dayStart = startOfDay(date)
-    const startDiff = Math.max((event.DTSTART.getTime() - dayStart.getTime()) / 1000 / 3600, 0)
-    // NOTE the 'another very important event' seems to get 10 hours, but should be 11?
+    const startDiff = Math.max((event.DTSTART - dayStart) / 1000 / 3600, 0)
     const top = startDiff * percentPerHour
 
     const dayEnd = endOfDay(date)
-    const endDiff = Math.max((dayEnd.getTime() - event.DTEND.getTime()) / 1000 / 3600, 0)
+    const endDiff = Math.max((dayEnd - event.DTEND) / 1000 / 3600, 0)
     const bottom = endDiff * percentPerHour
 
     const dayIndex = weekDayIndex(date)
