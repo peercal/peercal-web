@@ -15,12 +15,12 @@ module.exports = (state, emitter) => {
     // date = new Date('2022-02-14')
     const days = getWeekDays(date)
 
-    const dayEvents = []
+    const events = []
     state.allEvents.forEach(event => {
       for (let i = 0; i < days.length; ++i) {
         const day = days[i]
         if (hasEvent(day.date, event)) {
-          dayEvents.push({ day, event })
+          events.push({ day, event })
         }
       }
     })
@@ -30,7 +30,7 @@ module.exports = (state, emitter) => {
       year: date.getFullYear(),
       weekNumber: calculateWeekNumber(date),
       days,
-      dayEvents
+      events
     }
 
     emitter.emit('render')
