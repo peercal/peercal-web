@@ -106,12 +106,13 @@ const eventContainer = css`
 const eventCell = css`
   :host {
     position: absolute;
-    font-size: 16px;
-    padding: 5px;
+    font-size: 12px;
+    margin: 10px;
+    padding: 10px;
     padding-top: 8px;
     background: #666;
-    border: 1px solid white;
-    border-radius: 4px;
+    border: 2px solid black;
+    border-radius: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -135,6 +136,9 @@ module.exports = ({ days, weekNumber, events }, emit) => {
 
   // TODO once we render the events properly, go through the dates and times and make sure they
   // are correct with respect to UTC and time zone etc
+
+  // TODO we need to do something about the time indicators in the weekly view, if you have an event that overlaps
+  // a whole week, then you don't see the time at all
 
   // TODO some intervals are less than one hour, make them mininum one hour, they just look odd and not showing
   // any text
