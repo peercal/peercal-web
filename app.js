@@ -10,8 +10,9 @@ const {
 const { WEEKDAYS, MONTHS } = require('./lib/date.js')
 
 const MontlyController = require('./controllers/montly.js')
-// const FeedsController = require('./controllers/feeds.js')
+const WeeklyController = require('./controllers/weekly.js')
 const DateChangeController = require('./controllers/date-changed.js')
+const FeedsController = require('./controllers/feeds.js')
 
 const ToolbarView = require('./components/toolbar.js')
 const MonthlyView = require('./components/monthly.js')
@@ -29,8 +30,9 @@ app.use((state, emitter) => {
 })
 
 app.use(MontlyController)
+app.use(WeeklyController)
 app.use(DateChangeController)
-// app.use(FeedsController)
+app.use(FeedsController)
 
 const body = css`
   :host {
@@ -56,22 +58,23 @@ const calendar = css`
 `
 
 app.route('*', (state, emit) => {
-  const { allEvents: events, monthly, mode } = state
+  const { mode } = state
   if (mode === MODE_MONTHLY) {
-    const { year, month, selected, weeks } = monthly
+    const { year, month, selected, weeks } = state.monthly
     const title = `${year} ${MONTHS[month]}`
     return html`<body class=${body}>
       <div class=${calendar}>
         ${ToolbarView({ title, mode }, emit)}
-        ${MonthlyView({ month, weeks, selected, weekdays: WEEKDAYS, events }, emit)}
+        ${MonthlyView({ month, weeks, selected, weekdays: WEEKDAYS }, emit)}
       </div>
     </body>`
   } else if (mode === MODE_WEEKLY) {
-    const title = 'TODO weekly'
+    const { year, days, weekNumber, events } = state.weekly
+    const title = `${year} WEEK ${weekNumber}`
     return html`<body class=${body}>
       <div class=${calendar}>
         ${ToolbarView({ title, mode }, emit)}
-        ${WeeklyView({ weekdays: WEEKDAYS, events }, emit)}
+        ${WeeklyView({ days, weekNumber, events }, emit)}
       </div>
     </body>`
   } else if (mode === MODE_DAILY) {

@@ -1,7 +1,7 @@
 const test = require('ava')
 const {
   parseEvents,
-  filterEvents
+  filterEventsFromDate
 } = require('../lib/ics.js')
 
 test('parsing ics string to event array', t => {
@@ -20,21 +20,21 @@ test('parsing ics string to event array', t => {
 test('filtering events', t => {
   const events = parseEvents(DATA)
 
-  t.is(filterEvents(events, new Date('2022-02-27')).length, 0)
+  t.is(filterEventsFromDate(events, new Date('2022-02-27')).length, 0)
 
-  t.is(filterEvents(events, new Date('2021-10-13')).length, 1)
-  t.is(filterEvents(events, new Date('2021-10-25')).length, 1)
-  t.is(filterEvents(events, new Date('2022-01-08')).length, 1)
-  t.is(filterEvents(events, new Date('2022-01-29')).length, 2)
+  t.is(filterEventsFromDate(events, new Date('2021-10-13')).length, 1)
+  t.is(filterEventsFromDate(events, new Date('2021-10-25')).length, 1)
+  t.is(filterEventsFromDate(events, new Date('2022-01-08')).length, 1)
+  t.is(filterEventsFromDate(events, new Date('2022-01-29')).length, 2)
 
-  t.is(filterEvents(events, new Date('2022-02-19')).length, 1)
-  t.is(filterEvents(events, new Date('2022-02-20')).length, 1)
-  t.is(filterEvents(events, new Date('2022-02-21')).length, 1)
-  t.is(filterEvents(events, new Date('2022-02-22')).length, 1)
-  t.is(filterEvents(events, new Date('2022-02-23')).length, 1)
-  t.is(filterEvents(events, new Date('2022-02-24')).length, 1)
-  t.is(filterEvents(events, new Date('2022-02-25')).length, 1)
-  t.is(filterEvents(events, new Date('2022-02-26')).length, 1)
+  t.is(filterEventsFromDate(events, new Date('2022-02-19')).length, 1)
+  t.is(filterEventsFromDate(events, new Date('2022-02-20')).length, 1)
+  t.is(filterEventsFromDate(events, new Date('2022-02-21')).length, 1)
+  t.is(filterEventsFromDate(events, new Date('2022-02-22')).length, 1)
+  t.is(filterEventsFromDate(events, new Date('2022-02-23')).length, 1)
+  t.is(filterEventsFromDate(events, new Date('2022-02-24')).length, 1)
+  t.is(filterEventsFromDate(events, new Date('2022-02-25')).length, 1)
+  t.is(filterEventsFromDate(events, new Date('2022-02-26')).length, 1)
 })
 
 const DATA = `

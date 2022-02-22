@@ -4,15 +4,23 @@ const {
   monthDaysFilled,
   daysToWeeks
 } = require('../lib/date.js')
+const { filterEventsFromDate } = require('../lib/ics.js')
 const { MODE_MONTHLY } = require('../modes.js')
 
 /**
  * Handle montly
  */
 module.exports = (state, emitter) => {
+  state.monthly = {}
+
   function setMonthly (monthly) {
+    const { allEvents } = state
     state.monthly = monthly
-    state.monthly.weeks = daysToWeeks(monthDaysFilled(monthly))
+    const days = monthDaysFilled(monthly).map(day => {
+      const events = filterEventsFromDate(allEvents, day.date)
+      return { ...day, events }
+    })
+    state.monthly.weeks = daysToWeeks(days)
     emitter.emit('render')
   }
 
@@ -24,6 +32,8 @@ module.exports = (state, emitter) => {
       selected: today
     })
   }
+
+  emitter.on('feeds:update', () => setMonthly(state.monthly))
 
   emitter.on('toolbar:goto-previous', () => {
     if (state.mode === MODE_MONTHLY) {

@@ -1,8 +1,7 @@
 const html = require('choo/html')
 const css = require('sheetify')
 
-const { weekNumber } = require('../lib/date.js')
-const { filterEvents } = require('../lib/ics.js')
+const { calculateWeekNumber } = require('../lib/date.js')
 
 const EVENT_CUTOFF = 5
 
@@ -71,7 +70,7 @@ const eventContainer = css`
   }
 `
 
-module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
+module.exports = ({ month, weeks, selected, weekdays }, emit) => {
   const now = new Date()
   function isToday (date) {
     return (date.getFullYear() === now.getFullYear() &&
@@ -96,7 +95,7 @@ module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
   }
 
   const firstDay = weeks[0][0]
-  const baseWeek = weekNumber(firstDay.date)
+  const baseWeek = calculateWeekNumber(firstDay.date)
 
   return html`<div>
     ${WeekdaysHeader(weekdays)}
@@ -104,8 +103,8 @@ module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
       ${weeks.map((week, weekIndex) => (
         html`<div class=${weekContainer}>
           ${week.map(day => {
-            const filtered = filterEvents(events, day.date)
-            const showEllipsis = filtered.length > EVENT_CUTOFF
+            const events = day.events
+            const showEllipsis = events.length > EVENT_CUTOFF
             const color = borderColor(day)
             const zIndex = color === 'red' ? 0 : 1
             const cstyle = `
@@ -117,7 +116,7 @@ module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
                              onclick=${() => emit('monthly:select-date', day.date)}
                              style=${cstyle}>
               <div class=${dateContainer}>${day.date.getDate()}</div>
-              ${filtered.slice(0, EVENT_CUTOFF).map(event => {
+              ${events.slice(0, EVENT_CUTOFF).map(event => {
                 const cstyle = `
                   background: ${event.background || '#bbb'};
                   color: ${event.color || 'black'};
@@ -166,7 +165,7 @@ function WeekdaysHeader (weekdays) {
 }
 
 function padTime (date) {
-  return `${pad(date.getHours())}:${pad(date.getMinutes())}`
+  return `${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}`
 }
 
 function padWeek (week) {
