@@ -166,7 +166,7 @@ function WeekdaysHeader (weekdays) {
 }
 
 function padTime (date) {
-  return `${pad(date.getHours())}:${pad(date.getMinutes())}`
+  return `${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}`
 }
 
 function padWeek (week) {
