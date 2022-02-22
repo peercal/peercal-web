@@ -117,7 +117,8 @@ const eventCell = css`
     position: absolute;
     min-height: 14px;
     font-size: 12px;
-    margin: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
     padding: 10px;
     padding-top: 8px;
     background: #666;
