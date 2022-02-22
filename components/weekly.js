@@ -14,12 +14,25 @@ const mainContainer = css`
   }
 `
 
+const timeContainer = css`
+  :host {
+    position: absolute;
+    left: 5px;
+    top: 37px;
+    bottom: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+`
+
 const headerContainer = css`
   :host {
     position: absolute;
-    left: 0px;
+    left: 30px;
     right: 0px;
     top: 0px;
+    height: 30px;
     border-top: 1px solid red;
     border-left: 1px solid red;
     border-right: 1px solid red;
@@ -43,7 +56,7 @@ const dateCell = css`
 const gridContainer = css`
   :host {
     position: absolute;
-    left: 0px;
+    left: 30px;
     right: 0px;
     top: 29px;
     bottom: 0px;
@@ -77,19 +90,11 @@ const rowContainer = css`
   }
 `
 
-const hourCells = css`
+const rowCells = css`
   :host {
     display: flex;
     align-items: center;
     flex: 1;
-  }
-`
-
-const hourCell = css`
-  :host {
-    color: #444;
-    width: 100%;
-    text-align: center;
   }
 `
 
@@ -119,9 +124,8 @@ const eventCell = css`
   }
 `
 
-const percentPerHour = 100 / 24
-const percentPerDay = 100 / 7
-const hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23].map(h => `${pad(h)}:00`)
+const HOURS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0].map(h => h ? `${pad(h)}` : h)
+const ROWS = new Array(24).fill(null)
 
 module.exports = ({ days, weekNumber, events }, emit) => {
   // TODO this should be re-calculated in the model, to avoid having to do this at each render
@@ -138,12 +142,6 @@ module.exports = ({ days, weekNumber, events }, emit) => {
   // TODO once we render the events properly, go through the dates and times and make sure they
   // are correct with respect to UTC and time zone etc
 
-  // TODO we need to do something about the time indicators in the weekly view, if you have an event that overlaps
-  // a whole week, then you don't see the time at all
-
-  // TODO some intervals are less than one hour, make them mininum one hour, they just look odd and not showing
-  // any text
-
   // TODO how can we tweak the ui so events look okish when overlapping? each event should probably have
   // a unique color for a particular week, the border can be different depending on which dataset (or we can note
   // which dataset is being used in other ways)
@@ -152,6 +150,9 @@ module.exports = ({ days, weekNumber, events }, emit) => {
   // mitgate having events overwriting each other, the longer events will be drawn first at a lower layer
 
   function renderDayEvent ({ day, event }) {
+    const percentPerHour = 100 / 24
+    const percentPerDay = 100 / 7
+
     const date = day.date
     console.log(date, event.DTSTART, event.DTEND, event.SUMMARY)
     // TODO refactor into helper functions
@@ -175,6 +176,9 @@ module.exports = ({ days, weekNumber, events }, emit) => {
   }
 
   return html`<div class=${mainContainer}>
+    <div class=${timeContainer}>
+      ${HOURS.map((hour, index) => html`<div>${hour || ''}</div>`)}
+    </div>
     <div class=${headerContainer}>
       ${days.map((day, index) => {
         const date = day.date.toDateString().split(' ').slice(0, 3).join(' ')
@@ -190,11 +194,9 @@ module.exports = ({ days, weekNumber, events }, emit) => {
         })}
       </div>
       <div class=${rowContainer}>
-        ${hours.map((hour, index) => {
-          const cstyle = `border-bottom: ${index < hours.length - 1 ? 1 : 0}px dashed #555;`
-          return html`<div class=${hourCells} style=${cstyle}>
-            ${days.map((day, index) => html`<div class=${hourCell}>${hour}</div>`)}
-          </div>`
+        ${ROWS.map((row, index) => {
+          const cstyle = `border-bottom: ${index < ROWS.length - 1 ? 1 : 0}px dashed #555;`
+          return html`<div class=${rowCells} style=${cstyle}></div>`
         })}
       </div>
       <div class=${eventContainer}>
