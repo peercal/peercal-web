@@ -106,6 +106,7 @@ const eventContainer = css`
 const eventCell = css`
   :host {
     position: absolute;
+    min-height: 14px;
     font-size: 12px;
     margin: 10px;
     padding: 10px;
