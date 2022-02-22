@@ -2,7 +2,6 @@ const html = require('choo/html')
 const css = require('sheetify')
 
 const { calculateWeekNumber } = require('../lib/date.js')
-const { filterEventsFromDate } = require('../lib/ics.js')
 
 const EVENT_CUTOFF = 5
 
@@ -71,7 +70,7 @@ const eventContainer = css`
   }
 `
 
-module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
+module.exports = ({ month, weeks, selected, weekdays }, emit) => {
   const now = new Date()
   function isToday (date) {
     return (date.getFullYear() === now.getFullYear() &&
@@ -104,8 +103,8 @@ module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
       ${weeks.map((week, weekIndex) => (
         html`<div class=${weekContainer}>
           ${week.map(day => {
-            const filtered = filterEventsFromDate(events, day.date)
-            const showEllipsis = filtered.length > EVENT_CUTOFF
+            const events = day.events
+            const showEllipsis = events.length > EVENT_CUTOFF
             const color = borderColor(day)
             const zIndex = color === 'red' ? 0 : 1
             const cstyle = `
@@ -117,7 +116,7 @@ module.exports = ({ month, weeks, selected, weekdays, events }, emit) => {
                              onclick=${() => emit('monthly:select-date', day.date)}
                              style=${cstyle}>
               <div class=${dateContainer}>${day.date.getDate()}</div>
-              ${filtered.slice(0, EVENT_CUTOFF).map(event => {
+              ${events.slice(0, EVENT_CUTOFF).map(event => {
                 const cstyle = `
                   background: ${event.background || '#bbb'};
                   color: ${event.color || 'black'};

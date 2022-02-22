@@ -31,8 +31,6 @@ module.exports = (state, emitter) => {
     feed.events = parseEvents(data)
     state.allEvents = aggregateAllEvents()
     emitter.emit('feeds:update')
-    // TODO remove later, only here for monthly to work
-    emitter.emit('render')
   }
 
   // TODO hardcoded events for now
