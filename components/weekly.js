@@ -111,61 +111,10 @@ const eventContainer = css`
   }
 `
 
-const eventCell = css`
-  :host {
-    position: absolute;
-    min-height: 14px;
-    font-size: 12px;
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: 10px;
-    padding-top: 8px;
-    border: 3px solid black;
-    border-radius: 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-`
-
 const HOURS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0].map(pad)
 const ROWS = new Array(24).fill(null)
 
 module.exports = ({ days, weekNumber, events }, emit) => {
-  // TODO how can we tweak the ui so events look okish when overlapping? each event should probably have
-  // a unique color for a particular week, the border can be different depending on which dataset (or we can note
-  // which dataset is being used in other ways)
-
-  // TODO sort all events with longest duration first and set increasing z-index -> this should avoid or at least
-  // mitgate having events overwriting each other, the longer events will be drawn first at a lower layer
-
-  function renderDayEvent ({ day, event }) {
-    const percentPerHour = 100 / 24
-    const percentPerDay = 100 / 7
-
-    const date = day.date
-    const dayStart = startOfDay(date)
-    const startDiff = Math.max((event.DTSTART - dayStart) / 1000 / 3600, 0)
-    const top = startDiff * percentPerHour
-
-    const dayEnd = endOfDay(date)
-    const endDiff = Math.max((dayEnd - event.DTEND) / 1000 / 3600, 0)
-    const bottom = endDiff * percentPerHour
-
-    const dayIndex = weekDayIndex(date)
-    const left = dayIndex * percentPerDay
-    const right = (6 - dayIndex) * percentPerDay
-
-    const cstyle = `
-      background: ${event.background};
-      color: ${event.color};
-      top: ${top}%;
-      bottom: ${bottom}%;
-      left: ${left}%;
-      right: ${right}%;
-    `
-    return html`<div class=${eventCell} style=${cstyle}>${event.SUMMARY}</div>`
-  }
-
   return html`<div class=${mainContainer}>
     <div class=${timeContainer}>
       ${HOURS.map((hour, index) => html`<div>${hour || ''}</div>`)}
@@ -195,6 +144,53 @@ module.exports = ({ days, weekNumber, events }, emit) => {
       </div>
     </div>
   </div>`
+}
+
+const eventCell = css`
+  :host {
+    position: absolute;
+    min-height: 14px;
+    font-size: 12px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 10px;
+    padding-top: 8px;
+    border: 1px solid white;
+    border-radius: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`
+
+function renderDayEvent ({ day, event }, index) {
+  const percentPerHour = 100 / 24
+  const percentPerDay = 100 / 7
+
+  const date = day.date
+  const dayStart = startOfDay(date)
+  const startDiff = Math.max((event.DTSTART - dayStart) / 1000 / 3600, 0)
+  const top = startDiff * percentPerHour
+
+  const dayEnd = endOfDay(date)
+  const endDiff = Math.max((dayEnd - event.DTEND) / 1000 / 3600, 0)
+  const bottom = endDiff * percentPerHour
+
+  const dayIndex = weekDayIndex(date)
+  const left = dayIndex * percentPerDay
+  const right = (6 - dayIndex) * percentPerDay
+
+  const cstyle = `
+    background: ${event.background};
+    color: ${event.color};
+    top: ${top}%;
+    bottom: ${bottom}%;
+    left: ${left}%;
+    right: ${right}%;
+    z-index: ${(index + 1) * 100};
+  `
+  return html`<div class=${eventCell} style=${cstyle}>${event.SUMMARY}</div>`
 }
 
 function pad (nr) {
