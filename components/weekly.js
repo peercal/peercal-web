@@ -2,7 +2,11 @@ const html = require('choo/html')
 const css = require('sheetify')
 
 const { hasEvent } = require('../lib/ics.js')
-const { weekDayIndex } = require('../lib/date.js')
+const {
+  weekDayIndex,
+  startOfDay,
+  endOfDay
+} = require('../lib/date.js')
 
 const mainContainer = css`
   :host {
@@ -155,14 +159,13 @@ module.exports = ({ days, weekNumber, events }, emit) => {
 
     const date = day.date
     console.log(date, event.DTSTART, event.DTEND, event.SUMMARY)
-    // TODO refactor into helper functions
-    const dayStart = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0))
+    const dayStart = startOfDay(date)
     const startDiff = Math.max((event.DTSTART.getTime() - dayStart.getTime()) / 1000 / 3600, 0)
     // NOTE the 'another very important event' seems to get 10 hours, but should be 11?
     // console.log(startDiff, 'hours')
     const top = startDiff * percentPerHour
 
-    const dayEnd = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59))
+    const dayEnd = endOfDay(date)
     const endDiff = Math.max((dayEnd.getTime() - event.DTEND.getTime()) / 1000 / 3600, 0)
     console.log('endDiff', endDiff, 'hours')
     const bottom = endDiff * percentPerHour
