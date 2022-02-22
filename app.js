@@ -58,11 +58,9 @@ const calendar = css`
 `
 
 app.route('*', (state, emit) => {
-  // TODO allEvents should be re-filtered on each monthly and weekly state since we shouldn't
-  // need to filter all events each time we render (optimization)
-  const { monthly, weekly, mode } = state
+  const { mode } = state
   if (mode === MODE_MONTHLY) {
-    const { year, month, selected, weeks } = monthly
+    const { year, month, selected, weeks } = state.monthly
     const title = `${year} ${MONTHS[month]}`
     return html`<body class=${body}>
       <div class=${calendar}>
@@ -71,7 +69,7 @@ app.route('*', (state, emit) => {
       </div>
     </body>`
   } else if (mode === MODE_WEEKLY) {
-    const { year, days, weekNumber, events } = weekly
+    const { year, days, weekNumber, events } = state.weekly
     const title = `${year} WEEK ${weekNumber}`
     return html`<body class=${body}>
       <div class=${calendar}>
