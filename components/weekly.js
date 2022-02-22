@@ -1,7 +1,6 @@
 const html = require('choo/html')
 const css = require('sheetify')
 
-const { hasEvent } = require('../lib/ics.js')
 const {
   weekDayIndex,
   startOfDay,
@@ -132,18 +131,7 @@ const eventCell = css`
 const HOURS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0].map(pad)
 const ROWS = new Array(24).fill(null)
 
-module.exports = ({ days, weekNumber, events }, emit) => {
-  // TODO this should be re-calculated in the model, to avoid having to do this at each render
-  const dayEvents = []
-  events.forEach(event => {
-    for (let i = 0; i < days.length; ++i) {
-      const day = days[i]
-      if (hasEvent(day.date, event)) {
-        dayEvents.push({ day, event })
-      }
-    }
-  })
-
+module.exports = ({ days, weekNumber, dayEvents }, emit) => {
   // TODO how can we tweak the ui so events look okish when overlapping? each event should probably have
   // a unique color for a particular week, the border can be different depending on which dataset (or we can note
   // which dataset is being used in other ways)

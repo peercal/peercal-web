@@ -2,6 +2,7 @@ const {
   calculateWeekNumber,
   getWeekDays
 } = require('../lib/date.js')
+const { hasEvent } = require('../lib/ics.js')
 const { MODE_WEEKLY } = require('../modes.js')
 
 /**
@@ -12,14 +13,30 @@ module.exports = (state, emitter) => {
 
   function setWeekly (date = new Date()) {
     // date = new Date('2022-02-14')
+    const days = getWeekDays(date)
+
+    const dayEvents = []
+    state.allEvents.forEach(event => {
+      for (let i = 0; i < days.length; ++i) {
+        const day = days[i]
+        if (hasEvent(day.date, event)) {
+          dayEvents.push({ day, event })
+        }
+      }
+    })
+
     state.weekly = {
       date,
       year: date.getFullYear(),
       weekNumber: calculateWeekNumber(date),
-      days: getWeekDays(date)
+      days,
+      dayEvents
     }
+
     emitter.emit('render')
   }
+
+  emitter.on('feeds:update', () => setWeekly(state.weekly.date))
 
   emitter.on('toolbar:goto-previous', () => {
     if (state.mode === MODE_WEEKLY) {
