@@ -117,7 +117,7 @@ const eventCell = css`
     padding: 10px;
     padding-top: 8px;
     background: #666;
-    border: 2px solid black;
+    border: 3px solid black;
     border-radius: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
