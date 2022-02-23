@@ -1,5 +1,5 @@
-const HyperdriveWatcher = require('../lib/hyperdrive-watcher.js')
 const { parseEvents } = require('../lib/ics.js')
+const HyperdriveWatcher = require('./hyperdrive-watcher.js')
 
 /**
  * Handle hyperdrive feeds.
