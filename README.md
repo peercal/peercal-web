@@ -32,6 +32,20 @@ Open the browser at `http://localhost:7777`.
 
 Running `npm run build` will result in a `public/` folder with static content that you can serve with a web server of your choice.
 
+### Configuration
+
+There's a default configuration in `config.default.json` that can be overridden by providing your own `config.json`. The following can be configured:
+
+#### `feeds`
+
+An array of hardcoded read only calendar feeds, which can't be deleted by the user. Useful to define for your own organization where you want your users to always have a particular set of feeds available.
+
+Each item in the array can have the following properties:
+
+* `url` (string, _required_) A `hyper://` address to the feed
+* `background` (string, _optional_) The background color of the feed
+* `color` (string, _optional_) The text color of the feed
+
 ## License
 
 Licensed under `GPL-3.0-or-later`, see [LICENSE](./LICENSE) file for details.

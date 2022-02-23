@@ -2,6 +2,7 @@ const app = require('choo')()
 const html = require('choo/html')
 const css = require('sheetify')
 
+const config = require('./config.json')
 const {
   MODE_MONTHLY,
   MODE_WEEKLY,
@@ -32,7 +33,7 @@ app.use((state, emitter) => {
 app.use(MontlyController)
 app.use(WeeklyController)
 app.use(DateChangeController)
-app.use(FeedsController)
+app.use(FeedsController(config.feeds))
 
 const body = css`
   :host {
