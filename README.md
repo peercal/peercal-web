@@ -28,6 +28,12 @@ $ npm start
 
 Open the browser at `http://localhost:7777`.
 
+## Instances
+
+Some examples of running instances:
+
+* [`calendar.linkping.org`](https://calendar.linkping.org)
+
 ## Build
 
 Running `npm run build` will result in a `public/` folder with static content that you can serve with a web server of your choice.
