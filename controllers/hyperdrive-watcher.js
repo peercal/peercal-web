@@ -7,13 +7,8 @@ const idbStorage = require('random-access-idb')
 const ram = require('random-access-memory')
 const pump = require('pump')
 
-// TODO move to config.js
-const DEFAULT_SWARM_OPTS = {
-  bootstrap: ['wss://hyperswarm.linkping.org']
-}
-
-module.exports = ({ url, onFeedUpdate }) => {
-  const swarm = hyperswarm(DEFAULT_SWARM_OPTS)
+module.exports = ({ url, onFeedUpdate, swarmOpts }) => {
+  const swarm = hyperswarm(swarmOpts)
   const [key, file = 'events.ics'] = url.split('hyper://').filter(Boolean)[0].split('/')
   const drive = new Hyperdrive(createStorage(url), key)
 

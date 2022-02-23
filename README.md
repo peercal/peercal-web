@@ -38,13 +38,19 @@ There's a default configuration in `config.default.json` that can be overridden 
 
 #### `feeds`
 
-An array of hardcoded read only calendar feeds, which can't be deleted by the user. Useful to define for your own organization where you want your users to always have a particular set of feeds available.
+Array of hardcoded read only calendar feeds, which can't be deleted by the user. Useful to define for your own organization where you want your users to always have a particular set of feeds available.
 
 Each item in the array can have the following properties:
 
 * `url` (string, _required_) A `hyper://` address to the feed
 * `background` (string, _optional_) The background color of the feed
 * `color` (string, _optional_) The text color of the feed
+
+#### `swarmOpts`
+
+Configuration object passed to `hyperswarm-web` for bootstrapping websocket and webrtc connections. It has the following properties:
+
+* `bootstrap` (array of strings, _required_) List of `hyperswarm-web` servers
 
 ## License
 

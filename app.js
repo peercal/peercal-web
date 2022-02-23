@@ -33,7 +33,7 @@ app.use((state, emitter) => {
 app.use(MontlyController)
 app.use(WeeklyController)
 app.use(DateChangeController)
-app.use(FeedsController(config.feeds))
+app.use(FeedsController(config))
 
 const body = css`
   :host {

@@ -4,13 +4,13 @@ const HyperdriveWatcher = require('./hyperdrive-watcher.js')
 /**
  * Handle hyperdrive feeds.
  */
-module.exports = (readOnlyFeeds) => {
+module.exports = ({ feeds, swarmOpts }) => {
   return (state, emitter) => {
     state.feeds = new Map()
 
     function addReadOnlyFeed ({ url, background, color }) {
       console.log('Adding read only feed', url)
-      const watcher = HyperdriveWatcher({ url, onFeedUpdate })
+      const watcher = HyperdriveWatcher({ url, onFeedUpdate, swarmOpts })
       const feed = { events: [], watcher, background, color }
       state.feeds.set(url, feed)
     }
@@ -34,6 +34,6 @@ module.exports = (readOnlyFeeds) => {
       emitter.emit('feeds:update')
     }
 
-    readOnlyFeeds.forEach(addReadOnlyFeed)
+    feeds.forEach(addReadOnlyFeed)
   }
 }
