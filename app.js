@@ -43,7 +43,6 @@ const body = css`
     font-family: monospace;
     background: black;
     color: white;
-    font-size: 14px;
   }
 `
 
