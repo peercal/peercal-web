@@ -10,7 +10,7 @@ module.exports = (readOnlyFeeds) => {
 
     function addReadOnlyFeed ({ url, background, color }) {
       console.log('Adding read only feed', url)
-      const watcher = HyperdriveWatcher(url, eventsFileWatcher)
+      const watcher = HyperdriveWatcher({ url, onFeedUpdate })
       const feed = { events: [], watcher, background, color }
       state.feeds.set(url, feed)
     }
@@ -27,7 +27,7 @@ module.exports = (readOnlyFeeds) => {
       return result
     }
 
-    function eventsFileWatcher ({ url, data }) {
+    function onFeedUpdate ({ url, data }) {
       const feed = state.feeds.get(url)
       feed.events = parseEvents(data)
       state.allEvents = aggregateAllEvents()

@@ -12,7 +12,7 @@ const DEFAULT_SWARM_OPTS = {
   bootstrap: ['wss://hyperswarm.linkping.org']
 }
 
-module.exports = (url, onUpdate) => {
+module.exports = ({ url, onFeedUpdate }) => {
   const swarm = hyperswarm(DEFAULT_SWARM_OPTS)
   const [key, file = 'events.ics'] = url.split('hyper://').filter(Boolean)[0].split('/')
   const drive = new Hyperdrive(createStorage(url), key)
@@ -22,7 +22,7 @@ module.exports = (url, onUpdate) => {
       if (err) {
         console.error('drive.readFile() error', err.message)
       } else {
-        onUpdate({ url, data })
+        onFeedUpdate({ url, data })
       }
     })
   }
