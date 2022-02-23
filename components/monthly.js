@@ -10,7 +10,7 @@ const monthContainer = css`
     position: absolute;
     left: 0px;
     right: 0px;
-    top: 74px; /* TODO tweak this once borders are done */
+    top: 70px;
     bottom: 0px;
     display: flex;
     flex-direction: column;
@@ -59,9 +59,9 @@ const dateContainer = css`
 
 const eventContainer = css`
   :host {
+    width: 0;
+    min-width: 100%;
     height: 16px;
-    padding-left: 2px;
-    padding-right: 2px;
     font-size: 12px;
     color: black;
     margin-top: 3px;
