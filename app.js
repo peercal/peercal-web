@@ -85,8 +85,8 @@ app.route('*', (state, emit) => {
     return html`<body class=${body}>
       <div class=${calendar}>
         ${ToolbarView({ title, mode }, emit)}
-        ${FooterView()}
       </div>
+      ${FooterView()}
     </body>`
   } else {
     return html`<body class=${body}>
