@@ -7,141 +7,82 @@ const {
   endOfDay
 } = require('../lib/date.js')
 
-const mainContainer = css`
+const main = css`
   :host {
     position: absolute;
+    top: 50px;
+    bottom: 0px;
     left: 0px;
     right: 0px;
-    top: 45px;
-    bottom: 0px;
+    border: 0px solid yellow;
   }
 `
 
-const timeContainer = css`
+const table = css`
   :host {
-    position: absolute;
-    left: 5px;
-    top: 22px;
-    bottom: -4px;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    height: 100%;
   }
 `
 
-const headerContainer = css`
-  :host {
-    position: absolute;
-    left: 30px;
-    right: 0px;
-    top: 0px;
-    height: 30px;
-    border-top: 1px solid red;
-    border-left: 1px solid red;
-    border-right: 1px solid red;
-    display: flex;
-    align-items: stretch;
-  }
-`
-
-const dateCell = css`
+const headerCell = css`
   :host {
     width: 100%;
+    border: 1px solid red;
+    padding: 5px;
     text-align: center;
+    flex: 5;
     text-transform: uppercase;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+`
+
+const eventsArea = css`
+  :host {
+    position: absolute;
+    top: 25px;
+    bottom: 0px;
+    left: 0px;
+    right: 60px;
+  }
+`
+
+const hourCell = css`
+  :host {
+    width: 100%;
+    border: 1px dashed grey;
     padding: 5px;
+    flex: 5;
   }
 `
 
-const gridContainer = css`
-  :host {
-    position: absolute;
-    left: 30px;
-    right: 0px;
-    top: 29px;
-    bottom: 0px;
-    border: 1px solid red;
-  }
-`
-
-const columnContainer = css`
-  :host {
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    bottom: 0px;
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-  }
-`
-
-const rowContainer = css`
-  :host {
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    bottom: 0px;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-  }
-`
-
-const rowCells = css`
-  :host {
-    display: flex;
-    align-items: center;
-    flex: 1;
-  }
-`
-
-const eventContainer = css`
-  :host {
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    bottom: 0px;
-  }
-`
-
-const HOURS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0].map(pad)
-const ROWS = new Array(24).fill(null)
+const FILL = new Array(7).fill(null)
+const HOURS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23].map(i => `${pad(i)}-${pad((i + 1) % 24)}`)
 
 module.exports = ({ days, weekNumber, events }, emit) => {
-  return html`<div class=${mainContainer}>
-    <div class=${timeContainer}>
-      ${HOURS.map((hour, index) => html`<div>${hour || ''}</div>`)}
-    </div>
-    <div class=${headerContainer}>
-      ${days.map((day, index) => {
-        const date = day.date.toDateString().split(' ').slice(0, 3).join(' ')
-        const cstyle = `border-right: ${index < days.length - 1 ? 1 : 0}px solid red`
-        return html`<div class=${dateCell} style=${cstyle}>${date}</div>`
-      })}
-    </div>
-    <div class=${gridContainer}>
-      <div class=${columnContainer}>
-        ${days.map((day, index) => {
-          const cstyle = `border-right: ${index < days.length - 1 ? 1 : 0}px dashed #555; flex: 1;`
-          return html`<div style=${cstyle}></div>`
+  return html`<div class=${main}>
+    <table class=${table}>
+      <tbody style='height: 100%; width: 100%; display: flex; flex-direction: column; align-items: stretch; border: 1px solid red;'>
+        <tr style='display: flex; height: 25px;'>
+          ${days.map((day, index) => {
+            const date = day.date.toDateString().split(' ').slice(0, 3).join(' ')
+            return html`<th class=${headerCell}>${date}</th>`
+          })}
+          <th class=${headerCell} style='flex: 1; min-width: 50px;'>H</th>
+        </tr>
+        ${HOURS.map(hours => {
+          return html`<tr style='display: flex; height: 100%;'>
+            ${FILL.map(fill => (html`<td class=${hourCell}></td>`))}
+            <td class=${hourCell} style='display: flex; flex: 1; min-width: 50px; text-align: center;'>
+              <div style='align-self: center; width: 100%;'>${hours}</div>
+            </td>
+          </tr>`
         })}
-      </div>
-      <div class=${rowContainer}>
-        ${ROWS.map((row, index) => {
-          const cstyle = `border-bottom: ${index < ROWS.length - 1 ? 1 : 0}px dashed #555;`
-          return html`<div class=${rowCells} style=${cstyle}></div>`
-        })}
-      </div>
-      <div class=${eventContainer}>
-        ${events.map(renderDayEvent)}
-      </div>
+      </tbody>
+    </table>
+    <div class=${eventsArea}>
+      ${events.map(renderDayEvent)}
     </div>
   </div>`
 }
