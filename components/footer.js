@@ -4,7 +4,7 @@ const css = require('sheetify')
 const footer = css`
   :host {
     position: absolute;
-    bottom: 0px;
+    bottom: 5px;
     left: 20px;
     right: 20px;
     display: flex;
