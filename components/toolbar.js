@@ -10,8 +10,8 @@ const outer = css`
   :host {
     display: flex;
     justify-content: space-between;
-    font-size: 26px;
-    margin-bottom: 10px;
+    font-size: 3em;
+    margin-bottom: 0.2em;
     text-transform: uppercase;
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Firefox */

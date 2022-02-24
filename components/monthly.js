@@ -1,59 +1,46 @@
 const html = require('choo/html')
 const css = require('sheetify')
-
 const { calculateWeekNumber } = require('../lib/date.js')
 
 const EVENT_CUTOFF = 5
 
-const monthContainer = css`
+const table = css`
   :host {
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    top: 70px;
-    bottom: 0px;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-  }
-`
-
-const weekContainer = css`
-  :host {
-    width: 100%;
-    flex: 1;
+    height: calc(100% - 50px);
     display: flex;
   }
 `
 
-const dayContainer = css`
+const headerCell = css`
   :host {
     width: 100%;
-    margin-left: -1px;
-    margin-bottom: -1px;
-    font-size: 14px;
+    border-right: 1px solid red;
+    border-bottom: 1px solid red;
+    padding: 5px;
+    text-align: center;
+    flex: 5;
+    text-transform: uppercase;
+  }
+`
+
+const dayCell = css`
+  :host {
+    width: 100%;
     padding: 5px;
     flex: 5;
   }
 `
 
-const weekNumberContainer = css`
+const weekNumber = css`
   :host {
-    min-width: 34px;
-    margin-left: -1px;
-    margin-bottom: -1px;
-    font-size: 18px;
+    width: 100%;
+    min-width: 30px;
+    border-bottom: 1px dashed grey;
     padding: 5px;
-    border: 1px solid red;
+    text-align: center;
     flex: 1;
+    font-size: 18px;
     display: flex;
-    justify-content: center;
-  }
-`
-
-const dateContainer = css`
-  :host {
-    font-size: 16px;
   }
 `
 
@@ -90,32 +77,46 @@ module.exports = ({ month, weeks, selected, weekdays }, emit) => {
     } else if (selected && datesEqual(selected, day.date)) {
       return 'white'
     } else {
-      return 'red'
+      return 'grey'
     }
   }
 
   const firstDay = weeks[0][0]
   const baseWeek = calculateWeekNumber(firstDay.date)
 
-  return html`<div>
-    ${WeekdaysHeader(weekdays)}
-    <div class=${monthContainer}>
-      ${weeks.map((week, weekIndex) => (
-        html`<div class=${weekContainer}>
+  return html`<table class=${table}>
+    <tbody style='height: 100%; width: 100%; display: flex; flex-direction: column; align-items: stretch; border: 1px solid red;'>
+      <tr style='display: flex;'>
+        ${weekdays.map(weekday => html`<th class=${headerCell}>${weekday}</th>`)}
+        <th class=${headerCell} style='flex: 1; min-width: 30px; border-right: 0px;'>W</th>
+      </tr>
+      ${weeks.map((week, weekIndex) => {
+        const bottomBorderSize = weekIndex < weeks.length - 1 ? 1 : 0
+        return html`<tr style='display: flex; flex: 1;'>
           ${week.map(day => {
             const events = day.events
             const showEllipsis = events.length > EVENT_CUTOFF
             const color = borderColor(day)
-            const zIndex = color === 'red' ? 0 : 1
-            const cstyle = `
-              background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
-              border: 1px solid ${color};
-              z-index: ${zIndex};
-            `
-            return html`<div class=${dayContainer}
-                             onclick=${() => emit('monthly:select-date', day.date)}
-                             style=${cstyle}>
-              <div class=${dateContainer}>${day.date.getDate()}</div>
+
+            // TODO change this logic, ugly to compare colors
+            let cstyle = null
+            if (color === 'grey') {
+              cstyle = `
+                background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
+                border-bottom: ${bottomBorderSize}px dashed ${color};
+                border-right: 1px dashed ${color};
+                z-index: 0;
+              `
+            } else {
+              cstyle = `
+                background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
+                border: 1px solid ${color};
+                z-index: 1;
+              `
+            }
+
+            return html`<td class=${dayCell} style=${cstyle} onclick=${() => emit('monthly:select-date', day.date)}>
+              <div>${day.date.getDate()}</div>
               ${events.slice(0, EVENT_CUTOFF).map(event => {
                 const cstyle = `
                   background: ${event.background || '#bbb'};
@@ -127,41 +128,15 @@ module.exports = ({ month, weeks, selected, weekdays }, emit) => {
                 </div>`
               })}
               ${showEllipsis ? '...' : ''}
-            </div>`
+            </td>`
           })}
-          <div class=${weekNumberContainer}>
-            <div style='align-self: center;'>${padWeek(baseWeek + weekIndex)}</div>
-          </div>
-        </div>`
-      ))}
-    </div>
-  </div>`
-}
-
-const weekdaysOuter = css`
-  :host {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    text-transform: uppercase;
-  }
-`
-
-const weekdaysCell = css`
-  :host {
-    width: inherit;
-    text-align: center;
-    border: 1px solid red;
-    padding: 5px;
-    margin-left: -1px;
-  }
-`
-
-function WeekdaysHeader (weekdays) {
-  return html`<div class=${weekdaysOuter}>
-    ${weekdays.map(weekday => html`<div class=${weekdaysCell} style='flex: 5;'>${weekday}</div>`)}
-    <div class=${weekdaysCell} style='flex: 1;'>week</div>
-  </div>`
+          <td class=${weekNumber}>
+            <div style='align-self: center; width: 100%;'>${padWeek(baseWeek + weekIndex)}</div>
+          </td>
+        </tr>`
+      })}
+    </tbody>
+  </table>`
 }
 
 function padTime (date) {
