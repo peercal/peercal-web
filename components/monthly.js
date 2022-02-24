@@ -35,7 +35,6 @@ const weekNumber = css`
   :host {
     width: 100%;
     min-width: 30px;
-    border-bottom: 1px dashed grey;
     padding: 5px;
     text-align: center;
     flex: 1;
@@ -92,6 +91,7 @@ module.exports = ({ month, weeks, selected, weekdays }, emit) => {
       </tr>
       ${weeks.map((week, weekIndex) => {
         const bottomBorderSize = weekIndex < weeks.length - 1 ? 1 : 0
+        const lastColumnstyle = `border-bottom: ${bottomBorderSize}px dashed grey`
         return html`<tr style='display: flex; flex: 1;'>
           ${week.map(day => {
             const events = day.events
@@ -130,7 +130,7 @@ module.exports = ({ month, weeks, selected, weekdays }, emit) => {
               ${showEllipsis ? '...' : ''}
             </td>`
           })}
-          <td class=${weekNumber}>
+          <td class=${weekNumber} style=${lastColumnstyle}>
             <div style='align-self: center; width: 100%;'>${padWeek(baseWeek + weekIndex)}</div>
           </td>
         </tr>`
