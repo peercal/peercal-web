@@ -60,37 +60,5 @@ module.exports = (state, emitter) => {
     }
   })
 
-  // TODO
-  // emitter.on('weekly:select-date', (date) => {
-  //   state.weekly.selected = date
-  //   emitter.emit('render')
-  // })
-
-  // TODO
-  function moveSelectedDay (offset) {
-    console.log('moveSelectedDay', offset)
-    // const { selected } = state.monthly
-    // const update = new Date(selected)
-    // update.setDate(selected.getDate() + offset)
-    // setMonthly({
-    //   year: update.getFullYear(),
-    //   month: update.getMonth(),
-    //   selected: update
-    // })
-  }
-
-  window.addEventListener('keydown', (e) => {
-    if (state.mode === MODE_WEEKLY) {
-      switch (e.key) {
-        case 'ArrowLeft':
-          moveSelectedDay(-1)
-          break
-        case 'ArrowRight':
-          moveSelectedDay(+1)
-          break
-      }
-    }
-  })
-
   setWeekly()
 }
