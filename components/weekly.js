@@ -69,7 +69,7 @@ module.exports = ({ days, weekNumber, events }, emit) => {
             const date = day.date.toDateString().split(' ').slice(0, 3).join(' ')
             return html`<th class=${headerCell}>${date}</th>`
           })}
-          <th class=${headerCell} style='flex: 1; min-width: 50px;'>H</th>
+          <th class=${headerCell} style='flex: 1; max-width: 50px; min-width: 50px;'>H</th>
         </tr>
         ${HOURS.map((hours, hourIndex) => {
           const bottomBorderSize = hourIndex < HOURS.length - 1 ? 1 : 0
@@ -80,6 +80,7 @@ module.exports = ({ days, weekNumber, events }, emit) => {
           const lastColumnStyle = `
             display: flex;
             flex: 1;
+            max-width: 50px;
             min-width: 50px;
             text-align: center;
             border-bottom: ${bottomBorderSize}px dashed grey;
