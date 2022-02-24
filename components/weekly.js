@@ -34,6 +34,7 @@ const headerCell = css`
     text-align: center;
     flex: 5;
     text-transform: uppercase;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
