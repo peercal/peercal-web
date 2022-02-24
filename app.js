@@ -18,6 +18,7 @@ const FeedsController = require('./controllers/feeds.js')
 const ToolbarView = require('./components/toolbar.js')
 const MonthlyView = require('./components/monthly.js')
 const WeeklyView = require('./components/weekly.js')
+const FooterView = require('./components/footer.js')
 
 app.use((state, emitter) => {
   state.allEvents = []
@@ -67,6 +68,7 @@ app.route('*', (state, emit) => {
         ${ToolbarView({ title, mode }, emit)}
         ${MonthlyView({ month, weeks, selected, weekdays: WEEKDAYS }, emit)}
       </div>
+      ${FooterView()}
     </body>`
   } else if (mode === MODE_WEEKLY) {
     const { year, days, weekNumber, events } = state.weekly
@@ -76,12 +78,14 @@ app.route('*', (state, emit) => {
         ${ToolbarView({ title, mode }, emit)}
         ${WeeklyView({ days, weekNumber, events }, emit)}
       </div>
+      ${FooterView()}
     </body>`
   } else if (mode === MODE_DAILY) {
     const title = 'TODO daily'
     return html`<body class=${body}>
       <div class=${calendar}>
         ${ToolbarView({ title, mode }, emit)}
+        ${FooterView()}
       </div>
     </body>`
   } else {
