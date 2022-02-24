@@ -4,7 +4,8 @@ const css = require('sheetify')
 const {
   weekDayIndex,
   startOfDay,
-  endOfDay
+  endOfDay,
+  isToday
 } = require('../lib/date.js')
 
 const main = css`
@@ -68,7 +69,8 @@ module.exports = ({ days, weekNumber, events }, emit) => {
         <tr style='display: flex; height: 25px;'>
           ${days.map((day, index) => {
             const date = day.date.toDateString().split(' ').slice(0, 3).join(' ')
-            return html`<th class=${headerCell}>${date}</th>`
+            const cstyle = isToday(day.date) ? 'border: 1px solid yellow;' : ''
+            return html`<th class=${headerCell} style=${cstyle}>${date}</th>`
           })}
           <th class=${headerCell} style='flex: 1; max-width: 50px; min-width: 50px;'>H</th>
         </tr>

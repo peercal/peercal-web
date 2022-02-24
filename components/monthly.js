@@ -1,6 +1,9 @@
 const html = require('choo/html')
 const css = require('sheetify')
-const { calculateWeekNumber } = require('../lib/date.js')
+const {
+  calculateWeekNumber,
+  isToday
+} = require('../lib/date.js')
 
 const EVENT_CUTOFF = 5
 
@@ -57,13 +60,6 @@ const eventContainer = css`
 `
 
 module.exports = ({ month, weeks, selected, weekdays }, emit) => {
-  const now = new Date()
-  function isToday (date) {
-    return (date.getFullYear() === now.getFullYear() &&
-            date.getMonth() === now.getMonth() &&
-            date.getDate() === now.getDate())
-  }
-
   function datesEqual (lhs, rhs) {
     return (lhs.getFullYear() === rhs.getFullYear() &&
             lhs.getMonth() === rhs.getMonth() &&
