@@ -14,7 +14,8 @@ const table = css`
 const headerCell = css`
   :host {
     width: 100%;
-    border: 1px solid red;
+    border-right: 1px solid red;
+    border-bottom: 1px solid red;
     padding: 5px;
     text-align: center;
     flex: 5;
@@ -25,7 +26,6 @@ const headerCell = css`
 const dayCell = css`
   :host {
     width: 100%;
-    border: 1px solid red;
     padding: 5px;
     flex: 5;
   }
@@ -35,7 +35,7 @@ const weekNumber = css`
   :host {
     width: 100%;
     min-width: 30px;
-    border: 1px solid red;
+    border-bottom: 1px dashed grey;
     padding: 5px;
     text-align: center;
     flex: 1;
@@ -77,7 +77,7 @@ module.exports = ({ month, weeks, selected, weekdays }, emit) => {
     } else if (selected && datesEqual(selected, day.date)) {
       return 'white'
     } else {
-      return 'red'
+      return 'grey'
     }
   }
 
@@ -88,20 +88,33 @@ module.exports = ({ month, weeks, selected, weekdays }, emit) => {
     <tbody style='height: 100%; width: 100%; display: flex; flex-direction: column; align-items: stretch; border: 1px solid red;'>
       <tr style='display: flex;'>
         ${weekdays.map(weekday => html`<th class=${headerCell}>${weekday}</th>`)}
-        <th class=${headerCell} style='flex: 1; min-width: 30px;'>W</th>
+        <th class=${headerCell} style='flex: 1; min-width: 30px; border-right: 0px;'>W</th>
       </tr>
-      ${weeks.map((week, weekIndex) => (
-        html`<tr style='display: flex; flex: 1;'>
+      ${weeks.map((week, weekIndex) => {
+        const bottomBorderSize = weekIndex < weeks.length - 1 ? 1 : 0
+        return html`<tr style='display: flex; flex: 1;'>
           ${week.map(day => {
             const events = day.events
             const showEllipsis = events.length > EVENT_CUTOFF
             const color = borderColor(day)
-            const zIndex = color === 'red' ? 0 : 1
-            const cstyle = `
-              background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
-              border: 1px solid ${color};
-              z-index: ${zIndex};
-            `
+
+            // TODO change this logic, ugly to compare colors
+            let cstyle = null
+            if (color === 'grey') {
+              cstyle = `
+                background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
+                border-bottom: ${bottomBorderSize}px dashed ${color};
+                border-right: 1px dashed ${color};
+                z-index: 0;
+              `
+            } else {
+              cstyle = `
+                background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
+                border: 1px solid ${color};
+                z-index: 1;
+              `
+            }
+
             return html`<td class=${dayCell} style=${cstyle} onclick=${() => emit('monthly:select-date', day.date)}>
               <div>${day.date.getDate()}</div>
               ${events.slice(0, EVENT_CUTOFF).map(event => {
@@ -117,9 +130,11 @@ module.exports = ({ month, weeks, selected, weekdays }, emit) => {
               ${showEllipsis ? '...' : ''}
             </td>`
           })}
-          <td class=${weekNumber}><div style='align-self: center; width: 100%;'>${padWeek(baseWeek + weekIndex)}</div></td>
+          <td class=${weekNumber}>
+            <div style='align-self: center; width: 100%;'>${padWeek(baseWeek + weekIndex)}</div>
+          </td>
         </tr>`
-      ))}
+      })}
     </tbody>
   </table>`
 }
