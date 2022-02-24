@@ -28,7 +28,8 @@ const table = css`
 const headerCell = css`
   :host {
     width: 100%;
-    border: 1px solid red;
+    border-right: 1px solid red;
+    border-bottom: 1px solid red;
     padding: 5px;
     text-align: center;
     flex: 5;
@@ -51,7 +52,6 @@ const eventsArea = css`
 const hourCell = css`
   :host {
     width: 100%;
-    border: 1px dashed grey;
     padding: 5px;
     flex: 5;
   }
@@ -71,10 +71,24 @@ module.exports = ({ days, weekNumber, events }, emit) => {
           })}
           <th class=${headerCell} style='flex: 1; min-width: 50px;'>H</th>
         </tr>
-        ${HOURS.map(hours => {
+        ${HOURS.map((hours, hourIndex) => {
+          const bottomBorderSize = hourIndex < HOURS.length - 1 ? 1 : 0
+          const cstyle = `
+            border-bottom: ${bottomBorderSize}px dashed grey;
+            border-right: 1px dashed grey;
+          `
+          const lastColumnStyle = `
+            display: flex;
+            flex: 1;
+            min-width: 50px;
+            text-align: center;
+            border-bottom: ${bottomBorderSize}px dashed grey;
+          `
           return html`<tr style='display: flex; height: 100%;'>
-            ${FILL.map(fill => (html`<td class=${hourCell}></td>`))}
-            <td class=${hourCell} style='display: flex; flex: 1; min-width: 50px; text-align: center;'>
+            ${FILL.map(fill => {
+              return html`<td class=${hourCell} style=${cstyle}></td>`
+            })}
+            <td class=${hourCell} style=${lastColumnStyle}>
               <div style='align-self: center; width: 100%;'>${hours}</div>
             </td>
           </tr>`
