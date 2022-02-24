@@ -49,7 +49,7 @@ const body = css`
 const calendar = css`
   :host {
     position: absolute;
-    top: 20px;
+    top: 5px;
     bottom: 30px;
     left: 20px;
     right: 20px;
