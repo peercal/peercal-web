@@ -1,6 +1,5 @@
 const app = require('choo')()
 const html = require('choo/html')
-const css = require('sheetify')
 
 const config = require('./config.json')
 const {
@@ -8,14 +7,12 @@ const {
   MODE_WEEKLY,
   MODE_DAILY
 } = require('./modes.js')
-const { WEEKDAYS, MONTHS } = require('./lib/date.js')
 
 const MontlyController = require('./controllers/montly.js')
 const WeeklyController = require('./controllers/weekly.js')
 const DateChangeController = require('./controllers/date-changed.js')
 const FeedsController = require('./controllers/feeds.js')
 
-const ToolbarView = require('./components/toolbar.js')
 const MonthlyView = require('./components/monthly.js')
 const WeeklyView = require('./components/weekly.js')
 
@@ -35,60 +32,39 @@ app.use(WeeklyController)
 app.use(DateChangeController)
 app.use(FeedsController(config))
 
-const body = css`
-  :host {
-    height: 100%;
-    margin: 0px;
-    overflow: hidden;
-    font-family: monospace;
-    background: black;
-    color: white;
+function getView ({ mode }) {
+  switch (mode) {
+    case MODE_MONTHLY:
+      return MonthlyView
+    case MODE_WEEKLY:
+      return WeeklyView
+    case MODE_DAILY:
+      return () => html`<div>DAILY NYI</div>`
+    default:
+      return () => html`<div>Unknown view mode</div>`
   }
-`
-
-const calendar = css`
-  :host {
-    position: absolute;
-    top: 5px;
-    bottom: 5px;
-    left: 20px;
-    right: 20px;
-    color: white;
-  }
-`
+}
 
 app.route('*', (state, emit) => {
-  const { mode } = state
-  if (mode === MODE_MONTHLY) {
-    const { year, month, selected, weeks } = state.monthly
-    const title = `${year} ${MONTHS[month]}`
-    return html`<body class=${body}>
-      <div class=${calendar}>
-        ${ToolbarView({ title, mode }, emit)}
-        ${MonthlyView({ month, weeks, selected, weekdays: WEEKDAYS }, emit)}
-      </div>
-    </body>`
-  } else if (mode === MODE_WEEKLY) {
-    const { year, days, weekNumber, events } = state.weekly
-    const title = `${year} WEEK ${weekNumber}`
-    return html`<body class=${body}>
-      <div class=${calendar}>
-        ${ToolbarView({ title, mode }, emit)}
-        ${WeeklyView({ days, weekNumber, events }, emit)}
-      </div>
-    </body>`
-  } else if (mode === MODE_DAILY) {
-    const title = 'TODO daily'
-    return html`<body class=${body}>
-      <div class=${calendar}>
-        ${ToolbarView({ title, mode }, emit)}
-      </div>
-    </body>`
-  } else {
-    return html`<body class=${body}>
-      <div class=${calendar}>Unknown view mode</div>
-    </body>`
-  }
+  const View = getView(state)
+  return html`<body>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        border: 0px solid green;
+        min-height: 100vh;
+        overflow: hidden;
+        font-family: monospace;
+        background: black;
+        color: white;
+      }
+    </style>
+    ${View(state, emit)}
+  </body>`
 })
 
 app.mount(document.body)

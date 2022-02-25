@@ -1,6 +1,6 @@
 const html = require('choo/html')
 const css = require('sheetify')
-
+const ToolbarView = require('./toolbar.js')
 const {
   weekDayIndex,
   startOfDay,
@@ -8,21 +8,15 @@ const {
   isToday
 } = require('../lib/date.js')
 
-const main = css`
-  :host {
-    position: absolute;
-    top: 50px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    border: 0px solid yellow;
-  }
-`
-
 const table = css`
   :host {
     display: flex;
-    height: 100%;
+    position: absolute;
+    top: 30px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
   }
 `
 
@@ -44,9 +38,9 @@ const headerCell = css`
 const eventsArea = css`
   :host {
     position: absolute;
-    top: 25px;
-    bottom: 0px;
-    left: 0px;
+    top: 65px;
+    bottom: 10px;
+    left: 10px;
     right: 60px;
   }
 `
@@ -62,8 +56,13 @@ const hourCell = css`
 const FILL = new Array(7).fill(null)
 const HOURS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23].map(i => `${pad(i)}-${pad((i + 1) % 24)}`)
 
-module.exports = ({ days, weekNumber, events }, emit) => {
-  return html`<div class=${main}>
+module.exports = (state, emit) => {
+  const { mode } = state
+  const { year, days, weekNumber, events } = state.weekly
+  const title = `${year} WEEK ${weekNumber}`
+
+  return html`<div style='display: flex; flex-direction: column;'>
+    ${ToolbarView({ title, mode }, emit)}
     <table class=${table}>
       <tbody style='height: 100%; width: 100%; display: flex; flex-direction: column; align-items: stretch; border: 1px solid red;'>
         <tr style='display: flex; height: 25px;'>
@@ -112,12 +111,11 @@ const eventCell = css`
     font-size: 12px;
     margin-top: 3px;
     margin-bottom: 3px;
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: 10px;
-    padding-top: 8px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 3px;
     border: 1px solid white;
-    border-radius: 10px;
+    border-radius: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
   }

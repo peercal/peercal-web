@@ -1,16 +1,24 @@
 const html = require('choo/html')
 const css = require('sheetify')
+const ToolbarView = require('./toolbar.js')
 const {
   calculateWeekNumber,
-  isToday
+  isToday,
+  WEEKDAYS,
+  MONTHS
 } = require('../lib/date.js')
 
 const EVENT_CUTOFF = 5
 
 const table = css`
   :host {
-    height: calc(100% - 50px);
     display: flex;
+    position: absolute;
+    top: 30px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
   }
 `
 
@@ -28,7 +36,6 @@ const headerCell = css`
 
 const dayCell = css`
   :host {
-    width: 100%;
     padding: 5px;
     flex: 5;
   }
@@ -59,7 +66,10 @@ const eventContainer = css`
   }
 `
 
-module.exports = ({ month, weeks, selected, weekdays }, emit) => {
+module.exports = (state, emit) => {
+  const { mode } = state
+  const { year, month, selected, weeks } = state.monthly
+
   function datesEqual (lhs, rhs) {
     return (lhs.getFullYear() === rhs.getFullYear() &&
             lhs.getMonth() === rhs.getMonth() &&
@@ -79,10 +89,14 @@ module.exports = ({ month, weeks, selected, weekdays }, emit) => {
   const firstDay = weeks[0][0]
   const baseWeek = calculateWeekNumber(firstDay.date)
 
-  return html`<table class=${table}>
+  const title = `${year} ${MONTHS[month]}`
+
+  return html`<div style='display: flex; flex-direction: column;'>
+    ${ToolbarView({ title, mode }, emit)}
+    <table class=${table}>
     <tbody style='height: 100%; width: 100%; display: flex; flex-direction: column; align-items: stretch; border: 1px solid red;'>
       <tr style='display: flex;'>
-        ${weekdays.map(weekday => html`<th class=${headerCell}>${weekday}</th>`)}
+        ${WEEKDAYS.map(weekday => html`<th class=${headerCell}>${weekday}</th>`)}
         <th class=${headerCell} style='flex: 1; min-width: 30px; border-right: 0px;'>W</th>
       </tr>
       ${weeks.map((week, weekIndex) => {
@@ -132,7 +146,8 @@ module.exports = ({ month, weeks, selected, weekdays }, emit) => {
         </tr>`
       })}
     </tbody>
-  </table>`
+  </table>
+</div>`
 }
 
 function padTime (date) {

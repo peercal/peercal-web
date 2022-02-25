@@ -9,20 +9,15 @@ const {
 const outer = css`
   :host {
     display: flex;
+    height: 25px;
     justify-content: space-between;
-    font-size: 2em;
-    margin-bottom: 0.2em;
+    font-size: 1.5em;
+    padding: 10px;
     text-transform: uppercase;
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE10+/Edge */
     user-select: none; /* Standard */
-  }
-`
-
-const titleContainer = css`
-  :host {
-    margin-left: 5px
   }
 `
 
@@ -36,7 +31,6 @@ const modeButtons = css`
 const rightButtons = css`
   :host {
     display: flex;
-    margin-right: 5px;
   }
 `
 
@@ -50,7 +44,7 @@ const button = css`
 
 module.exports = ({ title, mode }, emit) => {
   return html`<div class=${outer}>
-    <div class=${titleContainer}>${title}</div>
+    <div>${title}</div>
     <div class=${rightButtons}>
       <div class=${modeButtons}>
         <div class=${button} onclick=${setMonthlyMode} style='color: ${mode === MODE_MONTHLY ? 'white' : '#888'}'>${'M'}</div>
