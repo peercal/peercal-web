@@ -10,11 +10,13 @@ const {
 
 const MontlyController = require('./controllers/montly.js')
 const WeeklyController = require('./controllers/weekly.js')
+
 const DateChangeController = require('./controllers/date-changed.js')
 const FeedsController = require('./controllers/feeds.js')
 
 const MonthlyView = require('./components/monthly.js')
 const WeeklyView = require('./components/weekly.js')
+const DailyView = require('./components/daily.js')
 
 app.use((state, emitter) => {
   state.allEvents = []
@@ -39,7 +41,7 @@ function getView ({ mode }) {
     case MODE_WEEKLY:
       return WeeklyView
     case MODE_DAILY:
-      return () => html`<div>DAILY NYI</div>`
+      return DailyView
     default:
       return () => html`<div>Unknown view mode</div>`
   }
