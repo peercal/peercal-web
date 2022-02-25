@@ -21,6 +21,7 @@
   },
   "scripts": {
     "start": "npm run prepare && budo app.js:public/bundle.js -l -d public -p 7777",
+    "start2": "budo app.js:public/bundle.js -l -d public -p 7777",
     "build": "npm run prepare && browserify app.js | indexhtmlify --title 'peercal' > public/index.html",
     "prepare": "cp -n config.default.json config.json && rm -rf public && mkdir public",
     "test": "standard && ava -v tests/*.test.js",
