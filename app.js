@@ -10,9 +10,9 @@ const {
 
 const MontlyController = require('./controllers/montly.js')
 const WeeklyController = require('./controllers/weekly.js')
-
 const DateChangeController = require('./controllers/date-changed.js')
 const FeedsController = require('./controllers/feeds.js')
+const SwipeController = require('./controllers/swipe.js')
 
 const MonthlyView = require('./components/monthly.js')
 const WeeklyView = require('./components/weekly.js')
@@ -33,6 +33,7 @@ app.use(MontlyController)
 app.use(WeeklyController)
 app.use(DateChangeController)
 app.use(FeedsController(config))
+app.use(SwipeController)
 
 function getView ({ mode }) {
   switch (mode) {
@@ -47,6 +48,7 @@ function getView ({ mode }) {
   }
 }
 
+// TODO add routes for different modes
 app.route('*', (state, emit) => {
   const View = getView(state)
   return html`<body>

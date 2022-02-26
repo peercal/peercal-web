@@ -38,6 +38,14 @@ module.exports = (state, emitter) => {
 
   emitter.on('feeds:update', () => setWeekly(state.weekly.date))
 
+  emitter.on('swipe:right', () => {
+    if (state.mode === MODE_WEEKLY) {
+      const date = state.weekly.date
+      const update = new Date(date)
+      update.setDate(date.getDate() - 7)
+      setWeekly(update)
+    }
+  })
   emitter.on('toolbar:goto-previous', () => {
     if (state.mode === MODE_WEEKLY) {
       const date = state.weekly.date
@@ -46,9 +54,19 @@ module.exports = (state, emitter) => {
       setWeekly(update)
     }
   })
+
   emitter.on('toolbar:goto-home', () => {
     if (state.mode === MODE_WEEKLY) {
       setWeekly()
+    }
+  })
+
+  emitter.on('swipe:left', () => {
+    if (state.mode === MODE_WEEKLY) {
+      const date = state.weekly.date
+      const update = new Date(date)
+      update.setDate(date.getDate() + 7)
+      setWeekly(update)
     }
   })
   emitter.on('toolbar:goto-next', () => {

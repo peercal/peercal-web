@@ -35,14 +35,26 @@ module.exports = (state, emitter) => {
 
   emitter.on('feeds:update', () => setMonthly(state.monthly))
 
+  emitter.on('swipe:right', () => {
+    if (state.mode === MODE_MONTHLY) {
+      setMonthly(previousMonth(state.monthly))
+    }
+  })
   emitter.on('toolbar:goto-previous', () => {
     if (state.mode === MODE_MONTHLY) {
       setMonthly(previousMonth(state.monthly))
     }
   })
+
   emitter.on('toolbar:goto-home', () => {
     if (state.mode === MODE_MONTHLY) {
       setToday()
+    }
+  })
+
+  emitter.on('swipe:left', () => {
+    if (state.mode === MODE_MONTHLY) {
+      setMonthly(nextMonth(state.monthly))
     }
   })
   emitter.on('toolbar:goto-next', () => {
