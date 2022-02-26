@@ -12,7 +12,7 @@ const table = css`
   :host {
     display: flex;
     position: absolute;
-    top: 30px;
+    top: 25px;
     bottom: 0;
     left: 0;
     right: 0;

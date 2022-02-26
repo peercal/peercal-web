@@ -14,7 +14,7 @@ const table = css`
   :host {
     display: flex;
     position: absolute;
-    top: 30px;
+    top: 25px;
     bottom: 0;
     left: 0;
     right: 0;
@@ -27,7 +27,8 @@ const headerCell = css`
     width: 100%;
     border-right: 1px solid red;
     border-bottom: 1px solid red;
-    padding: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
     text-align: center;
     flex: 5;
     text-transform: uppercase;
@@ -36,8 +37,13 @@ const headerCell = css`
 
 const dayCell = css`
   :host {
-    padding: 5px;
     flex: 5;
+  }
+`
+
+const dateCell = css`
+  :host {
+    margin: 3px;
   }
 `
 
@@ -45,11 +51,9 @@ const weekNumber = css`
   :host {
     width: 100%;
     min-width: 30px;
-    padding: 5px;
     text-align: center;
-    flex: 1;
-    font-size: 18px;
     display: flex;
+    flex: 1;
   }
 `
 
@@ -60,7 +64,6 @@ const eventContainer = css`
     height: 16px;
     font-size: 12px;
     color: black;
-    margin-top: 3px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -126,7 +129,7 @@ module.exports = (state, emit) => {
             }
 
             return html`<td class=${dayCell} style=${cstyle} onclick=${() => emit('monthly:select-date', day.date)}>
-              <div>${day.date.getDate()}</div>
+              <div class=${dateCell}>${day.date.getDate()}</div>
               ${events.slice(0, EVENT_CUTOFF).map(event => {
                 const cstyle = `
                   background: ${event.background || '#bbb'};
