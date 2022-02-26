@@ -27,7 +27,10 @@ app.use((state, emitter) => {
     state.mode = mode
     emitter.emit('render')
   })
-
+  emitter.on('touch:longpress:week', (date) => {
+    state.mode = MODE_WEEKLY
+    emitter.emit('render')
+  })
   emitter.on('touch:longpress:date', (date) => {
     console.log('TODO set daily mode for date', date)
   })

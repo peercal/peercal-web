@@ -69,7 +69,7 @@ module.exports = (state, emitter) => {
   })
   emitter.on('touch:date', (date) => {
     if (state.mode === MODE_MONTHLY) {
-      state.monthly.selected = new Date(date)
+      state.monthly.selected = date
       emitter.emit('render')
     }
   })

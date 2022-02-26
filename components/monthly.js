@@ -144,7 +144,7 @@ module.exports = (state, emit) => {
             </td>`
           })}
           <td data-type='week' data-date=${week[0].date} class=${weekNumber} style=${lastColumnstyle}>
-            <div style='align-self: center; width: 100%;'>${padWeek(baseWeek + weekIndex)}</div>
+            <div data-type='week' data-date=${week[0].date} style='align-self: center; width: 100%;'>${padWeek(baseWeek + weekIndex)}</div>
           </td>
         </tr>`
       })}

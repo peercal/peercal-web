@@ -1,5 +1,5 @@
 const SWIPE_THRESHOLD = 100
-const LONGPRESS_THRESHOLD = 700
+const LONGPRESS_THRESHOLD = 600
 
 /**
  * Controller for handling:
@@ -17,15 +17,14 @@ module.exports = (state, emitter) => {
 
     if (typeof date === 'string' && type === 'day') {
       event.preventDefault()
-      emitter.emit('touch:date', date)
+      emitter.emit('touch:date', new Date(date))
       longPressTimer = setTimeout(() => {
         console.log('TODO: long pressed day in monthly view')
       }, LONGPRESS_THRESHOLD)
     } else if (typeof date === 'string' && type === 'week') {
       event.preventDefault()
-      emitter.emit('touch:week', date)
       longPressTimer = setTimeout(() => {
-        console.log('TODO: long pressed week in monthly view')
+        emitter.emit('touch:longpress:week', new Date(date))
       }, LONGPRESS_THRESHOLD)
     }
 

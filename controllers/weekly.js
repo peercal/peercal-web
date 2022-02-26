@@ -12,7 +12,6 @@ module.exports = (state, emitter) => {
   state.weekly = {}
 
   function setWeekly (date = new Date()) {
-    // date = new Date('2022-02-14')
     const days = getWeekDays(date)
 
     const events = []
@@ -37,6 +36,10 @@ module.exports = (state, emitter) => {
   }
 
   emitter.on('feeds:update', () => setWeekly(state.weekly.date))
+
+  emitter.on('touch:longpress:week', (date) => {
+    setWeekly(date)
+  })
 
   emitter.on('swipe:right', () => {
     if (state.mode === MODE_WEEKLY) {
