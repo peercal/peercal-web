@@ -5,7 +5,8 @@ const {
   weekDayIndex,
   startOfDay,
   endOfDay,
-  isToday
+  isToday,
+  MONTHS
 } = require('../lib/date.js')
 
 const table = css`
@@ -28,7 +29,6 @@ const headerCell = css`
     padding: 5px;
     text-align: center;
     flex: 5;
-    text-transform: uppercase;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -38,7 +38,7 @@ const headerCell = css`
 const eventsArea = css`
   :host {
     position: absolute;
-    top: 65px;
+    top: 60px;
     bottom: 10px;
     left: 10px;
     right: 60px;
@@ -55,10 +55,18 @@ const hourCell = css`
 const FILL = new Array(7).fill(null)
 const HOURS = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22].map(i => `${pad(i)}-${pad((i + 2) % 24)}`)
 
+function monthString (days) {
+  const set = new Set()
+  days.forEach(day => {
+    set.add(MONTHS[day.date.getMonth()])
+  })
+  return Array.from(set).join('/')
+}
+
 module.exports = (state, emit) => {
   const { mode } = state
   const { year, days, weekNumber, events } = state.weekly
-  const title = `${year} WEEK ${weekNumber}`
+  const title = `${year} ${monthString(days)} W${weekNumber}`
 
   return html`<div style='display: flex; flex-direction: column;'>
     ${ToolbarView({ title, mode }, emit)}
@@ -66,9 +74,8 @@ module.exports = (state, emit) => {
       <tbody style='width: 100%; display: flex; flex-direction: column; border: 1px solid red;'>
         <tr style='display: flex; height: 25px;'>
           ${days.map((day, index) => {
-            const date = day.date.toDateString().split(' ').slice(0, 3).join(' ')
             const cstyle = isToday(day.date) ? 'border: 1px solid yellow;' : ''
-            return html`<th class=${headerCell} style=${cstyle}>${date}</th>`
+            return html`<th class=${headerCell} style=${cstyle}>${day.date.getDate()}</th>`
           })}
           <th class=${headerCell} style='max-width: 50px; min-width: 50px;'>H</th>
         </tr>
