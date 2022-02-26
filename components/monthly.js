@@ -128,7 +128,7 @@ module.exports = (state, emit) => {
               `
             }
 
-            return html`<td class=${dayCell} style=${cstyle} onclick=${() => emit('monthly:select-date', day.date)}>
+            return html`<td data-type='day' data-date=${day.date} class=${dayCell} style=${cstyle} onclick=${() => emit('monthly:select-date', day.date)}>
               <div class=${dateCell}>${day.date.getDate()}</div>
               ${events.slice(0, EVENT_CUTOFF).map(event => {
                 const cstyle = `
@@ -143,7 +143,7 @@ module.exports = (state, emit) => {
               ${showEllipsis ? '...' : ''}
             </td>`
           })}
-          <td class=${weekNumber} style=${lastColumnstyle}>
+          <td data-type='week' data-date=${week[0].date} class=${weekNumber} style=${lastColumnstyle}>
             <div style='align-self: center; width: 100%;'>${padWeek(baseWeek + weekIndex)}</div>
           </td>
         </tr>`

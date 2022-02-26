@@ -12,7 +12,7 @@ const MontlyController = require('./controllers/montly.js')
 const WeeklyController = require('./controllers/weekly.js')
 const DateChangeController = require('./controllers/date-changed.js')
 const FeedsController = require('./controllers/feeds.js')
-const SwipeController = require('./controllers/swipe.js')
+const TouchController = require('./controllers/touch.js')
 
 const MonthlyView = require('./components/monthly.js')
 const WeeklyView = require('./components/weekly.js')
@@ -27,13 +27,17 @@ app.use((state, emitter) => {
     state.mode = mode
     emitter.emit('render')
   })
+
+  emitter.on('touch:longpress:date', (date) => {
+    console.log('TODO set daily mode for date', date)
+  })
 })
 
 app.use(MontlyController)
 app.use(WeeklyController)
 app.use(DateChangeController)
 app.use(FeedsController(config))
-app.use(SwipeController)
+app.use(TouchController)
 
 function getView ({ mode }) {
   switch (mode) {
