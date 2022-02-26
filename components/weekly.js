@@ -63,7 +63,7 @@ module.exports = (state, emit) => {
   return html`<div style='display: flex; flex-direction: column;'>
     ${ToolbarView({ title, mode }, emit)}
     <table class=${table}>
-      <tbody style='width: 100%; display: flex; flex-direction: column; border: 1px solid yellow;'>
+      <tbody style='width: 100%; display: flex; flex-direction: column; border: 1px solid red;'>
         <tr style='display: flex; height: 25px;'>
           ${days.map((day, index) => {
             const date = day.date.toDateString().split(' ').slice(0, 3).join(' ')
