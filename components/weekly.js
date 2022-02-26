@@ -48,13 +48,12 @@ const eventsArea = css`
 const hourCell = css`
   :host {
     width: 100%;
-    padding: 5px;
-    flex: 5;
+    padding-left: 5px;
   }
 `
 
 const FILL = new Array(7).fill(null)
-const HOURS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23].map(i => `${pad(i)}-${pad((i + 1) % 24)}`)
+const HOURS = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22].map(i => `${pad(i)}-${pad((i + 2) % 24)}`)
 
 module.exports = (state, emit) => {
   const { mode } = state
@@ -64,14 +63,14 @@ module.exports = (state, emit) => {
   return html`<div style='display: flex; flex-direction: column;'>
     ${ToolbarView({ title, mode }, emit)}
     <table class=${table}>
-      <tbody style='height: 100%; width: 100%; display: flex; flex-direction: column; align-items: stretch; border: 1px solid red;'>
+      <tbody style='width: 100%; display: flex; flex-direction: column; border: 1px solid yellow;'>
         <tr style='display: flex; height: 25px;'>
           ${days.map((day, index) => {
             const date = day.date.toDateString().split(' ').slice(0, 3).join(' ')
             const cstyle = isToday(day.date) ? 'border: 1px solid yellow;' : ''
             return html`<th class=${headerCell} style=${cstyle}>${date}</th>`
           })}
-          <th class=${headerCell} style='flex: 1; max-width: 50px; min-width: 50px;'>H</th>
+          <th class=${headerCell} style='max-width: 50px; min-width: 50px;'>H</th>
         </tr>
         ${HOURS.map((hours, hourIndex) => {
           const bottomBorderSize = hourIndex < HOURS.length - 1 ? 1 : 0
@@ -92,7 +91,7 @@ module.exports = (state, emit) => {
               return html`<td class=${hourCell} style=${cstyle}></td>`
             })}
             <td class=${hourCell} style=${lastColumnStyle}>
-              <div style='align-self: center; width: 100%;'>${hours}</div>
+              <div style='align-self: center; text-align: center;'>${hours}</div>
             </td>
           </tr>`
         })}
