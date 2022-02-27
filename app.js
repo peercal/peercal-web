@@ -8,7 +8,7 @@ const {
   MODE_DAILY
 } = require('./modes.js')
 
-const MontlyController = require('./controllers/montly.js')
+const MonthlyController = require('./controllers/monthly.js')
 const WeeklyController = require('./controllers/weekly.js')
 const DateChangeController = require('./controllers/date-changed.js')
 const FeedsController = require('./controllers/feeds.js')
@@ -36,7 +36,7 @@ app.use((state, emitter) => {
   })
 })
 
-app.use(MontlyController)
+app.use(MonthlyController)
 app.use(WeeklyController)
 app.use(DateChangeController)
 app.use(FeedsController(config))
