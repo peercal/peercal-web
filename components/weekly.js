@@ -25,8 +25,6 @@ const table = css`
 const headerCell = css`
   :host {
     width: 100%;
-    border-right: 1px solid red;
-    border-bottom: 1px solid red;
     padding: 5px;
     text-align: center;
     flex: 5;
@@ -72,7 +70,7 @@ module.exports = (state, emit) => {
   return html`<div style='display: flex; flex-direction: column;'>
     ${ToolbarView({ title, mode }, emit)}
     <table class=${table}>
-      <tbody style='width: 100%; display: flex; flex-direction: column; border: 1px solid red;'>
+      <tbody>
         <tr style='display: flex; height: 25px;'>
           ${days.map((day, index) => {
             const cstyle = isToday(day.date) ? 'border: 1px solid yellow;' : ''
@@ -81,23 +79,15 @@ module.exports = (state, emit) => {
           <th class=${headerCell} style='max-width: 50px; min-width: 50px;'>H</th>
         </tr>
         ${HOURS.map((hours, hourIndex) => {
-          const bottomBorderSize = hourIndex < HOURS.length - 1 ? 1 : 0
-          const cstyle = `
-            border-bottom: ${bottomBorderSize}px dashed grey;
-            border-right: 1px dashed grey;
-          `
           const lastColumnStyle = `
             display: flex;
             flex: 1;
             max-width: 50px;
             min-width: 50px;
             text-align: center;
-            border-bottom: ${bottomBorderSize}px dashed grey;
           `
           return html`<tr style='display: flex; height: 100%;'>
-            ${FILL.map(fill => {
-              return html`<td class=${hourCell} style=${cstyle}></td>`
-            })}
+            ${FILL.map(fill => html`<td class=${hourCell}></td>`)}
             <td class=${hourCell} style=${lastColumnStyle}>
               <div style='align-self: center; text-align: center;'>${hours}</div>
             </td>
@@ -121,7 +111,6 @@ const eventCell = css`
     margin-left: 5px;
     margin-right: 5px;
     padding: 3px;
-    border: 1px solid white;
     border-radius: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
