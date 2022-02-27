@@ -5,7 +5,6 @@ const {
   daysToWeeks
 } = require('../lib/date.js')
 const { filterEventsFromDate } = require('../lib/ics.js')
-const { MODE_MONTHLY } = require('../modes.js')
 
 /**
  * Handle montly
@@ -35,43 +34,19 @@ module.exports = (state, emitter) => {
 
   emitter.on('feeds:update', () => setMonthly(state.monthly))
 
-  emitter.on('swipe:right', () => {
-    if (state.mode === MODE_MONTHLY) {
-      setMonthly(previousMonth(state.monthly))
-    }
-  })
-  emitter.on('toolbar:goto-previous', () => {
-    if (state.mode === MODE_MONTHLY) {
-      setMonthly(previousMonth(state.monthly))
-    }
-  })
-
-  emitter.on('toolbar:goto-home', () => {
-    if (state.mode === MODE_MONTHLY) {
-      setToday()
-    }
-  })
-
-  emitter.on('swipe:left', () => {
-    if (state.mode === MODE_MONTHLY) {
-      setMonthly(nextMonth(state.monthly))
-    }
-  })
-  emitter.on('toolbar:goto-next', () => {
-    if (state.mode === MODE_MONTHLY) {
-      setMonthly(nextMonth(state.monthly))
-    }
-  })
+  emitter.on('monthly:swipe:right', () => setMonthly(previousMonth(state.monthly)))
+  emitter.on('monthly:toolbar:goto-previous', () => setMonthly(previousMonth(state.monthly)))
+  emitter.on('monthly:toolbar:goto-home', () => setToday())
+  emitter.on('monthly:toolbar:goto-next', () => setMonthly(nextMonth(state.monthly)))
+  emitter.on('monthly:swipe:left', () => setMonthly(nextMonth(state.monthly)))
 
   emitter.on('monthly:select-date', (date) => {
     state.monthly.selected = new Date(date)
     emitter.emit('render')
   })
-  emitter.on('touch:date', (date) => {
-    if (state.mode === MODE_MONTHLY) {
-      state.monthly.selected = date
-      emitter.emit('render')
-    }
+  emitter.on('monthly:touch:date', (date) => {
+    state.monthly.selected = date
+    emitter.emit('render')
   })
 
   function moveSelectedDay (offset) {
@@ -86,7 +61,7 @@ module.exports = (state, emitter) => {
   }
 
   window.addEventListener('keydown', (e) => {
-    if (state.mode === MODE_MONTHLY) {
+    if (state.route === '/') {
       switch (e.key) {
         case 'ArrowLeft':
           moveSelectedDay(-1)

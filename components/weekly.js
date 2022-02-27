@@ -63,12 +63,11 @@ function monthString (days) {
 }
 
 module.exports = (state, emit) => {
-  const { mode } = state
   const { year, days, weekNumber, events } = state.weekly
   const title = `${year} ${monthString(days)} W${weekNumber}`
 
   return html`<div style='display: flex; flex-direction: column;'>
-    ${ToolbarView({ title, mode }, emit)}
+    ${ToolbarView(title, state, emit)}
     <table class=${table}>
       <tbody>
         <tr style='display: flex; height: 25px;'>

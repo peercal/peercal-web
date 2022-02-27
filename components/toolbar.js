@@ -1,10 +1,5 @@
 const html = require('choo/html')
 const css = require('sheetify')
-const {
-  MODE_MONTHLY,
-  MODE_WEEKLY,
-  MODE_DAILY
-} = require('../modes.js')
 
 const outer = css`
   :host {
@@ -36,20 +31,20 @@ const rightButtons = css`
 
 const button = css`
   :host {
-    cursor: pointer;
     margin-left: 10px;
     color: white;
   }
 `
 
-module.exports = ({ title, mode }, emit) => {
+module.exports = (title, state, emit) => {
+  const { route } = state
   return html`<div class=${outer}>
     <div>${title}</div>
     <div class=${rightButtons}>
       <div class=${modeButtons}>
-        <div class=${button} onclick=${setMonthlyMode} style='color: ${mode === MODE_MONTHLY ? 'white' : '#888'}'>${'M'}</div>
-        <div class=${button} onclick=${setWeeklyMode} style='color: ${mode === MODE_WEEKLY ? 'white' : '#888'}'>${'W'}</div>
-        <div class=${button} onclick=${setDailyMode} style='color: ${mode === MODE_DAILY ? 'white' : '#888'}'>${'D'}</div>
+        <a href='/'><div class=${button} style='color: ${route === '/' ? 'white' : '#888'}'>${'M'}</div></a>
+        <a href='/weekly'><div class=${button} style='color: ${route === 'weekly' ? 'white' : '#888'}'>${'W'}</div></a>
+        <a href='/daily'><div class=${button} style='color: ${route === 'daily' ? 'white' : '#888'}'>${'D'}</div></a>
       </div>
       <div class=${button} onclick=${previous}>${'<'}</div>
       <div class=${button} onclick=${home}>${'H'}</div>
@@ -57,11 +52,7 @@ module.exports = ({ title, mode }, emit) => {
     </div>
   </div>`
 
-  function setMonthlyMode () { emit('toolbar:set-mode', MODE_MONTHLY) }
-  function setWeeklyMode () { emit('toolbar:set-mode', MODE_WEEKLY) }
-  function setDailyMode () { emit('toolbar:set-mode', MODE_DAILY) }
-
-  function previous () { emit('toolbar:goto-previous') }
-  function home () { emit('toolbar:goto-home') }
-  function next () { emit('toolbar:goto-next') }
+  function previous () { emit(`${route === '/' ? 'monthly' : route}:toolbar:goto-previous`) }
+  function home () { emit(`${route === '/' ? 'monthly' : route}:toolbar:goto-home`) }
+  function next () { emit(`${route === '/' ? 'monthly' : route}:toolbar:goto-next`) }
 }

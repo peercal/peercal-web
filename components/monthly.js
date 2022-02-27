@@ -75,7 +75,6 @@ function datesEqual (lhs, rhs) {
 }
 
 module.exports = (state, emit) => {
-  const { mode } = state
   const { year, month, selected, weeks } = state.monthly
 
   function cellStyle (day) {
@@ -110,7 +109,7 @@ module.exports = (state, emit) => {
   const title = `${year} ${MONTHS[month]}`
 
   return html`<div style='display: flex; flex-direction: column;'>
-    ${ToolbarView({ title, mode }, emit)}
+    ${ToolbarView(title, state, emit)}
     <table class=${table}>
       <tbody>
         <tr style='display: flex;'>
