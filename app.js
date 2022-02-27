@@ -73,6 +73,26 @@ app.route('*', (state, emit) => {
         background: black;
         color: white;
       }
+      tbody {
+        width: 100%;
+        border: 1px solid red;
+        display: flex;
+        flex-direction: column;
+      }
+      th {
+        border-right: 1px solid red;
+        border-bottom: 1px solid red;
+      }
+      th:last-child, td:last-child {
+        border-right: 0px;
+      }
+      td {
+        border-right: 1px dashed grey;
+        border-bottom: 1px dashed grey;
+      }
+      tr:last-child td {
+        border-bottom: 0px;
+      }
     </style>
     ${View(state, emit)}
   </body>`

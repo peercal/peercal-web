@@ -26,8 +26,6 @@ const table = css`
 const headerCell = css`
   :host {
     width: 100%;
-    border-right: 1px solid red;
-    border-bottom: 1px solid red;
     padding-top: 3px;
     padding-bottom: 3px;
     text-align: center;
@@ -98,60 +96,58 @@ module.exports = (state, emit) => {
   return html`<div style='display: flex; flex-direction: column;'>
     ${ToolbarView({ title, mode }, emit)}
     <table class=${table}>
-    <tbody style='height: 100%; width: 100%; display: flex; flex-direction: column; align-items: stretch; border: 1px solid red;'>
-      <tr style='display: flex;'>
-        ${WEEKDAYS.map(weekday => html`<th class=${headerCell}>${weekday}</th>`)}
-        <th class=${headerCell} style='flex: 1; min-width: 30px; border-right: 0px;'>W</th>
-      </tr>
-      ${weeks.map((week, weekIndex) => {
-        const bottomBorderSize = weekIndex < weeks.length - 1 ? 1 : 0
-        const lastColumnstyle = `border-bottom: ${bottomBorderSize}px dashed grey`
-        return html`<tr style='display: flex; flex: 1;'>
-          ${week.map(day => {
-            const events = day.events
-            const showEllipsis = events.length > EVENT_CUTOFF
-            const color = borderColor(day)
+      <tbody>
+        <tr style='display: flex;'>
+          ${WEEKDAYS.map(weekday => html`<th class=${headerCell}>${weekday}</th>`)}
+          <th class=${headerCell} style='flex: 1; min-width: 30px;'>W</th>
+        </tr>
+        ${weeks.map((week, weekIndex) => {
+          return html`<tr style='display: flex; flex: 1;'>
+            ${week.map(day => {
+              const events = day.events
+              const showEllipsis = events.length > EVENT_CUTOFF
+              const color = borderColor(day)
 
-            // TODO change this logic, ugly to compare colors
-            let cstyle = null
-            if (color === 'grey') {
-              cstyle = `
-                background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
-                border-bottom: ${bottomBorderSize}px dashed ${color};
-                border-right: 1px dashed ${color};
-                z-index: 0;
-              `
-            } else {
-              cstyle = `
-                background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
-                border: 1px solid ${color};
-                z-index: 1;
-              `
-            }
-
-            return html`<td data-type='day' data-date=${day.date} class=${dayCell} style=${cstyle} onclick=${() => emit('monthly:select-date', day.date)}>
-              <div class=${dateCell}>${day.date.getDate()}</div>
-              ${events.slice(0, EVENT_CUTOFF).map(event => {
-                const cstyle = `
-                  background: ${event.background || '#bbb'};
-                  color: ${event.color || 'black'};
+              // TODO change this logic, ugly to compare colors
+              let cstyle = null
+              if (color === 'grey') {
+                cstyle = `
+                  background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
+                  z-index: 0;
                 `
-                const showTime = datesEqual(event.DTSTART, day.date)
-                return html`<div class=${eventContainer} style=${cstyle}>
-                  ${showTime ? padTime(event.DTSTART) : ''} ${event.SUMMARY}
-                </div>`
-              })}
-              ${showEllipsis ? '...' : ''}
-            </td>`
-          })}
-          <td data-type='week' data-date=${week[0].date} class=${weekNumber} style=${lastColumnstyle}>
-            <div data-type='week' data-date=${week[0].date} style='align-self: center; width: 100%;'>${padWeek(baseWeek + weekIndex)}</div>
-          </td>
-        </tr>`
-      })}
-    </tbody>
-  </table>
-</div>`
+              } else {
+                cstyle = `
+                  background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
+                  border: 1px solid ${color};
+                  z-index: 1;
+                `
+              }
+
+              return html`<td data-type='day' data-date=${day.date} class=${dayCell} style=${cstyle} onclick=${() => emit('monthly:select-date', day.date)}>
+                <div class=${dateCell}>${day.date.getDate()}</div>
+                ${events.slice(0, EVENT_CUTOFF).map(event => {
+                  const cstyle = `
+                    background: ${event.background || '#bbb'};
+                    color: ${event.color || 'black'};
+                  `
+                  const showTime = datesEqual(event.DTSTART, day.date)
+                  return html`<div class=${eventContainer} style=${cstyle}>
+                    ${showTime ? padTime(event.DTSTART) : ''} ${event.SUMMARY}
+                  </div>`
+                })}
+                ${showEllipsis ? '...' : ''}
+              </td>`
+            })}
+            <td data-type='week' data-date=${week[0].date} class=${weekNumber}>
+              <div data-type='week' data-date=${week[0].date} style='align-self: center; width: 100%;'>
+                ${padWeek(baseWeek + weekIndex)}
+              </div>
+            </td>
+          </tr>`
+        })}
+      </tbody>
+    </table>
+  </div>`
 }
 
 function padTime (date) {
