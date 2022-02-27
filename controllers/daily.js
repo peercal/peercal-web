@@ -7,6 +7,7 @@ module.exports = (state, emitter) => {
   state.daily = {}
 
   function setDaily (date = new Date()) {
+    date = new Date('2022-02-20')
     const events = []
     state.allEvents.forEach(event => {
       if (hasEvent(date, event)) {
