@@ -66,7 +66,7 @@ function renderApp (View) {
         }
         /* Chrome, Edge, and Safari */
         tbody::-webkit-scrollbar {
-          width: 5px;
+          width: 3px;
         }
         /* Chrome, Edge, and Safari */
         tbody::-webkit-scrollbar-track {
