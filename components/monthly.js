@@ -68,17 +68,34 @@ const eventContainer = css`
   }
 `
 
+function datesEqual (lhs, rhs) {
+  return (lhs.getFullYear() === rhs.getFullYear() &&
+          lhs.getMonth() === rhs.getMonth() &&
+          lhs.getDate() === rhs.getDate())
+}
+
 module.exports = (state, emit) => {
   const { mode } = state
   const { year, month, selected, weeks } = state.monthly
 
-  function datesEqual (lhs, rhs) {
-    return (lhs.getFullYear() === rhs.getFullYear() &&
-            lhs.getMonth() === rhs.getMonth() &&
-            lhs.getDate() === rhs.getDate())
+  function cellStyle (day) {
+    if (hasSolidBorder(day)) {
+      return `
+        background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
+        border: 1px solid ${borderColor(day)};
+        z-index: 1;
+      `
+    } else {
+      return `background-color: ${day.date.getMonth() === month ? 'black' : '#222'};`
+    }
+  }
+
+  function hasSolidBorder (day) {
+    return isToday(day.date) || (selected && datesEqual(selected, day.date))
   }
 
   function borderColor (day) {
+    // TODO hardcoded colors for now -> should use theme
     if (isToday(day.date)) {
       return 'yellow'
     } else if (selected && datesEqual(selected, day.date)) {
@@ -90,7 +107,6 @@ module.exports = (state, emit) => {
 
   const firstDay = weeks[0][0]
   const baseWeek = calculateWeekNumber(firstDay.date)
-
   const title = `${year} ${MONTHS[month]}`
 
   return html`<div style='display: flex; flex-direction: column;'>
@@ -106,24 +122,8 @@ module.exports = (state, emit) => {
             ${week.map(day => {
               const events = day.events
               const showEllipsis = events.length > EVENT_CUTOFF
-              const color = borderColor(day)
 
-              // TODO change this logic, ugly to compare colors
-              let cstyle = null
-              if (color === 'grey') {
-                cstyle = `
-                  background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
-                  z-index: 0;
-                `
-              } else {
-                cstyle = `
-                  background-color: ${day.date.getMonth() === month ? 'black' : '#222'};
-                  border: 1px solid ${color};
-                  z-index: 1;
-                `
-              }
-
-              return html`<td data-type='day' data-date=${day.date} class=${dayCell} style=${cstyle} onclick=${() => emit('monthly:select-date', day.date)}>
+              return html`<td data-type='day' data-date=${day.date} class=${dayCell} style=${cellStyle(day)} onclick=${() => emit('monthly:select-date', day.date)}>
                 <div class=${dateCell}>${day.date.getDate()}</div>
                 ${events.slice(0, EVENT_CUTOFF).map(event => {
                   const cstyle = `

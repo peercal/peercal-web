@@ -58,6 +58,7 @@ function getView ({ mode }) {
 // TODO add routes for different modes
 app.route('*', (state, emit) => {
   const View = getView(state)
+  // TODO hardcoded colors for now -> should use theme
   return html`<body>
     <style>
       * {
