@@ -3,6 +3,7 @@ const html = require('choo/html')
 const config = require('./config.json')
 const MonthlyController = require('./controllers/monthly.js')
 const WeeklyController = require('./controllers/weekly.js')
+const DailyController = require('./controllers/daily.js')
 const DateChangeController = require('./controllers/date-changed.js')
 const FeedsController = require('./controllers/feeds.js')
 const TouchController = require('./controllers/touch.js')
@@ -16,6 +17,7 @@ app.use((state, emitter) => {
 
 app.use(MonthlyController)
 app.use(WeeklyController)
+app.use(DailyController)
 app.use(DateChangeController)
 app.use(FeedsController(config))
 app.use(TouchController)
@@ -43,6 +45,15 @@ function renderApp (View) {
           font-family: monospace;
           background: black;
           color: white;
+        }
+        table {
+          display: flex;
+          position: absolute;
+          top: 25px;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          padding: 10px;
         }
         tbody {
           width: 100%;
