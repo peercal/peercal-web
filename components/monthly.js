@@ -8,6 +8,7 @@ const {
   MONTHS
 } = require('../lib/date.js')
 const { pad } = require('../lib/util.js')
+const { MODE_MONTHLY } = require('../modes.js')
 
 const EVENT_CUTOFF = 5
 
@@ -75,7 +76,6 @@ function datesEqual (lhs, rhs) {
 }
 
 module.exports = (state, emit) => {
-  const { mode } = state
   const { year, month, selected, weeks } = state.monthly
 
   function cellStyle (day) {
@@ -110,7 +110,7 @@ module.exports = (state, emit) => {
   const title = `${year} ${MONTHS[month]}`
 
   return html`<div style='display: flex; flex-direction: column;'>
-    ${ToolbarView({ title, mode }, emit)}
+    ${ToolbarView({ title, mode: MODE_MONTHLY }, emit)}
     <table class=${table}>
       <tbody>
         <tr style='display: flex;'>

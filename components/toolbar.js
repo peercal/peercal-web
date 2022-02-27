@@ -36,7 +36,6 @@ const rightButtons = css`
 
 const button = css`
   :host {
-    cursor: pointer;
     margin-left: 10px;
     color: white;
   }
@@ -47,19 +46,15 @@ module.exports = ({ title, mode }, emit) => {
     <div>${title}</div>
     <div class=${rightButtons}>
       <div class=${modeButtons}>
-        <div class=${button} onclick=${setMonthlyMode} style='color: ${mode === MODE_MONTHLY ? 'white' : '#888'}'>${'M'}</div>
-        <div class=${button} onclick=${setWeeklyMode} style='color: ${mode === MODE_WEEKLY ? 'white' : '#888'}'>${'W'}</div>
-        <div class=${button} onclick=${setDailyMode} style='color: ${mode === MODE_DAILY ? 'white' : '#888'}'>${'D'}</div>
+        <a href='/'><div class=${button} style='color: ${mode === MODE_MONTHLY ? 'white' : '#888'}'>${'M'}</div></a>
+        <a href='/weekly'><div class=${button} style='color: ${mode === MODE_WEEKLY ? 'white' : '#888'}'>${'W'}</div></a>
+        <a href='/daily'><div class=${button} style='color: ${mode === MODE_DAILY ? 'white' : '#888'}'>${'D'}</div></a>
       </div>
       <div class=${button} onclick=${previous}>${'<'}</div>
       <div class=${button} onclick=${home}>${'H'}</div>
       <div class=${button} onclick=${next}>${'>'}</div>
     </div>
   </div>`
-
-  function setMonthlyMode () { emit('toolbar:set-mode', MODE_MONTHLY) }
-  function setWeeklyMode () { emit('toolbar:set-mode', MODE_WEEKLY) }
-  function setDailyMode () { emit('toolbar:set-mode', MODE_DAILY) }
 
   function previous () { emit('toolbar:goto-previous') }
   function home () { emit('toolbar:goto-home') }

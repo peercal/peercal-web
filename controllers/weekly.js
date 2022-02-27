@@ -39,6 +39,7 @@ module.exports = (state, emitter) => {
 
   emitter.on('touch:longpress:week', (date) => {
     setWeekly(date)
+    emitter.emit('pushState', '/weekly')
   })
 
   emitter.on('swipe:right', () => {
