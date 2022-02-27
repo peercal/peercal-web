@@ -3,7 +3,6 @@ const {
   getWeekDays
 } = require('../lib/date.js')
 const { hasEvent } = require('../lib/ics.js')
-const { MODE_WEEKLY } = require('../modes.js')
 
 /**
  * Handle montly
@@ -42,44 +41,31 @@ module.exports = (state, emitter) => {
     emitter.emit('pushState', '/weekly')
   })
 
-  emitter.on('swipe:right', () => {
-    if (state.mode === MODE_WEEKLY) {
-      const date = state.weekly.date
-      const update = new Date(date)
-      update.setDate(date.getDate() - 7)
-      setWeekly(update)
-    }
+  emitter.on('weekly:swipe:right', () => {
+    const date = state.weekly.date
+    const update = new Date(date)
+    update.setDate(date.getDate() - 7)
+    setWeekly(update)
   })
-  emitter.on('toolbar:goto-previous', () => {
-    if (state.mode === MODE_WEEKLY) {
-      const date = state.weekly.date
-      const update = new Date(date)
-      update.setDate(date.getDate() - 7)
-      setWeekly(update)
-    }
+  emitter.on('weekly:toolbar:goto-previous', () => {
+    const date = state.weekly.date
+    const update = new Date(date)
+    update.setDate(date.getDate() - 7)
+    setWeekly(update)
   })
+  emitter.on('weekly:toolbar:goto-home', () => setWeekly())
 
-  emitter.on('toolbar:goto-home', () => {
-    if (state.mode === MODE_WEEKLY) {
-      setWeekly()
-    }
+  emitter.on('weekly:swipe:left', () => {
+    const date = state.weekly.date
+    const update = new Date(date)
+    update.setDate(date.getDate() + 7)
+    setWeekly(update)
   })
-
-  emitter.on('swipe:left', () => {
-    if (state.mode === MODE_WEEKLY) {
-      const date = state.weekly.date
-      const update = new Date(date)
-      update.setDate(date.getDate() + 7)
-      setWeekly(update)
-    }
-  })
-  emitter.on('toolbar:goto-next', () => {
-    if (state.mode === MODE_WEEKLY) {
-      const date = state.weekly.date
-      const update = new Date(date)
-      update.setDate(date.getDate() + 7)
-      setWeekly(update)
-    }
+  emitter.on('weekly:toolbar:goto-next', () => {
+    const date = state.weekly.date
+    const update = new Date(date)
+    update.setDate(date.getDate() + 7)
+    setWeekly(update)
   })
 
   setWeekly()

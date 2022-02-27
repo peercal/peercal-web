@@ -9,7 +9,6 @@ const {
   MONTHS
 } = require('../lib/date.js')
 const { pad } = require('../lib/util.js')
-const { MODE_WEEKLY } = require('../modes.js')
 
 const table = css`
   :host {
@@ -68,7 +67,7 @@ module.exports = (state, emit) => {
   const title = `${year} ${monthString(days)} W${weekNumber}`
 
   return html`<div style='display: flex; flex-direction: column;'>
-    ${ToolbarView({ title, mode: MODE_WEEKLY }, emit)}
+    ${ToolbarView(title, state, emit)}
     <table class=${table}>
       <tbody>
         <tr style='display: flex; height: 25px;'>

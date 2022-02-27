@@ -8,7 +8,6 @@ const {
   MONTHS
 } = require('../lib/date.js')
 const { pad } = require('../lib/util.js')
-const { MODE_MONTHLY } = require('../modes.js')
 
 const EVENT_CUTOFF = 5
 
@@ -110,7 +109,7 @@ module.exports = (state, emit) => {
   const title = `${year} ${MONTHS[month]}`
 
   return html`<div style='display: flex; flex-direction: column;'>
-    ${ToolbarView({ title, mode: MODE_MONTHLY }, emit)}
+    ${ToolbarView(title, state, emit)}
     <table class=${table}>
       <tbody>
         <tr style='display: flex;'>

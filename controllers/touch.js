@@ -11,13 +11,14 @@ module.exports = (state, emitter) => {
   let longPressTimer = null
 
   window.addEventListener('touchstart', (event) => {
+    const { route } = state
     const { date, type } = event.target.dataset
 
     clearTimeout(longPressTimer)
 
     if (typeof date === 'string' && type === 'day') {
       event.preventDefault()
-      emitter.emit('touch:date', new Date(date))
+      emitter.emit(`${route === '/' ? 'monthly' : route}:touch:date`, new Date(date))
       longPressTimer = setTimeout(() => {
         console.log('TODO: long pressed day in monthly view')
       }, LONGPRESS_THRESHOLD)
@@ -36,13 +37,14 @@ module.exports = (state, emitter) => {
   }, { passive: false })
 
   window.addEventListener('touchend', (event) => {
+    const { route } = state
     clearTimeout(longPressTimer)
     if (startPos) {
       const endPos = event.changedTouches.item(0).clientX
       if (endPos > startPos + SWIPE_THRESHOLD) {
-        emitter.emit('swipe:right')
+        emitter.emit(`${route === '/' ? 'monthly' : route}:swipe:right`)
       } else if (endPos < startPos - SWIPE_THRESHOLD) {
-        emitter.emit('swipe:left')
+        emitter.emit(`${route === '/' ? 'monthly' : route}:swipe:left`)
       }
     }
   })
