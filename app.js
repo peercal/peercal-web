@@ -6,9 +6,9 @@ const WeeklyController = require('./controllers/weekly.js')
 const DateChangeController = require('./controllers/date-changed.js')
 const FeedsController = require('./controllers/feeds.js')
 const TouchController = require('./controllers/touch.js')
-const MonthlyView = require('./components/monthly.js')
-const WeeklyView = require('./components/weekly.js')
-const DailyView = require('./components/daily.js')
+const MonthlyView = require('./views/monthly.js')
+const WeeklyView = require('./views/weekly.js')
+const DailyView = require('./views/daily.js')
 
 app.use((state, emitter) => {
   state.allEvents = []
