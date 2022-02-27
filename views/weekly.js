@@ -57,7 +57,7 @@ module.exports = (state, emit) => {
   return html`<div style='display: flex; flex-direction: column;'>
     ${ToolbarView(title, state, emit)}
     <table>
-      <tbody>
+      <tbody style='z-index: 2;'>
         <tr style='display: flex; height: 25px;'>
           ${days.map((day, index) => {
             const cstyle = isToday(day.date) ? 'border: 1px solid yellow;' : ''
@@ -128,7 +128,6 @@ function renderDayEvent ({ day, event }, index) {
     bottom: ${bottom}%;
     left: ${left}%;
     right: ${right}%;
-    z-index: ${(index + 1) * 100};
   `
   return html`<div class=${eventCell} style=${cstyle}>${event.SUMMARY}</div>`
 }
