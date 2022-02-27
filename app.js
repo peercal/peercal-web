@@ -60,6 +60,22 @@ function renderApp (View) {
           border: 1px solid red;
           display: flex;
           flex-direction: column;
+          /* Firefox */
+          scrollbar-width: thin;
+          scrollbar-color: grey black;
+        }
+        /* Chrome, Edge, and Safari */
+        tbody::-webkit-scrollbar {
+          width: 5px;
+        }
+        /* Chrome, Edge, and Safari */
+        tbody::-webkit-scrollbar-track {
+          background: black;
+        }
+        /* Chrome, Edge, and Safari */
+        tbody::-webkit-scrollbar-thumb {
+          background-color: grey;
+          border-radius: 20px;
         }
         th {
           border-right: 1px solid red;
