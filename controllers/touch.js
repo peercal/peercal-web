@@ -17,10 +17,8 @@ module.exports = (state, emitter) => {
     clearTimeout(longPressTimer)
 
     if (typeof date === 'string' && type === 'day') {
-      event.preventDefault()
-      emitter.emit(`${route === '/' ? 'monthly' : route}:touch:date`, new Date(date))
       longPressTimer = setTimeout(() => {
-        console.log('TODO: long pressed day in monthly view')
+        emitter.emit('date:longpress', new Date(date))
       }, LONGPRESS_THRESHOLD)
     } else if (typeof date === 'string' && type === 'week') {
       event.preventDefault()

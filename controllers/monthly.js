@@ -44,10 +44,6 @@ module.exports = (state, emitter) => {
     state.monthly.selected = new Date(date)
     emitter.emit('render')
   })
-  emitter.on('monthly:touch:date', (date) => {
-    state.monthly.selected = date
-    emitter.emit('render')
-  })
 
   function moveSelectedDay (offset) {
     const { selected } = state.monthly

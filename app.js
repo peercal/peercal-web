@@ -12,9 +12,6 @@ const DailyView = require('./components/daily.js')
 
 app.use((state, emitter) => {
   state.allEvents = []
-  emitter.on('touch:longpress:date', (date) => {
-    console.log('TODO set daily mode for date', date)
-  })
 })
 
 app.use(MonthlyController)
