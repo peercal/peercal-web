@@ -8,6 +8,7 @@ const {
   isToday,
   MONTHS
 } = require('../lib/date.js')
+const { pad } = require('../lib/util.js')
 
 const table = css`
   :host {
@@ -154,8 +155,4 @@ function renderDayEvent ({ day, event }, index) {
     z-index: ${(index + 1) * 100};
   `
   return html`<div class=${eventCell} style=${cstyle}>${event.SUMMARY}</div>`
-}
-
-function pad (nr) {
-  return nr < 10 ? `0${nr}` : nr
 }

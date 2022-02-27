@@ -7,6 +7,7 @@ const {
   WEEKDAYS,
   MONTHS
 } = require('../lib/date.js')
+const { pad } = require('../lib/util.js')
 
 const EVENT_CUTOFF = 5
 
@@ -159,8 +160,4 @@ function padTime (date) {
 
 function padWeek (week) {
   return pad(week <= 52 ? week : week % 52)
-}
-
-function pad (nr) {
-  return nr < 10 ? `0${nr}` : nr
 }
