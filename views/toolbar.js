@@ -21,28 +21,11 @@ const toolbarStyle = css`
   }
 `
 
-const rightButtons = css`
-  :host {
-    display: flex;
-  }
-`
-
 const navigateButton = css`
   :host {
     cursor: pointer;
     color: white;
     margin-left: 10px;
-  }
-`
-
-const menuItem = css`
-  :host {
-    cursor: pointer;
-    color: white;
-    font-size: 2em;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    text-transform: uppercase;
   }
 `
 
@@ -57,7 +40,19 @@ const menuStyle = css`
     border: 1px dashed grey;
     padding-left: 10px;
     padding-right: 10px;
-    width: 100%;
+    left: 10px;
+    right: 10px;
+  }
+`
+
+const menuItem = css`
+  :host {
+    cursor: pointer;
+    color: white;
+    font-size: 2em;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
   }
 `
 
@@ -81,7 +76,7 @@ module.exports = (title, state, emit) => {
     <div class=${toolbarStyle}>
       <div onclick=${toggleMenu}>${MenuIcon()}</div>
       <div style='margin-left: 30px;'>${title}</div>
-      <div class=${rightButtons}>
+      <div style='display: flex;'>
         <div class=${navigateButton} onclick=${previous}>${'<'}</div>
         <div class=${navigateButton} onclick=${home}>${'H'}</div>
         <div class=${navigateButton} onclick=${next}>${'>'}</div>
