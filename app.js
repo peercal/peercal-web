@@ -49,11 +49,13 @@ function renderApp (View) {
         table {
           display: flex;
           position: absolute;
-          top: 25px;
+          top: 40px;
           bottom: 0;
           left: 0;
           right: 0;
-          padding: 10px;
+          padding-left: 10px;
+          padding-right: 10px;
+          padding-bottom: 10px;
         }
         tbody {
           width: 100%;

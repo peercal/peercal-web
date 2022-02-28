@@ -4,9 +4,11 @@ const css = require('sheetify')
 const outer = css`
   :host {
     display: flex;
-    height: 25px;
+    height: 40px;
+    background: black;
     justify-content: space-between;
     font-size: 1.5em;
+    z-index: 3;
     padding: 10px;
     text-transform: uppercase;
     -webkit-user-select: none; /* Safari */
