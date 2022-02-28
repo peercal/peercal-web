@@ -4,15 +4,16 @@ const { MenuIcon } = require('./icons.js')
 
 const toolbarStyle = css`
   :host {
+    position: absolute;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 50px;
     background: black;
     font-size: 1.7em;
-    z-index: 3;
-    padding-left: 10px;
-    padding-right: 10px;
+    z-index: 4;
+    left: 10px;
+    right: 10px;
     text-transform: uppercase;
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Firefox */

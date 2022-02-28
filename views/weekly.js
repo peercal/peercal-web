@@ -29,6 +29,7 @@ const eventsArea = css`
     bottom: 10px;
     left: 10px;
     right: 60px;
+    z-index: 3;
   }
 `
 
@@ -129,5 +130,5 @@ function renderDayEvent ({ day, event }, index) {
     left: ${left}%;
     right: ${right}%;
   `
-  return html`<div class=${eventCell} style=${cstyle}>${event.SUMMARY}</div>`
+  return html`<div data-event-url=${event.url} data-event-id=${event.UID} data-type='event' class=${eventCell} style=${cstyle}>${event.SUMMARY}</div>`
 }

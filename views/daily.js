@@ -19,10 +19,10 @@ const hourCell = css`
 const eventsArea = css`
   :host {
     position: absolute;
-    top: 35px;
     left: 10px;
     right: 60px;
     height: 1800px;
+    z-index: 3;
   }
 `
 
@@ -38,11 +38,11 @@ module.exports = (state, emit) => {
 
   function onScroll (e) {
     const events = document.getElementById('daily-events-area')
-    events.style.top = `${35 - e.target.scrollTop}px`
+    events.style.top = `${50 - e.target.scrollTop}px`
   }
 
   const numberOfEvents = events.length
-  const eventsAreaStyle = `top: ${35 - scrollTop}px`
+  const eventsAreaStyle = `top: ${50 - scrollTop}px`
 
   return html`<div style='display: flex; flex-direction: column;'>
     ${ToolbarView(title, state, emit)}
@@ -96,5 +96,5 @@ function renderDayEvent (date, event, index, numberOfEvents) {
     width: ${100 / numberOfEvents}%;
     left: ${index / numberOfEvents * 100}%;
   `
-  return html`<div class=${eventCell} style=${cstyle}>${event.SUMMARY}</div>`
+  return html`<div data-event-url=${event.url} data-event-id=${event.UID} data-type='event' class=${eventCell} style=${cstyle}>${event.SUMMARY}</div>`
 }

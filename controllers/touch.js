@@ -11,7 +11,7 @@ module.exports = (state, emitter) => {
   let longPressTimer = null
 
   window.addEventListener('touchstart', (event) => {
-    const { date, type } = event.target.dataset
+    const { date, type, eventUrl, eventId } = event.target.dataset
 
     clearTimeout(longPressTimer)
 
@@ -24,6 +24,13 @@ module.exports = (state, emitter) => {
       event.preventDefault()
       longPressTimer = setTimeout(() => {
         emitter.emit('touch:longpress:week', new Date(date))
+      }, LONGPRESS_THRESHOLD)
+    } else if (typeof eventUrl === 'string' &&
+               typeof eventId === 'string' &&
+               type === 'event') {
+      event.preventDefault()
+      longPressTimer = setTimeout(() => {
+        emitter.emit('touch:longpress:event', eventUrl, eventId)
       }, LONGPRESS_THRESHOLD)
     }
 
