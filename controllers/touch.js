@@ -16,8 +16,9 @@ module.exports = (state, emitter) => {
     clearTimeout(longPressTimer)
 
     if (typeof date === 'string' && type === 'day') {
+      event.preventDefault()
       longPressTimer = setTimeout(() => {
-        emitter.emit('date:longpress', new Date(date))
+        emitter.emit('touch:longpress:date', new Date(date))
       }, LONGPRESS_THRESHOLD)
     } else if (typeof date === 'string' && type === 'week') {
       event.preventDefault()

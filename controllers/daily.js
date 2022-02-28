@@ -25,6 +25,11 @@ module.exports = (state, emitter) => {
 
   emitter.on('feeds:update', () => setDaily(state.daily.date))
 
+  emitter.on('touch:longpress:date', (date) => {
+    setDaily(date)
+    emitter.emit('pushState', '/daily')
+  })
+
   emitter.on('daily:swipe:right', () => {
     const date = state.daily.date
     const update = new Date(date)
