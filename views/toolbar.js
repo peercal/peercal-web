@@ -33,6 +33,7 @@ const rightButtons = css`
 
 const button = css`
   :host {
+    cursor: pointer;
     margin-left: 10px;
     color: white;
   }
