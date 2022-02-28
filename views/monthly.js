@@ -48,7 +48,7 @@ const eventContainer = css`
   :host {
     width: 0;
     min-width: 100%;
-    height: 16px;
+    height: 14px;
     font-size: 12px;
     color: black;
     overflow: hidden;
