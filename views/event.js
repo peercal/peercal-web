@@ -7,6 +7,5 @@ const html = require('choo/html')
 // `
 
 module.exports = (state, emit) => {
-  console.log('EVENT RENDER')
   return html`<div>TODO edit event</div>`
 }
