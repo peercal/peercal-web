@@ -2,7 +2,7 @@ const html = require('choo/html')
 const css = require('sheetify')
 const { MenuIcon } = require('./icons.js')
 
-const outer = css`
+const toolbarStyle = css`
   :host {
     display: flex;
     justify-content: space-between;
@@ -21,47 +21,76 @@ const outer = css`
   }
 `
 
-// const modeButtons = css`
-//   :host {
-//     display: flex;
-//     margin-right: 20px;
-//   }
-// `
-
 const rightButtons = css`
   :host {
     display: flex;
   }
 `
 
-const button = css`
+const navigateButton = css`
   :host {
     cursor: pointer;
-    margin-left: 10px;
     color: white;
+    margin-left: 10px;
   }
 `
 
-/*
-<div class=${modeButtons}>
-<a href='/'><div class=${button} style='color: ${route === '/' ? 'white' : '#888'}'>${'M'}</div></a>
-<a href='/weekly'><div class=${button} style='color: ${route === 'weekly' ? 'white' : '#888'}'>${'W'}</div></a>
-<a href='/daily'><div class=${button} style='color: ${route === 'daily' ? 'white' : '#888'}'>${'D'}</div></a>
-</div>
-*/
+const menuItem = css`
+  :host {
+    cursor: pointer;
+    color: white;
+    font-size: 2em;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+`
+
+const menuStyle = css`
+  :host {
+    position: absolute;
+    top: 50px;
+    cursor: pointer;
+    background: black;
+    color: white;
+    z-index: 4;
+    border: 1px dashed grey;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+  }
+`
 
 module.exports = (title, state, emit) => {
-  const { route } = state
-  return html`<div class=${outer}>
-    ${MenuIcon()}
-    <div style='margin-left: 30px;'>${title}</div>
-    <div class=${rightButtons}>
-      <div class=${button} onclick=${previous}>${'<'}</div>
-      <div class=${button} onclick=${home}>${'H'}</div>
-      <div class=${button} onclick=${next}>${'>'}</div>
+  const { route, toolbar } = state
+  const { showMenu } = toolbar
+
+  function renderMenu () {
+    if (showMenu) {
+      return html`<div id='hamburger-menu' class=${menuStyle}>
+        <a href='/'><div class=${menuItem} onclick=${toggleMenu} style='color: ${route === '/' ? 'white' : '#888'}'>${'Monthly'}</div></a>
+        <hr />
+        <a href='/weekly'><div class=${menuItem} onclick=${toggleMenu} style='color: ${route === 'weekly' ? 'white' : '#888'}'>${'Weekly'}</div></a>
+        <hr />
+        <a href='/daily'><div class=${menuItem} onclick=${toggleMenu} style='color: ${route === 'daily' ? 'white' : '#888'}'>${'Daily'}</div></a>
+      </div>`
+    }
+  }
+
+  return html`<div>
+    <div class=${toolbarStyle}>
+      <div onclick=${toggleMenu}>${MenuIcon()}</div>
+      <div style='margin-left: 30px;'>${title}</div>
+      <div class=${rightButtons}>
+        <div class=${navigateButton} onclick=${previous}>${'<'}</div>
+        <div class=${navigateButton} onclick=${home}>${'H'}</div>
+        <div class=${navigateButton} onclick=${next}>${'>'}</div>
+      </div>
     </div>
+    ${renderMenu()}
   </div>`
 
+  function toggleMenu () { emit('toolbar:menu:toggle') }
   function previous () { emit(`${route === '/' ? 'monthly' : route}:toolbar:goto-previous`) }
   function home () { emit(`${route === '/' ? 'monthly' : route}:toolbar:goto-home`) }
   function next () { emit(`${route === '/' ? 'monthly' : route}:toolbar:goto-next`) }

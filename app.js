@@ -1,12 +1,15 @@
 const app = require('choo')()
 const html = require('choo/html')
 const config = require('./config.json')
+
+const ToolbarController = require('./controllers/toolbar.js')
 const MonthlyController = require('./controllers/monthly.js')
 const WeeklyController = require('./controllers/weekly.js')
 const DailyController = require('./controllers/daily.js')
 const DateChangeController = require('./controllers/date-changed.js')
 const FeedsController = require('./controllers/feeds.js')
 const TouchController = require('./controllers/touch.js')
+
 const MonthlyView = require('./views/monthly.js')
 const WeeklyView = require('./views/weekly.js')
 const DailyView = require('./views/daily.js')
@@ -15,6 +18,7 @@ app.use((state, emitter) => {
   state.allEvents = []
 })
 
+app.use(ToolbarController)
 app.use(MonthlyController)
 app.use(WeeklyController)
 app.use(DailyController)
@@ -37,6 +41,12 @@ function renderApp (View) {
           margin: 0;
           padding: 0;
           box-sizing: border-box;
+        }
+        svg {
+          fill: grey;
+        }
+        svg:hover {
+          fill: white;
         }
         body {
           border: 0px solid green;
