@@ -61,7 +61,7 @@ module.exports = (state, emit) => {
         <tr style='display: flex; height: 25px;'>
           ${days.map((day, index) => {
             const cstyle = isToday(day.date) ? 'border: 1px solid yellow;' : ''
-            return html`<th class=${headerCell} style=${cstyle}>${day.date.getDate()}</th>`
+            return html`<th data-type='day' data-date=${day.date} class=${headerCell} style=${cstyle}>${day.date.getDate()}</th>`
           })}
           <th class=${headerCell} style='max-width: 50px; min-width: 50px;'>H</th>
         </tr>
