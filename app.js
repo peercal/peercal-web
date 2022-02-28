@@ -46,6 +46,9 @@ function renderApp (View) {
           background: black;
           color: white;
         }
+        a {
+          text-decoration: none;
+        }
         table {
           display: flex;
           position: absolute;
