@@ -63,7 +63,7 @@ module.exports = (state, emit) => {
             const cstyle = isToday(day.date) ? 'border: 1px solid yellow;' : ''
             return html`<th class=${headerCell} style=${cstyle}>${day.date.getDate()}</th>`
           })}
-          <td class=${headerCell} style='max-width: 50px; min-width: 50px;'>H</td>
+          <th class=${headerCell} style='max-width: 50px; min-width: 50px;'>H</th>
         </tr>
         ${HOURS.map((hours, hourIndex) => {
           const lastColumnStyle = `
