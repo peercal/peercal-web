@@ -25,7 +25,7 @@ const headerCell = css`
 const eventsArea = css`
   :host {
     position: absolute;
-    top: 60px;
+    top: 75px;
     bottom: 10px;
     left: 10px;
     right: 60px;
