@@ -1,5 +1,6 @@
 {
-  "name": "peercal",
+  "name": "peercal-web",
+  "version": "0.0.0",
   "dependencies": {
     "choo": "^7.1.0",
     "hyperdrive": "^10.21.0",
@@ -14,6 +15,11 @@
     "indexhtmlify": "^2.0.1",
     "standard": "^16.0.4"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/peercal/peercal-web.git"
+  },
+  "homepage": "https://github.com/peercal/peercal-web",
   "browserify": {
     "transform": [
       "sheetify/transform"

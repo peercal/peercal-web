@@ -1,8 +1,8 @@
-# peercal
+# peercal-web
 
- > A p2p calendar
+ > A p2p calendar for the browser.
 
-[![Test](https://github.com/peercal/peercal/actions/workflows/test.yml/badge.svg)](https://github.com/peercal/peercal/actions/workflows/test.yml)
+[![Test](https://github.com/peercal/peercal-web/actions/workflows/test.yml/badge.svg)](https://github.com/peercal/peercal-web/actions/workflows/test.yml)
 
 **NOTE** Very much a work in progress. You will not be able to do much yet but to flip between months.
 
@@ -11,7 +11,6 @@
 ## Goals
 
 * Simplicity: Clean design with only a minimum of features
-* No servers: Unless running in the browser needing signal server for `hyperswarm-web`
 * Decentralized event data via `hyperdrive` and `hyper://` links
 * Support for `iCalendar` format (`.ics` files) - [`RFC5545`](https://datatracker.ietf.org/doc/html/rfc5545)
 
@@ -20,7 +19,7 @@
 Get the code, install and run:
 
 ```
-$ git clone https://github.com/peercal/peercal.git
+$ git clone https://github.com/peercal/peercal-web.git
 $ cd peercal
 $ npm install
 $ npm start
