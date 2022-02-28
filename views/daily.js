@@ -11,7 +11,7 @@ const { pad } = require('../lib/util.js')
 const hourCell = css`
   :host {
     display: flex;
-    padding-right: 10px;
+    padding-right: 5px;
     height: 75px;
   }
 `
@@ -39,6 +39,8 @@ module.exports = (state, emit) => {
     events.style.top = `${35 - e.target.scrollTop}px`
   }
 
+  const numberOfEvents = events.length
+
   return html`<div style='display: flex; flex-direction: column;'>
     ${ToolbarView(title, state, emit)}
     <table>
@@ -53,7 +55,7 @@ module.exports = (state, emit) => {
       </tbody>
     </table>
     <div id='daily-events-area' class=${eventsArea}>
-      ${events.map((event, index) => renderDayEvent(date, event, index))}
+      ${events.map((event, index) => renderDayEvent(date, event, index, numberOfEvents))}
     </div>
   </div>`
 }
@@ -64,8 +66,6 @@ const eventCell = css`
     font-size: 12px;
     margin-top: 3px;
     margin-bottom: 3px;
-    margin-left: 5px;
-    margin-right: 5px;
     padding: 10px;
     border-radius: 5px;
     overflow: hidden;
@@ -73,7 +73,7 @@ const eventCell = css`
   }
 `
 
-function renderDayEvent (date, event, index) {
+function renderDayEvent (date, event, index, numberOfEvents) {
   const dayStart = startOfDay(date)
   const startDiff = Math.max((event.DTSTART - dayStart) / 1000 / 3600, 0)
   const top = startDiff * PIXELS_PER_HOUR
@@ -87,7 +87,8 @@ function renderDayEvent (date, event, index) {
     color: ${event.color};
     top: ${top}px;
     bottom: ${bottom}px;
-    left: ${index ? 50 : 0}%;
+    width: ${100 / numberOfEvents}%;
+    left: ${index / numberOfEvents * 100}%;
   `
   return html`<div class=${eventCell} style=${cstyle}>${event.SUMMARY}</div>`
 }
