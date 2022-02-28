@@ -33,18 +33,21 @@ module.exports = (state, emit) => {
   const { year, date, events } = state.daily
   const title = `${year} ${MONTHS[date.getMonth()]} ${date.getDate()}`
 
+  const table = document.getElementById('daily-table')
+  const scrollTop = table ? table.scrollTop : 0
+
   function onScroll (e) {
     const events = document.getElementById('daily-events-area')
-    window.EVENTS = events
     events.style.top = `${35 - e.target.scrollTop}px`
   }
 
   const numberOfEvents = events.length
+  const eventsAreaStyle = `top: ${35 - scrollTop}px`
 
   return html`<div style='display: flex; flex-direction: column;'>
     ${ToolbarView(title, state, emit)}
     <table>
-      <tbody onscroll=${onScroll} style='z-index: 2; overflow-y: auto;'>
+      <tbody id='daily-table' onscroll=${onScroll} style='z-index: 2; overflow-y: auto;'>
         ${HOURS.map((hours, hourIndex) => {
           return html`<tr>
             <td class=${hourCell}>
@@ -54,7 +57,7 @@ module.exports = (state, emit) => {
         })}
       </tbody>
     </table>
-    <div id='daily-events-area' class=${eventsArea}>
+    <div id='daily-events-area' class=${eventsArea} style=${eventsAreaStyle}>
       ${events.map((event, index) => renderDayEvent(date, event, index, numberOfEvents))}
     </div>
   </div>`
