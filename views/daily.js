@@ -82,6 +82,9 @@ function renderDayEvent (date, event, index, numberOfEvents) {
   const endDiff = Math.max((dayEnd - event.DTEND) / 1000 / 3600, 0)
   const bottom = endDiff * PIXELS_PER_HOUR
 
+  // TODO we should only adjust left if an event is intersecting another
+  // event, otherwise it can just follow the other event in time
+
   const cstyle = `
     background: ${event.background};
     color: ${event.color};
