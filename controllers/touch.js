@@ -11,7 +11,6 @@ module.exports = (state, emitter) => {
   let longPressTimer = null
 
   window.addEventListener('touchstart', (event) => {
-    const { route } = state
     const { date, type } = event.target.dataset
 
     clearTimeout(longPressTimer)

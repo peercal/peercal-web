@@ -10,18 +10,6 @@ const {
 } = require('../lib/date.js')
 const { pad } = require('../lib/util.js')
 
-const table = css`
-  :host {
-    display: flex;
-    position: absolute;
-    top: 25px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 10px;
-  }
-`
-
 const headerCell = css`
   :host {
     width: 100%;
@@ -68,14 +56,14 @@ module.exports = (state, emit) => {
 
   return html`<div style='display: flex; flex-direction: column;'>
     ${ToolbarView(title, state, emit)}
-    <table class=${table}>
-      <tbody>
+    <table>
+      <tbody style='z-index: 2;'>
         <tr style='display: flex; height: 25px;'>
           ${days.map((day, index) => {
             const cstyle = isToday(day.date) ? 'border: 1px solid yellow;' : ''
             return html`<th class=${headerCell} style=${cstyle}>${day.date.getDate()}</th>`
           })}
-          <th class=${headerCell} style='max-width: 50px; min-width: 50px;'>H</th>
+          <td class=${headerCell} style='max-width: 50px; min-width: 50px;'>H</td>
         </tr>
         ${HOURS.map((hours, hourIndex) => {
           const lastColumnStyle = `
@@ -140,7 +128,6 @@ function renderDayEvent ({ day, event }, index) {
     bottom: ${bottom}%;
     left: ${left}%;
     right: ${right}%;
-    z-index: ${(index + 1) * 100};
   `
   return html`<div class=${eventCell} style=${cstyle}>${event.SUMMARY}</div>`
 }

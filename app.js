@@ -3,6 +3,7 @@ const html = require('choo/html')
 const config = require('./config.json')
 const MonthlyController = require('./controllers/monthly.js')
 const WeeklyController = require('./controllers/weekly.js')
+const DailyController = require('./controllers/daily.js')
 const DateChangeController = require('./controllers/date-changed.js')
 const FeedsController = require('./controllers/feeds.js')
 const TouchController = require('./controllers/touch.js')
@@ -16,6 +17,7 @@ app.use((state, emitter) => {
 
 app.use(MonthlyController)
 app.use(WeeklyController)
+app.use(DailyController)
 app.use(DateChangeController)
 app.use(FeedsController(config))
 app.use(TouchController)
@@ -44,15 +46,41 @@ function renderApp (View) {
           background: black;
           color: white;
         }
+        table {
+          display: flex;
+          position: absolute;
+          top: 40px;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          padding-left: 10px;
+          padding-right: 10px;
+          padding-bottom: 10px;
+        }
         tbody {
           width: 100%;
-          border: 1px solid red;
           display: flex;
           flex-direction: column;
+          /* Firefox */
+          scrollbar-width: thin;
+          scrollbar-color: grey black;
+        }
+        /* Chrome, Edge, and Safari */
+        tbody::-webkit-scrollbar {
+          width: 3px;
+        }
+        /* Chrome, Edge, and Safari */
+        tbody::-webkit-scrollbar-track {
+          background: black;
+        }
+        /* Chrome, Edge, and Safari */
+        tbody::-webkit-scrollbar-thumb {
+          background-color: grey;
+          border-radius: 20px;
         }
         th {
-          border-right: 1px solid red;
-          border-bottom: 1px solid red;
+          border-right: 1px dashed grey;
+          border-bottom: 1px dashed grey;
         }
         th:last-child, td:last-child {
           border-right: 0px;

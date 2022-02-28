@@ -5,7 +5,7 @@ const {
 const { hasEvent } = require('../lib/ics.js')
 
 /**
- * Handle montly
+ * Handle weekly
  */
 module.exports = (state, emitter) => {
   state.weekly = {}

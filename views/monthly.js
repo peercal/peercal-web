@@ -11,18 +11,6 @@ const { pad } = require('../lib/util.js')
 
 const EVENT_CUTOFF = 5
 
-const table = css`
-  :host {
-    display: flex;
-    position: absolute;
-    top: 25px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 10px;
-  }
-`
-
 const headerCell = css`
   :host {
     width: 100%;
@@ -110,7 +98,7 @@ module.exports = (state, emit) => {
 
   return html`<div style='display: flex; flex-direction: column;'>
     ${ToolbarView(title, state, emit)}
-    <table class=${table}>
+    <table>
       <tbody>
         <tr style='display: flex;'>
           ${WEEKDAYS.map(weekday => html`<th class=${headerCell}>${weekday}</th>`)}

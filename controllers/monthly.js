@@ -7,7 +7,7 @@ const {
 const { filterEventsFromDate } = require('../lib/ics.js')
 
 /**
- * Handle montly
+ * Handle monthly
  */
 module.exports = (state, emitter) => {
   state.monthly = {}
