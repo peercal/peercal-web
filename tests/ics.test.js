@@ -11,7 +11,6 @@ test('parsing ics string to event array', t => {
   events.forEach(event => {
     t.is(typeof event.start(), 'object')
     t.is(typeof event.end(), 'object')
-    t.is(typeof event.ts(), 'object')
     t.is(typeof event.summary(), 'string')
     t.is(typeof event.description(), 'string')
     t.is(typeof event.uid(), 'string')
