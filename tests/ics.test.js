@@ -5,14 +5,23 @@ const {
   filterEventsFromDate
 } = require('../lib/ics.js')
 
-test('VEvent class', t => {
+test('VEvent class, empty constructor', t => {
   const event = new VEvent()
   t.deepEqual(event._opts, {})
+  t.is(event.readOnly, false)
   t.is(event._event.dtstart, null)
   t.is(event._event.dtend, null)
   t.is(event._event.summary, '')
   t.is(event._event.uid, '')
   t.is(event._event.description, '')
+  t.falsy(event.isValid())
+})
+
+test('VEvent class, with options', t => {
+  const opts = { url: 'u', background: 'b', color: 'c', readOnly: false }
+  const event = new VEvent(opts)
+  t.is(event.readOnly, false)
+  t.deepEqual(event._opts, opts)
 })
 
 test('parsing ics string to event array', t => {
