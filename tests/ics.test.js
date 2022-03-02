@@ -44,7 +44,7 @@ VERSION:2.0
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 
-BEGIN:VEVENT
+begin:vevent
 DTSTART:20211013T050000Z
 DTEND:20211013T080000Z
 DTSTAMP:20220205T165901Z
@@ -53,7 +53,7 @@ SEQUENCE:1
 SUMMARY:Watch amazing movie "Kong vs Godzilla"
 DESCRIPTION:The description field should be a longer text describing the event in more details.
 ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
-END:VEVENT
+end:vevent
 
 BEGIN:VEVENT
 DTSTART:20211025T040000Z
