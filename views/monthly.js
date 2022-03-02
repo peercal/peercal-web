@@ -117,9 +117,9 @@ module.exports = (state, emit) => {
                     background: ${event.background || '#bbb'};
                     color: ${event.color || 'black'};
                   `
-                  const showTime = datesEqual(event.start(), day.date)
+                  const showTime = datesEqual(event.start, day.date)
                   return html`<div class=${eventContainer} style=${cstyle}>
-                    ${showTime ? padTime(event.start()) : ''} ${event.summary()}
+                    ${showTime ? padTime(event.start) : ''} ${event.summary}
                   </div>`
                 })}
                 ${showEllipsis ? '...' : ''}
