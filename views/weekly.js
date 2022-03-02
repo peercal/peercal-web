@@ -29,6 +29,7 @@ const eventsArea = css`
     bottom: 10px;
     left: 10px;
     right: 60px;
+    z-index: 3;
   }
 `
 
@@ -110,11 +111,11 @@ function renderDayEvent ({ day, event }, index) {
 
   const date = day.date
   const dayStart = startOfDay(date)
-  const startDiff = Math.max((event.DTSTART - dayStart) / 1000 / 3600, 0)
+  const startDiff = Math.max((event.start() - dayStart) / 1000 / 3600, 0)
   const top = startDiff * percentPerHour
 
   const dayEnd = endOfDay(date)
-  const endDiff = Math.max((dayEnd - event.DTEND) / 1000 / 3600, 0)
+  const endDiff = Math.max((dayEnd - event.end()) / 1000 / 3600, 0)
   const bottom = endDiff * percentPerHour
 
   const dayIndex = weekDayIndex(date)
@@ -129,5 +130,5 @@ function renderDayEvent ({ day, event }, index) {
     left: ${left}%;
     right: ${right}%;
   `
-  return html`<div class=${eventCell} style=${cstyle}>${event.SUMMARY}</div>`
+  return html`<div data-event-url=${event.url} data-event-id=${event.uid()} data-type='event' class=${eventCell} style=${cstyle}>${event.summary()}</div>`
 }

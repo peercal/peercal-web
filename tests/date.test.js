@@ -183,7 +183,7 @@ test('monthDays()', t => {
   ])
 })
 
-test.only('calculateWeekNumber()', t => {
+test('calculateWeekNumber()', t => {
   t.is(calculateWeekNumber(new Date('2018-01-01')), 1)
   t.is(calculateWeekNumber(new Date('2018-01-08')), 2)
   t.is(calculateWeekNumber(new Date('2018-12-30')), 52)
