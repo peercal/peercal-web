@@ -1,8 +1,19 @@
 const test = require('ava')
 const {
+  VEvent,
   parseEvents,
   filterEventsFromDate
 } = require('../lib/ics.js')
+
+test('VEvent class', t => {
+  const event = new VEvent()
+  t.deepEqual(event._opts, {})
+  t.is(event._event.dtstart, null)
+  t.is(event._event.dtend, null)
+  t.is(event._event.summary, '')
+  t.is(event._event.uid, '')
+  t.is(event._event.description, '')
+})
 
 test('parsing ics string to event array', t => {
   const events = parseEvents(DATA)
