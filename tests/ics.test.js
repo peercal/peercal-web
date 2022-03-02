@@ -1,8 +1,23 @@
 const test = require('ava')
 const {
   parseEvents,
-  filterEventsFromDate
+  filterEventsFromDate,
+  isValidEvent,
+  isValidDate
 } = require('../lib/ics.js')
+
+test('isValidDate()', t => {
+  t.truthy(isValidDate(new Date()))
+  t.falsy(isValidDate(new Date('thisisnotadate')))
+})
+
+test('isValidEvent()', t => {
+  t.falsy(isValidEvent())
+  t.falsy(isValidEvent(null))
+  t.falsy(isValidEvent({}))
+  t.falsy(isValidEvent({ DTSTART: new Date() }))
+  t.truthy(isValidEvent({ DTSTART: new Date(), DTEND: new Date() }))
+})
 
 test('parsing ics string to event array', t => {
   const events = parseEvents(DATA)
