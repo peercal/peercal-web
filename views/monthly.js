@@ -117,10 +117,7 @@ module.exports = (state, emit) => {
                     background: ${event.background || '#bbb'};
                     color: ${event.color || 'black'};
                   `
-                  const showTime = datesEqual(event.start, day.date)
-                  return html`<div class=${eventContainer} style=${cstyle}>
-                    ${showTime ? padTime(event.start) : ''} ${event.summary}
-                  </div>`
+                  return html`<div class=${eventContainer} style=${cstyle}>${event.summary}</div>`
                 })}
                 ${showEllipsis ? '...' : ''}
               </td>`
@@ -135,10 +132,6 @@ module.exports = (state, emit) => {
       </tbody>
     </table>
   </div>`
-}
-
-function padTime (date) {
-  return `${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}`
 }
 
 function padWeek (week) {
