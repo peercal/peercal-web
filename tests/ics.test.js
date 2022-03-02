@@ -27,7 +27,7 @@ test('VEvent class, with options', t => {
 test('parsing ics string to event array', t => {
   const events = parseEvents(DATA)
   t.truthy(Array.isArray(events))
-  t.is(events.length, 6)
+  t.is(events.length, 7)
   events.forEach(event => {
     t.truthy(event.start instanceof Date)
     t.truthy(event.end instanceof Date)
@@ -55,6 +55,11 @@ test('filtering events', t => {
   t.is(filterEventsFromDate(events, new Date('2022-02-24')).length, 1)
   t.is(filterEventsFromDate(events, new Date('2022-02-25')).length, 1)
   t.is(filterEventsFromDate(events, new Date('2022-02-26')).length, 1)
+
+  t.is(filterEventsFromDate(events, new Date('2022-02-28')).length, 0)
+  t.is(filterEventsFromDate(events, new Date('2022-03-01')).length, 1)
+  t.is(filterEventsFromDate(events, new Date('2022-03-02')).length, 0)
+  t.is(filterEventsFromDate(events, new Date('2022-03-03')).length, 0)
 })
 
 const DATA = `
@@ -74,6 +79,18 @@ SUMMARY:Watch amazing movie "Kong vs Godzilla"
 DESCRIPTION:The description field should be a longer text describing the event in more details.
 ORGANIZER;EMAIL=linkping@example.com:mailto:linkping@example.com
 end:vevent
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20220301
+DTEND;VALUE=DATE:20220302
+DTSTAMP:20220301T132320Z
+UID:MlN8btK----21646140741358@tutanota.com
+SEQUENCE:1
+SUMMARY:Fettisdagen
+DESCRIPTION:<div dir="auto">Eat a semla! <br></div>
+LOCATION:All over the world
+ORGANIZER;EMAIL=linkping@tutanota.com:mailto:linkping@tutanota.com
+END:VEVENT
 
 BEGIN:VEVENT
 DTSTART:20211025T040000Z
