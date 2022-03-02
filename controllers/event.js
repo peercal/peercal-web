@@ -5,7 +5,7 @@ module.exports = (state, emitter) => {
   state.event = null
 
   emitter.on('touch:longpress:event', (url, uid) => {
-    const event = state.allEvents.find(ev => ev.url === url && ev.UID === uid)
+    const event = state.allEvents.find(ev => ev.url === url && ev.uid() === uid)
     if (event) {
       state.event = { ...event }
       emitter.emit('pushState', '/event')

@@ -78,11 +78,11 @@ const eventCell = css`
 
 function renderDayEvent (date, event, index, numberOfEvents) {
   const dayStart = startOfDay(date)
-  const startDiff = Math.max((event.DTSTART - dayStart) / 1000 / 3600, 0)
+  const startDiff = Math.max((event.start() - dayStart) / 1000 / 3600, 0)
   const top = startDiff * PIXELS_PER_HOUR
 
   const dayEnd = endOfDay(date)
-  const endDiff = Math.max((dayEnd - event.DTEND) / 1000 / 3600, 0)
+  const endDiff = Math.max((dayEnd - event.end()) / 1000 / 3600, 0)
   const bottom = endDiff * PIXELS_PER_HOUR
 
   // TODO we should only adjust left if an event is intersecting another
@@ -96,5 +96,5 @@ function renderDayEvent (date, event, index, numberOfEvents) {
     width: ${100 / numberOfEvents}%;
     left: ${index / numberOfEvents * 100}%;
   `
-  return html`<div data-event-url=${event.url} data-event-id=${event.UID} data-type='event' class=${eventCell} style=${cstyle}>${event.SUMMARY}</div>`
+  return html`<div data-event-url=${event.url} data-event-id=${event.uid()} data-type='event' class=${eventCell} style=${cstyle}>${event.summary()}</div>`
 }
