@@ -14,11 +14,12 @@ module.exports = (state, emitter) => {
     }
   })
 
-  // TODO add e.g. back or X-button
   emitter.on('event:close', () => {
     // TODO test
     state.event = null
-    emitter.emit('popState')
+    // TODO popState doesn't seem to work, pushing state for now
+    // emitter.emit('popState')
+    emitter.emit('pushState', '/weekly')
   })
 
   // TODO add save button
