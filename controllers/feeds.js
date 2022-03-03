@@ -18,7 +18,7 @@ module.exports = ({ feeds, swarmOpts }) => {
     function aggregateAllEvents () {
       let result = []
       for (const feed of state.feeds.values()) {
-        result = result.concat(feed.events)
+        result = result.concat(feed.events.slice())
       }
       return result
     }
