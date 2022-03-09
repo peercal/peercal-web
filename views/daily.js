@@ -22,7 +22,6 @@ const eventsArea = css`
     left: 10px;
     right: 60px;
     height: 1800px;
-    z-index: 3;
   }
 `
 
@@ -32,22 +31,17 @@ const PIXELS_PER_HOUR = 1800 / 24
 module.exports = (state, emit) => {
   const { year, date, events } = state.daily
   const title = `${year} ${MONTHS[date.getMonth()]} ${date.getDate()}`
-
-  const table = document.getElementById('daily-table')
-  const scrollTop = table ? table.scrollTop : 0
-
-  function onScroll (e) {
-    const events = document.getElementById('daily-events-area')
-    events.style.top = `${50 - e.target.scrollTop}px`
-  }
-
   const numberOfEvents = events.length
-  const eventsAreaStyle = `top: ${50 - scrollTop}px`
 
   return html`<div style='display: flex; flex-direction: column;'>
     ${ToolbarView(title, state, emit)}
-    <table>
-      <tbody id='daily-table' onscroll=${onScroll} style='z-index: 2; overflow-y: auto;'>
+    <table style='overflow-y: auto;'>
+      <thead>
+        <div class=${eventsArea}>
+          ${events.map((event, index) => renderDayEvent(date, event, index, numberOfEvents))}
+        </div>
+      </thead>
+      <tbody>
         ${HOURS.map((hours, hourIndex) => {
           return html`<tr>
             <td class=${hourCell}>
@@ -57,9 +51,6 @@ module.exports = (state, emit) => {
         })}
       </tbody>
     </table>
-    <div id='daily-events-area' class=${eventsArea} style=${eventsAreaStyle}>
-      ${events.map((event, index) => renderDayEvent(date, event, index, numberOfEvents))}
-    </div>
   </div>`
 }
 
@@ -73,6 +64,7 @@ const eventCell = css`
     border-radius: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
+    opacity: 90%;
   }
 `
 
