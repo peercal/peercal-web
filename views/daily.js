@@ -8,14 +8,6 @@ const {
 } = require('../lib/date.js')
 const { pad } = require('../lib/util.js')
 
-const hourCell = css`
-  :host {
-    display: flex;
-    padding-right: 5px;
-    height: 75px;
-  }
-`
-
 const eventsArea = css`
   :host {
     position: absolute;
@@ -25,7 +17,24 @@ const eventsArea = css`
   }
 `
 
-const HOURS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23].map(i => `${pad(i)}-${pad((i + 1) % 24)}`)
+const tableCell = css`
+  :host {
+    display: flex;
+    height: 75px;
+  }
+`
+
+const hourCell = css`
+  :host {
+    padding-top: 5px;
+    height: 100%;
+    width: 100%;
+    text-align: right;
+    align-self: center;
+  }
+`
+
+const HOURS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23].map(h => `${pad(h)}:00`)
 const PIXELS_PER_HOUR = 1800 / 24
 
 module.exports = (state, emit) => {
@@ -44,9 +53,7 @@ module.exports = (state, emit) => {
       <tbody>
         ${HOURS.map((hours, hourIndex) => {
           return html`<tr>
-            <td class=${hourCell}>
-              <div style='text-align: right; width: 100%; align-self: center;'>${hours}</div>
-            </td>
+            <td class=${tableCell}><div class=${hourCell}>${hours}</div></td>
           </tr>`
         })}
       </tbody>
