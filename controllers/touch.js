@@ -1,5 +1,5 @@
 const SWIPE_THRESHOLD = 100
-const LONGPRESS_THRESHOLD = 600
+const LONGPRESS_THRESHOLD = 800
 
 /**
  * Controller for handling:
