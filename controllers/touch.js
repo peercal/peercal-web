@@ -28,7 +28,6 @@ module.exports = (state, emitter) => {
     } else if (typeof eventUrl === 'string' &&
                typeof eventId === 'string' &&
                type === 'event') {
-      event.preventDefault()
       longPressTimer = setTimeout(() => {
         emitter.emit('touch:longpress:event', eventUrl, eventId)
       }, LONGPRESS_THRESHOLD)
@@ -40,6 +39,10 @@ module.exports = (state, emitter) => {
       startPos = null
     }
   }, { passive: false })
+
+  window.addEventListener('touchmove', (event) => {
+    clearTimeout(longPressTimer)
+  })
 
   window.addEventListener('touchend', (event) => {
     const { route } = state
