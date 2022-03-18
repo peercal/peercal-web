@@ -44,7 +44,7 @@ module.exports = (state, emitter) => {
 
   window.addEventListener('touchmove', (event) => {
     const pos = event.touches.item(0).clientX
-    if (pressedEvent || startPos && Math.abs(pos - startPos) > 10) {
+    if (pressedEvent || (startPos && Math.abs(pos - startPos) > 10)) {
       pressedEvent = false
       clearTimeout(longPressTimer)
     }
