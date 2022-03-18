@@ -15,15 +15,16 @@ module.exports = (state, emitter) => {
   })
 
   emitter.on('event:close', () => {
-    // TODO test
     state.event = null
-    // TODO popState doesn't seem to work, pushing state for now
-    // emitter.emit('popState')
-    emitter.emit('pushState', '/weekly')
+    window.history.go(-1)
   })
 
-  // TODO add save button
   emitter.on('event:save', () => {
+    // TODO
+    // emitter.emit('render')
+  })
+
+  emitter.on('event:edit', () => {
     // TODO
     // emitter.emit('render')
   })
