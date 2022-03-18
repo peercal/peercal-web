@@ -9,6 +9,7 @@ const LONGPRESS_THRESHOLD = 800
 module.exports = (state, emitter) => {
   let startPos = null
   let longPressTimer = null
+  let pressedEvent = false
 
   window.addEventListener('touchstart', (event) => {
     const { date, type, eventUrl, eventId } = event.target.dataset
@@ -28,6 +29,7 @@ module.exports = (state, emitter) => {
     } else if (typeof eventUrl === 'string' &&
                typeof eventId === 'string' &&
                type === 'event') {
+      pressedEvent = true
       longPressTimer = setTimeout(() => {
         emitter.emit('touch:longpress:event', eventUrl, eventId)
       }, LONGPRESS_THRESHOLD)
@@ -42,7 +44,8 @@ module.exports = (state, emitter) => {
 
   window.addEventListener('touchmove', (event) => {
     const pos = event.touches.item(0).clientX
-    if (startPos && Math.abs(pos - startPos) > 10) {
+    if (pressedEvent || startPos && Math.abs(pos - startPos) > 10) {
+      pressedEvent = false
       clearTimeout(longPressTimer)
     }
   })
