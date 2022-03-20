@@ -1,4 +1,4 @@
-const app = require('choo')()
+const choo = require('choo')
 const html = require('choo/html')
 const config = require('./config.json')
 
@@ -15,6 +15,8 @@ const MonthlyView = require('./views/monthly.js')
 const WeeklyView = require('./views/weekly.js')
 const DailyView = require('./views/daily.js')
 const EventView = require('./views/event.js')
+
+const app = choo()
 
 app.use((state, emitter) => {
   state.allEvents = []
