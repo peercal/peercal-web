@@ -1,5 +1,11 @@
 {
-  "feeds": [],
+  "feeds": [
+    {
+      "url": "hyper://7805b255174ccf9e6e8af13ea71bcb9ad347a817984e94e189b1d45eb9fa88d1/events.ics",
+      "background": "yellow",
+      "color": "black"
+    }
+  ],
   "swarmOpts": {
     "bootstrap": [
       "wss://hyperswarm.linkping.org"
