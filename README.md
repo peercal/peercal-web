@@ -20,7 +20,7 @@ Get the code, install and run:
 
 ```
 $ git clone https://github.com/peercal/peercal-web.git
-$ cd peercal
+$ cd peercal-web
 $ npm install
 $ npm start
 ```
